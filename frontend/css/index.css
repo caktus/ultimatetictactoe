@@ -1,0 +1,30 @@
+#ultimate-board {
+    width: 700px;
+    height: 700px;
+}
+.board {
+    height: 200px;
+    width: 200px;
+    border: 1px solid black;
+    padding: 0;
+}
+.board.active {
+    background: rgba(190, 190, 190, 0.7);
+}
+.square {
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
+    padding: 0;
+    background: white;
+}
+.square div {
+    height: 50px;
+    width: 50px;
+}
+.square div.player1 {
+    background: red;
+}
+.square div.player2 {
+    background: blue;
+}
