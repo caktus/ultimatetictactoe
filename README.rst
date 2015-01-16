@@ -5,13 +5,14 @@ Tictactoe
 
 Below you will find basic setup and deployment instructions for the tictactoe
 project. To begin you should have the following applications installed on your
-local development system::
+local development system:
 
 - Python >= 2.7
 - `pip <http://www.pip-installer.org/>`_ >= 1.5
 - `virtualenv <http://www.virtualenv.org/>`_ >= 1.10
 - `virtualenvwrapper <http://pypi.python.org/pypi/virtualenvwrapper>`_ >= 3.0
 - Postgres >= 9.1
+- postgresql-server-dev >= 9.1
 - git >= 1.7
 
 
