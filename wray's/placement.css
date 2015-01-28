@@ -1,0 +1,34 @@
+
+html,
+body,
+svg{
+  width:1920px;
+  height:1080px;
+}
+body{
+  margin:0;
+}
+
+#welcome .top_left{ transform:translate(148px,10px) scale(7); }
+#welcome .bot_left{ transform:translate(246px,1027px) scale(6); }
+#welcome .top_right{ transform:translate(1548px,120px) scale(4); }
+#welcome .bot_right{ transform:translate(1350px,808px) scale(3); }
+#welcome text{ transform:translate(960px,550px); }
+
+.clockwiseSpin{
+	-webkit-animation: clockwiseSpin 60s linear infinite;
+	transform-origin: 50% 50%;
+}
+@-webkit-keyframes clockwiseSpin{
+	from{transform:rotate(0deg);}
+	to{transform:rotate(360deg);}
+}
+
+.counterClockwiseSpin{
+	-webkit-animation: counterClockwiseSpin 45s linear infinite;
+	transform-origin: 50% 50%;
+}
+@-webkit-keyframes counterClockwiseSpin{
+	from{transform:rotate(360deg);}
+	to{transform:rotate(0deg);}
+}

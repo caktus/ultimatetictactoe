@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="placement.css">
+		<link rel="stylesheet" href="color.css">
+	</head>
+	<body>
+		<svg>
+			<defs>
+				<filter
+					id="dropShadow"
+					style="color-interpolation-filters:sRGB;"
+					width="1.4"
+					height="1.4"
+					x="-0.2"
+					y="-0.2">
+					<feFlood
+						flood-opacity="0.2"
+						flood-color="black"
+						result="flood"/>
+					<feComposite
+						in="flood"
+						in2="SourceGraphic"
+						operator="in"
+						result="composite1"/>
+					<feGaussianBlur
+						in="composite1"
+						stdDeviation="3"
+						result="blur"/>
+					<feOffset
+						dx="3"
+						dy="3"
+						result="offset"/>
+					<feComposite
+						in="SourceGraphic"
+						in2="offset"
+						operator="over"/>
+				</filter>
+				<circle id="player1_token" class="token" r="50"/>
+				<path id="player2_token" class="token" d="M-50,-50 L50,50 M-50,50 L50,-50"/>
+			</defs>
+
+			<g class="page" id="welcome">
+				<g class="top_left"><use xlink:href="#player1_token"/></g>
+				<g class="bot_left"><use xlink:href="#player2_token" class="clockwiseSpin" /></g>
+				<g class="top_right"><use xlink:href="#player2_token" class="counterClockwiseSpin" /></g>
+				<g class="bot_right"><use xlink:href="#player1_token"/></g>
+				<text>Ultimate Tic Tac Toe</text>
+				</g>
+			</g>
+
+			<g class="page" id="howToPlay"></g>
+
+			<g class="page" id="leaderBoard"></g>
+
+			<g class="page" id="enterInitials"></g>
+
+			<g class="page" id="game"></g>
+
+		</svg>
+	</body>
+</html>

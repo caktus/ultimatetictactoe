@@ -1,0 +1,21 @@
+body{
+	background-color:#91278e;
+}
+
+.token{
+	fill:none;
+	stroke:white;
+	stroke-width:28px;
+}
+
+#welcome text{
+	font-family:Fira Sans;
+	font-weight:bold;
+	fill:white;
+	font-size:100pt;
+	text-anchor:middle;
+}
+
+#welcome g{
+	filter:url(#dropShadow);
+}
