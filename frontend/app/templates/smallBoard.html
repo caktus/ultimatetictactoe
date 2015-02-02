@@ -1,0 +1,9 @@
+<div data-ng-class="{'active': (boardId == currentBoard)}" class="small-board">
+    <div data-ng-repeat="row in boardState track by $index">
+        <div data-ng-repeat="square in row track by $index">
+            <div data-ng-click="updateState(square, $parent.$index, $index);"
+                 data-ng-class="{'o': (square.state == 0), 'x': (square.state == 1)}" class="slot">
+            </div>
+        </div>
+    </div>
+</div>

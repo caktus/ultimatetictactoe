@@ -1,30 +1,90 @@
-#ultimate-board {
-    width: 700px;
-    height: 700px;
+/* home screen */
+#home-screen {
+    text-align: center;
+    background: #8d268b;
 }
-.board {
-    height: 200px;
-    width: 200px;
-    border: 1px solid black;
-    padding: 0;
+#home-screen img {
+    max-width: 100%;
+    max-height: 530px;
+    display: inline-block;
 }
-.board.active {
-    background: rgba(190, 190, 190, 0.7);
+#home-screen .menu {
+    height: 100px;
+    background: black;
+    padding: 25px;
 }
-.square {
-    height: 50px;
-    width: 50px;
-    border: 1px solid black;
-    padding: 0;
+#home-screen .menu a {
+    margin-right: 40px;
+}
+
+.btn-pink {
+    color: white;
+    background: #ec008c;
+    transition: all 0.3s ease 0s;
+}
+a.btn-pink:hover {
+    color: white;
+    opacity: 0.75;
+}
+
+/*TIC TAC TOE GAMEPLAY*/
+.large-board{
+  width:450px;
+  height:450px;
+  padding: 0;
+}
+
+.large-board div{
+  position:relative;
+}
+
+.small-board{
+  width:150px;
+  height:150px;
+  float:left;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.small-board.active {
     background: white;
 }
-.square div {
-    height: 50px;
-    width: 50px;
+
+.slot{
+  width:50px;
+  height:50px;
+  float:left;
+  outline:solid 1px;
 }
-.square div.player1 {
-    background: red;
+
+.slot.x{
+  background-color:darkgreen;
+  /*background image SVG*/
 }
-.square div.player2 {
-    background: blue;
+
+.slot.o{
+  background-color:orange;
+  /*background image SVG*/
+}
+
+
+/*temporary stuff starts here*/
+
+.slot.x:after{
+  content:'X';
+  color:teal;
+}
+
+.slot.o:after{
+  content:'O';
+  color:yellow;
+}
+
+.slot:after{
+  position:absolute;
+  color:white;
+  top:50%;
+  left:50%;
+  -webkit-transform:translate(-50%,-50%);
+  font-size:30pt;
+  font-family:helvetica;
 }

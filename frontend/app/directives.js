@@ -23,6 +23,6 @@ angular.module('TicTacToe.directives', [])
             restrict: 'AE',
             link: linker,
             replace: true,
-            templateUrl: 'app/templates/board.html'
+            templateUrl: 'app/templates/smallBoard.html'
         }
     }]);
