@@ -2,7 +2,7 @@
     <div class="col-md-9">
         <div class="large-board">
             <div data-ng-repeat="boardState in gameState">
-                <board></board>
+                <board class="small-board-{{ $index + 1 }}"></board>
             </div>
         </div>
     </div>

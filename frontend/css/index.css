@@ -41,10 +41,10 @@ a.btn-pink:hover {
 }
 
 .large-board {
-    width: 690px;
-    height: 690px;
+    width: 770px;
+    height: 770px;
     padding: 30px;
-    margin: 30px auto;
+    margin: 10px auto;
     background: white;
 }
 
@@ -53,43 +53,92 @@ a.btn-pink:hover {
 }
 
 .small-board {
-    width: 210px;
-    height: 210px;
+    width: 236px;
+    height: 236px;
     float: left;
     background: rgba(0, 0, 0, 0.5);
+    padding: 7px;
 }
-
 .small-board.active {
     background: white;
+}
+
+.small-board-1 {
+    border-right: 3px solid;
+    border-bottom: 3px solid;
+}
+.small-board-2 {
+    border-right: 3px solid;
+    border-bottom: 3px solid;
+}
+.small-board-3 {
+    border-bottom: 3px solid;
+}
+.small-board-4 {
+    border-right: 3px solid;
+    border-bottom: 3px solid;
+}
+.small-board-5 {
+    border-right: 3px solid;
+    border-bottom: 3px solid;
+}
+.small-board-6 {
+    border-bottom: 3px solid;
+}
+.small-board-7 {
+    border-right: 3px solid;
+}
+.small-board-8 {
+    border-right: 3px solid;
 }
 
 .slot {
     width: 70px;
     height: 70px;
     float: left;
-    outline: solid 1px;
 }
 
-.slot.x {
-    background-color: darkgreen;
-    /*background image SVG*/
+.slot.row-1.column-1 {
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+}
+.slot.row-1.column-2 {
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+}
+.slot.row-1.column-3 {
+    border-bottom: solid 1px;
 }
 
-.slot.o {
-    background-color: orange;
-    /*background image SVG*/
+.slot.row-2.column-1 {
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+}
+.slot.row-2.column-2 {
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+}
+.slot.row-2.column-3 {
+    border-bottom: solid 1px;
+}
+
+.slot.row-3.column-1 {
+    border-right: solid 1px;
+}
+.slot.row-3.column-2 {
+    border-right: solid 1px;
 }
 
 /*temporary stuff starts here*/
 
 .slot.x:after {
     content: 'X';
-    color: teal;
+    color: #00843e;
 }
 
 .slot.o:after {
     content: 'O';
-    color: yellow;
+    color: #ec008c;
 }
 
 .slot:after {
