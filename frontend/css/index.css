@@ -59,7 +59,7 @@ a.btn-pink:hover {
     background: rgba(0, 0, 0, 0.5);
     padding: 7px;
 }
-.small-board.active {
+.small-board.available {
     background: white;
 }
 

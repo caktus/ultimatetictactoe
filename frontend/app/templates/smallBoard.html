@@ -1,8 +1,8 @@
-<div data-ng-class="{'active': (boardId == currentBoard)}" class="small-board">
-    <div data-ng-repeat="row in boardState track by $index">
+<div data-ng-class="{available: boardState.status == 'available', playerOne: boardState.winner == 1, playerTwo: boardState.winner == 2, 'small-board': true}">
+    <div data-ng-repeat="row in boardState.state track by $index">
         <div data-ng-repeat="square in row track by $index">
             <div data-ng-click="updateState(square, $parent.$index, $index);"
-                 data-ng-class="{'o': (square.state == 0), 'x': (square.state == 1)}" class="slot row-{{ $parent.$index + 1 }} column-{{ $index + 1 }}">
+                 data-ng-class="{'o': (square.state == 1), 'x': (square.state == 2)}" class="slot row-{{ $parent.$index + 1 }} column-{{ $index + 1 }}">
             </div>
         </div>
     </div>
