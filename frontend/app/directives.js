@@ -1,11 +1,10 @@
 angular.module('TicTacToe.directives', [])
     .directive('board', ['$rootScope', function($rootScope) {
         var linker = function(scope, element, attrs) {
-            var isBusy = false;
-            scope.updateState = function(square, rowIndex, index) {
-                if ((square.state == null) && (scope.boardState.status == 'available') && !isBusy) {
+            scope.updateState = function(slot, rowIndex, index) {
+                if ((slot.state == null) && (scope.boardState.status == 'available')) {
                     // only squares that have not been played can be played.
-                    square.state = $rootScope.currentPlayer;
+                    slot.state = $rootScope.currentPlayer;
                     checkPosition(scope.boardState);
                     updateBoardStatus((rowIndex * 3) + index);
                 } else {
@@ -26,16 +25,29 @@ angular.module('TicTacToe.directives', [])
                 [[0, 2], [1, 1], [2, 0]], // player took over diagonal
             ];
 
-            var checkPosition = function(boardState) {
+            var checkPosition = function(board) {
                 // check state for winning position or no moves left.
-                var winner;
+                var winner,
+                    status;
                 angular.forEach(winning_combinations, function(combination) {
                     winner = combination.every(function(element) {
-                        return boardState.state[element[0]][element[1]].state == $rootScope.currentPlayer;
+                        var state = board.slots[element[0]][element[1]].state;
+                        if (!state) {
+                            // slot is available
+                            status = 'available'
+                        }
+                        return state == $rootScope.currentPlayer;
                     });
                     if (winner) {
-                        boardState.winner = $rootScope.currentPlayer;
-                        boardState.status = 'unavailable';
+                        board.winner = $rootScope.currentPlayer;
+                        board.status = 'unavailable';
+                    } else {
+                        if (status == 'available') {
+                            board.status = status;
+                        } else {
+                            board.winner = 'tie';
+                            board.status = 'unavailable';
+                        }
                     }
                 });
             };

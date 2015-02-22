@@ -7,7 +7,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
@@ -16,7 +16,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
@@ -25,7 +25,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
@@ -34,7 +34,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
@@ -43,7 +43,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
@@ -52,7 +52,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
@@ -61,7 +61,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
@@ -70,7 +70,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
@@ -79,7 +79,7 @@ angular.module('TicTacToe.controllers', [])
             {
                 status: 'available',
                 winner: null,
-                state: [
+                slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
