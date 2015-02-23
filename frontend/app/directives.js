@@ -26,30 +26,36 @@ angular.module('TicTacToe.directives', [])
             ];
 
             var checkPosition = function(board) {
-                // check state for winning position or no moves left.
                 var winner,
-                    status;
-                angular.forEach(winning_combinations, function(combination) {
-                    winner = combination.every(function(element) {
+                    available;
+                // check state for winning position.
+                winner = winning_combinations.some(function(combination) {
+                    return combination.every(function(element) {
                         var state = board.slots[element[0]][element[1]].state;
-                        if (!state) {
-                            // slot is available
-                            status = 'available'
-                        }
                         return state == $rootScope.currentPlayer;
                     });
-                    if (winner) {
-                        board.winner = $rootScope.currentPlayer;
-                        board.status = 'unavailable';
-                    } else {
-                        if (status == 'available') {
-                            board.status = status;
-                        } else {
-                            board.winner = 'tie';
-                            board.status = 'unavailable';
-                        }
-                    }
                 });
+                if (winner) {
+                    console.log('winner');
+                    board.winner = $rootScope.currentPlayer;
+                    board.status = 'unavailable';
+                } else {
+                    // check for legal moves
+                    available = board.slots.some(function(row) {
+                        return row.some(function(slot) {
+                            return slot.state == null;
+                        });
+                    });
+                    if (available) {
+                        console.log('available');
+                        board.status = 'available';
+                    } else {
+                        console.log('tie');
+                        // otherwise is a tie
+                        board.winner = 'tie';
+                        board.status = 'unavailable';
+                    }
+                }
             };
 
             var updateBoardStatus = function(nextBoardIndex) {
