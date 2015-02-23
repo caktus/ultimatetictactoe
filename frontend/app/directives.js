@@ -36,7 +36,6 @@ angular.module('TicTacToe.directives', [])
                     });
                 });
                 if (winner) {
-                    console.log('winner');
                     board.winner = $rootScope.currentPlayer;
                     board.status = 'unavailable';
                 } else {
@@ -47,10 +46,9 @@ angular.module('TicTacToe.directives', [])
                         });
                     });
                     if (available) {
-                        console.log('available');
                         board.status = 'available';
+                        return false;  // to break the loop
                     } else {
-                        console.log('tie');
                         // otherwise is a tie
                         board.winner = 'tie';
                         board.status = 'unavailable';
