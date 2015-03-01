@@ -34,10 +34,19 @@ a.btn-pink:hover {
 /*TIC TAC TOE GAMEPLAY*/
 .gameplay {
     background: rgba(238, 238, 238, 1);
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: stretch;
+}
+.gameplay .games {
+
+}
+.gameplay .stats {
+
 }
 .stats {
     background: #8d268b;
-    height: 750px;
 }
 
 .ultimate-board {
