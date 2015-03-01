@@ -1,4 +1,4 @@
-<div class="large-board">
+<div data-ng-class="{playerOne: game.winner == 1, playerTwo: game.winner == 2, tie: game.winner == 3, 'ultimate-board': true}">
     <div data-ng-repeat="board in game.boards">
         <single-board></single-board>
     </div>

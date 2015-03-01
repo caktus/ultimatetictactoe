@@ -40,7 +40,7 @@ a.btn-pink:hover {
     height: 750px;
 }
 
-.large-board {
+.ultimate-board {
     width: 770px;
     height: 770px;
     padding: 30px;
@@ -48,7 +48,7 @@ a.btn-pink:hover {
     background: white;
 }
 
-.large-board div {
+.ultimate-board div {
     position: relative;
 }
 
