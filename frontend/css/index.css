@@ -150,3 +150,29 @@ a.btn-pink:hover {
     font-size: 50pt;
     font-family: helvetica;
 }
+
+/*Game Stats*/
+.players .player {
+    margin: 40px auto;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
+.players .divider {
+    font-size: 20px;
+    color: white;
+}
+.avatar {
+    width: 150px;
+    height: 150px;
+    background: white;
+    -moz-border-radius: 75px;
+    -webkit-border-radius: 75px;
+    border-radius: 75px;
+    margin: auto auto 10px;
+    overflow: hidden;
+}
+.avatar img {
+    width: 150px;
+    margin-top: 25px;
+}

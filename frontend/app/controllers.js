@@ -6,6 +6,16 @@ angular.module('TicTacToe.controllers', [])
         $scope.game = {
             currentPlayer: 1,
             winner: null,
+            players: {
+                one: {
+                    name: 'Player 1',
+                    score: 0
+                },
+                two: {
+                    name: 'Player 2',
+                    score: 0
+                }
+            },
             boards: [
                 {
                     status: 'available',

@@ -23,6 +23,15 @@ angular.module('TicTacToe.directives', [])
                     return $scope.game.currentPlayer;
                 };
 
+                this.addScore = function(currentPlayer, points) {
+                    if (currentPlayer == 1) {
+                        $scope.game.players.one.score += points;
+                    } else {
+                        $scope.game.players.two.score += points;
+                    }
+
+                };
+
                 this.updateGameState = function(nextBoardIndex) {
                     var boards = $scope.game.boards,
                         nextBoard = boards[nextBoardIndex],
@@ -31,6 +40,8 @@ angular.module('TicTacToe.directives', [])
                     if (winner) {
                         // game over, we have a winner!!
                         $scope.game.winner = currentPlayer;
+                        // TODO: change number of points
+                        this.addScore(currentPlayer, 100);
                     } else {
                         // continue playing
                         $scope.game.currentPlayer = (currentPlayer == 1) ? 2 : 1;
@@ -59,7 +70,9 @@ angular.module('TicTacToe.directives', [])
                 var isWinnerState = function(boards, currentPlayer) {
                     // checks all boards for a winning pattern
                     return winning_combinations.some(function(combination) {
-                        return boards[combination[0]].winner == boards[combination[1]].winner == boards[combination[2]].winner == currentPlayer;
+                        return (boards[combination[0]].winner == currentPlayer) &&
+                            (boards[combination[1]].winner == currentPlayer) &&
+                            (boards[combination[2]].winner == currentPlayer);
                     });
                 }
             }
@@ -98,6 +111,8 @@ angular.module('TicTacToe.directives', [])
                 if (winner) {
                     board.winner = currentPlayer;
                     board.status = unavailable;
+                    // TODO: add correct number of points
+                    ultimateBoard.addScore(currentPlayer, 20)
                 } else {
                     // check for legal moves
                     available = isAvailable(board);
@@ -135,5 +150,12 @@ angular.module('TicTacToe.directives', [])
             link: linker,
             replace: true,
             templateUrl: 'app/templates/singleBoard.html'
+        }
+    }])
+    .directive('gameStats', [function() {
+        return {
+            restrict: 'AE',
+            replace: true,
+            templateUrl: 'app/templates/gameStats.html'
         }
     }]);

@@ -1,0 +1,20 @@
+<div class="players text-center">
+    <div class="player">
+        <div class="avatar">
+            <img src="https://caktus-website-production.s3.amazonaws.com/static/images/caktus_logo.png" />
+        </div>
+
+        {{ game.players.one.name }} <br>
+        Score: {{ game.players.one.score }}
+    </div>
+    <div class="divider">
+        - VS -
+    </div>
+    <div class="player">
+        <div class="avatar">
+            <img src="https://caktus-website-production.s3.amazonaws.com/static/images/caktus_logo.png" />
+        </div>
+        {{ game.players.two.name }}<br>
+        Score: {{ game.players.two.score }}
+    </div>
+</div>
