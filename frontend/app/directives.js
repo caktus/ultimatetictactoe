@@ -1,14 +1,57 @@
 angular.module('TicTacToe.directives', [])
-    .directive('board', ['$rootScope', function($rootScope) {
-        var linker = function(scope, element, attrs) {
-            scope.updateState = function(slot, rowIndex, index) {
-                if ((slot.state == null) && (scope.boardState.status == 'available')) {
+    .directive('ultimateBoard', [function() {
+        return {
+            restrict: 'AE',
+            replace: true,
+            templateUrl: 'app/templates/ultimateBoard.html',
+            controller: function($scope) {
+                this.getCurrentPlayer = function() {
+                    return $scope.game.currentPlayer;
+                };
+
+                this.updateGameState = function(nextBoardIndex) {
+                    var boards = $scope.game.boards,
+                        nextBoard = boards[nextBoardIndex],
+                        currentPlayer = $scope.game.currentPlayer;
+                    // set next player
+                    $scope.game.currentPlayer = (currentPlayer == 1) ? 2 : 1;
+                    if (!nextBoard.winner) {
+                        // a winner for board has not been defined
+                        angular.forEach(boards, function(board, index) {
+                            if (index == nextBoardIndex) {
+                                board.status = 'available';
+                            } else {
+                                board.status = 'unavailable';
+                            }
+                        });
+                    } else {
+                        // someone has won this board or no other moves can be made
+                        angular.forEach(boards, function(board) {
+                            if (!board.winner) {
+                                board.status = 'available';
+                            } else {
+                                board.status = 'unavailable';
+                            }
+                        });
+                    }
+                    // check for game winner
+                    isWinnerPosition()
+                };
+
+                var isWinnerPosition = function() {
+                    // checks all boards for a winning pattern
+                }
+            }
+        }
+    }])
+    .directive('singleBoard', [function() {
+        var linker = function(scope, element, attrs, ultimateBoard) {
+            scope.move = function(slot, rowIndex, index) {
+                if ((scope.board.status == 'available') && (slot.state == null)) {
                     // only squares that have not been played can be played.
-                    slot.state = $rootScope.currentPlayer;
-                    checkPosition(scope.boardState);
-                    updateBoardStatus((rowIndex * 3) + index);
-                } else {
-                    console.log("this board can't be played");
+                    slot.state = ultimateBoard.getCurrentPlayer();
+                    updateBoardState(scope.board);
+                    ultimateBoard.updateGameState((rowIndex * 3) + index);
                 }
             };
 
@@ -22,68 +65,52 @@ angular.module('TicTacToe.directives', [])
                 [[0, 2], [1, 2], [2, 2]], // player took over the third column
 
                 [[0, 0], [1, 1], [2, 2]], // player took over diagonal
-                [[0, 2], [1, 1], [2, 0]], // player took over diagonal
+                [[0, 2], [1, 1], [2, 0]]  // player took over diagonal
             ];
 
-            var checkPosition = function(board) {
-                var winner,
-                    available;
-                // check state for winning position.
-                winner = winning_combinations.some(function(combination) {
-                    return combination.every(function(element) {
-                        var state = board.slots[element[0]][element[1]].state;
-                        return state == $rootScope.currentPlayer;
-                    });
-                });
+            var updateBoardState = function(board) {
+                var available,
+                    currentPlayer = ultimateBoard.getCurrentPlayer(),
+                    winner = isWinnerPosition(board, currentPlayer);
                 if (winner) {
-                    board.winner = $rootScope.currentPlayer;
+                    board.winner = currentPlayer;
                     board.status = 'unavailable';
                 } else {
                     // check for legal moves
-                    available = board.slots.some(function(row) {
-                        return row.some(function(slot) {
-                            return slot.state == null;
-                        });
-                    });
+                    available = isAvailable(board);
                     if (available) {
                         board.status = 'available';
                         return false;  // to break the loop
                     } else {
                         // otherwise is a tie
-                        board.winner = 'tie';
+                        board.winner = 3;
                         board.status = 'unavailable';
                     }
                 }
             };
 
-            var updateBoardStatus = function(nextBoardIndex) {
-                var nextBoard = $rootScope.gameState[nextBoardIndex];
-                $rootScope.currentPlayer = ($rootScope.currentPlayer == 1) ? 2 : 1;
-                if (!nextBoard.winner) {
-                    // a winner for board has not been defined
-                    angular.forEach($rootScope.gameState, function(board, index) {
-                        if (index == nextBoardIndex) {
-                            board.status = 'available';
-                        } else {
-                            board.status = 'unavailable';
-                        }
+            var isWinnerPosition = function(board, currentPlayer) {
+                return winning_combinations.some(function(combination) {
+                    return combination.every(function(element) {
+                        var state = board.slots[element[0]][element[1]].state;
+                        return state == currentPlayer;
                     });
-                } else {
-                    // someone has won this board or no other moves can be made
-                    angular.forEach($rootScope.gameState, function(board, index) {
-                        if (!board.winner) {
-                            board.status = 'available';
-                        } else {
-                            board.status = 'unavailable';
-                        }
+                });
+            };
+
+            var isAvailable = function(board) {
+                return board.slots.some(function(row) {
+                        return row.some(function(slot) {
+                            return slot.state == null;
+                        });
                     });
-                }
-            }
+            };
         };
         return {
             restrict: 'AE',
+            require: '^ultimateBoard',
             link: linker,
             replace: true,
-            templateUrl: 'app/templates/smallBoard.html'
+            templateUrl: 'app/templates/singleBoard.html'
         }
     }]);

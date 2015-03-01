@@ -1,0 +1,9 @@
+<div data-ng-class="{available: board.status == 'available', playerOne: board.winner == 1, playerTwo: board.winner == 2, tie: board.winner == 3, 'small-board': true, 'small-board-{{ $index + 1 }}': true}">
+    <div data-ng-repeat="row in board.slots track by $index">
+        <div data-ng-repeat="slot in row track by $index">
+            <div data-ng-click="move(slot, $parent.$index, $index);"
+                 data-ng-class="{'o': (slot.state == 1), 'x': (slot.state == 2)}" class="slot row-{{ $parent.$index + 1 }} column-{{ $index + 1 }}">
+            </div>
+        </div>
+    </div>
+</div>
