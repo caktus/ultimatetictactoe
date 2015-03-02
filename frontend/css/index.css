@@ -167,6 +167,9 @@ a.btn-pink:hover {
     color: white;
     font-weight: bold;
 }
+.player.inactive {
+    opacity: 0.2;
+}
 .players .divider {
     font-size: 20px;
     color: white;

@@ -1,5 +1,5 @@
 <div class="players text-center">
-    <div class="player">
+    <div data-ng-class="{player: true, inactive: game.currentPlayer == 2}">
         <div class="avatar">
             <img src="http://astrocodeschool.com/static/img/credentials-caktus.svg" />
         </div>
@@ -10,7 +10,7 @@
     <div class="divider">
         - VS -
     </div>
-    <div class="player">
+    <div data-ng-class="{player: true, inactive: game.currentPlayer == 1}">
         <div class="avatar">
             <img src="http://astrocodeschool.com/static/img/credentials-astro.svg" />
         </div>
