@@ -42,6 +42,10 @@ angular.module('TicTacToe.directives', [])
                         $scope.game.winner = currentPlayer;
                         // TODO: change number of points
                         this.addScore(currentPlayer, 100);
+                        // make sure that all the boards are unavailable
+                        angular.forEach(boards, function(board) {
+                            board.status = unavailable;
+                        });
                     } else {
                         // continue playing
                         $scope.game.currentPlayer = (currentPlayer == 1) ? 2 : 1;
