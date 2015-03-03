@@ -1,0 +1,20 @@
+<div class="players text-center">
+    <div data-ng-class="{player: true, inactive: game.currentPlayer == 2}">
+        <div class="avatar">
+            <img src="http://astrocodeschool.com/static/img/credentials-caktus.svg" />
+        </div>
+
+        {{ game.players.one.name }} <br>
+        Score: {{ game.players.one.score }}
+    </div>
+    <div class="divider">
+        - VS -
+    </div>
+    <div data-ng-class="{player: true, inactive: game.currentPlayer == 1}">
+        <div class="avatar">
+            <img src="http://astrocodeschool.com/static/img/credentials-astro.svg" />
+        </div>
+        {{ game.players.two.name }}<br>
+        Score: {{ game.players.two.score }}
+    </div>
+</div>

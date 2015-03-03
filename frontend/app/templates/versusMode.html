@@ -1,11 +1,8 @@
 <div class="row gameplay">
-    <div class="col-md-9">
-        <div class="large-board">
-            <div data-ng-repeat="boardState in gameState">
-                <board class="small-board-{{ $index + 1 }}"></board>
-            </div>
-        </div>
+    <div class="col-md-9 boards">
+        <ultimate-board></ultimate-board>
     </div>
     <div class="col-md-3 stats">
+        <game-stats></game-stats>
     </div>
 </div>

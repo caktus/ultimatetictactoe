@@ -34,13 +34,23 @@ a.btn-pink:hover {
 /*TIC TAC TOE GAMEPLAY*/
 .gameplay {
     background-color: rgba(238, 238, 238, 1);
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: stretch;
+}
+.gameplay .games {
+
+}
+.gameplay .stats {
+
 }
 .stats {
     background-color: #8d268b;
     height: 750px;
 }
 
-.large-board {
+.ultimate-board {
     width: 770px;
     height: 770px;
     padding: 30px;
@@ -48,7 +58,7 @@ a.btn-pink:hover {
     background-color: white;
 }
 
-.large-board div {
+.ultimate-board div {
     position: relative;
 }
 
@@ -150,4 +160,40 @@ a.btn-pink:hover {
     -webkit-transform: translate(-50%, -50%);
     font-size: 50pt;
     font-family: helvetica;
+}
+
+/*Game Stats*/
+.stats {
+    vertical-align: middle;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.players .player {
+    margin: 40px auto;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
+.player.inactive {
+    opacity: 0.2;
+}
+.players .divider {
+    font-size: 20px;
+    color: white;
+}
+.avatar {
+    width: 150px;
+    height: 150px;
+    background: white;
+    -moz-border-radius: 75px;
+    -webkit-border-radius: 75px;
+    border-radius: 75px;
+    margin: auto auto 10px;
+    overflow: hidden;
+}
+.avatar img {
+    width: 150px;
 }
