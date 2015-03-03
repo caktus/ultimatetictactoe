@@ -1,3 +1,10 @@
+/*base*/
+
+.gameplay{
+    width:1920px;
+    height:1080px;
+}
+
 /* home screen */
 #home-screen {
     text-align: center;
@@ -51,11 +58,10 @@ a.btn-pink:hover {
 }
 
 .ultimate-board {
-    width: 770px;
-    height: 770px;
-    padding: 30px;
-    margin: 10px auto;
-    background-color: white;
+    width: 1000px;
+    height: 1000px;
+    border: solid 30px white;
+    margin: 40px auto;
 }
 
 .ultimate-board div {
@@ -63,8 +69,8 @@ a.btn-pink:hover {
 }
 
 .small-board {
-    width: 236px;
-    height: 236px;
+    width: 313.333px;
+    height: 313.333px;
     float: left;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 7px;
@@ -104,8 +110,8 @@ a.btn-pink:hover {
 }
 
 .slot {
-    width: 70px;
-    height: 70px;
+    width: 98.666px;
+    height: 98.666px;
     float: left;
 }
 
