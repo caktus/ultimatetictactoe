@@ -1,7 +1,7 @@
 /* home screen */
 #home-screen {
     text-align: center;
-    background: #8d268b;
+    background-color: #8d268b;
 }
 
 #home-screen img {
@@ -12,7 +12,7 @@
 
 #home-screen .menu {
     height: 100px;
-    background: black;
+    background-color: black;
     padding: 25px;
 }
 
@@ -22,7 +22,7 @@
 
 .btn-pink {
     color: white;
-    background: #ec008c;
+    background-color: #ec008c;
     transition: all 0.3s ease 0s;
 }
 
@@ -33,10 +33,10 @@ a.btn-pink:hover {
 
 /*TIC TAC TOE GAMEPLAY*/
 .gameplay {
-    background: rgba(238, 238, 238, 1);
+    background-color: rgba(238, 238, 238, 1);
 }
 .stats {
-    background: #8d268b;
+    background-color: #8d268b;
     height: 750px;
 }
 
@@ -45,7 +45,7 @@ a.btn-pink:hover {
     height: 770px;
     padding: 30px;
     margin: 10px auto;
-    background: white;
+    background-color: white;
 }
 
 .large-board div {
@@ -56,11 +56,12 @@ a.btn-pink:hover {
     width: 236px;
     height: 236px;
     float: left;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 7px;
+    -webkit-transition: all 0.5s linear;
 }
 .small-board.available {
-    background: white;
+    background-color: white;
 }
 
 .small-board-1 {
