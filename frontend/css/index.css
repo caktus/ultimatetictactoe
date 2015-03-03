@@ -149,7 +149,7 @@ a.btn-pink:hover {
 
 .slot.o:after {
     content: 'O';
-    color: #ec008c;
+    color: #f66007;
 }
 
 .slot:after {
@@ -196,4 +196,12 @@ a.btn-pink:hover {
 }
 .avatar img {
     width: 150px;
+}
+
+/* WON STUFF */
+.small-board.playerOne {
+    background-color:#bd8164;
+}
+.small-board.playerTwo {
+    background-color:#81ec63;
 }
