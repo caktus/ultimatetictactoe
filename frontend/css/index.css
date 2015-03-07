@@ -1,7 +1,14 @@
+/*base*/
+
+.gameplay{
+    width:1920px;
+    height:1080px;
+}
+
 /* home screen */
 #home-screen {
     text-align: center;
-    background: #8d268b;
+    background-color: #8d268b;
 }
 
 #home-screen img {
@@ -12,7 +19,7 @@
 
 #home-screen .menu {
     height: 100px;
-    background: black;
+    background-color: black;
     padding: 25px;
 }
 
@@ -22,7 +29,7 @@
 
 .btn-pink {
     color: white;
-    background: #ec008c;
+    background-color: #ec008c;
     transition: all 0.3s ease 0s;
 }
 
@@ -33,7 +40,7 @@ a.btn-pink:hover {
 
 /*TIC TAC TOE GAMEPLAY*/
 .gameplay {
-    background: rgba(238, 238, 238, 1);
+    background-color: rgba(238, 238, 238, 1);
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -46,15 +53,15 @@ a.btn-pink:hover {
 
 }
 .stats {
-    background: #8d268b;
+    background-color: #8d268b;
+    height: 750px;
 }
 
 .ultimate-board {
-    width: 770px;
-    height: 770px;
-    padding: 30px;
-    margin: 10px auto;
-    background: white;
+    width: 1000px;
+    height: 1000px;
+    border: solid 30px white;
+    margin: 40px auto;
 }
 
 .ultimate-board div {
@@ -62,14 +69,15 @@ a.btn-pink:hover {
 }
 
 .small-board {
-    width: 236px;
-    height: 236px;
+    width: 313.333px;
+    height: 313.333px;
     float: left;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 7px;
+    -webkit-transition: all 0.5s linear;
 }
 .small-board.available {
-    background: white;
+    background-color: white;
 }
 
 .small-board-1 {
@@ -102,8 +110,8 @@ a.btn-pink:hover {
 }
 
 .slot {
-    width: 70px;
-    height: 70px;
+    width: 98.666px;
+    height: 98.666px;
     float: left;
 }
 
@@ -147,7 +155,7 @@ a.btn-pink:hover {
 
 .slot.o:after {
     content: 'O';
-    color: #ec008c;
+    color: #f66007;
 }
 
 .slot:after {
@@ -194,4 +202,12 @@ a.btn-pink:hover {
 }
 .avatar img {
     width: 150px;
+}
+
+/* WON STUFF */
+.small-board.playerOne {
+    background-color:#bd8164;
+}
+.small-board.playerTwo {
+    background-color:#81ec63;
 }
