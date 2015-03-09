@@ -206,8 +206,16 @@ a.btn-pink:hover {
 
 /* WON STUFF */
 .small-board.playerOne {
-    background-color:#81ec63;
+    background: white url('http://www.clker.com/cliparts/Z/i/8/1/n/r/green-x-md.png') no-repeat;
+    background-size: contain;
+}
+.small-board.playerOne div {
+    opacity: 0;
 }
 .small-board.playerTwo {
-    background-color:#bd8164;
+    background: white url('http://music2.be/img/o.png') no-repeat;
+    background-size: contain;
+}
+.small-board.playerTwo div {
+    opacity: 0;
 }
