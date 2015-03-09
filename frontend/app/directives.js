@@ -1,5 +1,5 @@
 angular.module('TicTacToe.directives', [])
-    .directive('ultimateBoard', [function() {
+    .directive('ultimateBoard', ['$timeout', 'simpleAI', function($timeout, simpleAI) {
         return {
             restrict: 'AE',
             replace: true,
@@ -7,6 +7,7 @@ angular.module('TicTacToe.directives', [])
             controller: function($scope) {
                 var available = 'available',
                     unavailable = 'unavailable',
+                    that = this,
                     winning_combinations = [
                         [0, 1, 2], // player took over the first row
                         [3, 4, 5], // player took over the second row
@@ -48,7 +49,6 @@ angular.module('TicTacToe.directives', [])
                         });
                     } else {
                         // continue playing
-                        $scope.game.currentPlayer = (currentPlayer == 1) ? 2 : 1;
                         if (!nextBoard.winner) {
                             // a winner for board has not been defined
                             angular.forEach(boards, function(board, index) {
@@ -68,6 +68,8 @@ angular.module('TicTacToe.directives', [])
                                 }
                             });
                         }
+                        // this needs to be the last thing we do
+                        $scope.game.currentPlayer = (currentPlayer == 1) ? 2 : 1;
                     }
                 };
 
@@ -78,7 +80,17 @@ angular.module('TicTacToe.directives', [])
                             (boards[combination[1]].winner == currentPlayer) &&
                             (boards[combination[2]].winner == currentPlayer);
                     });
-                }
+                };
+
+                // hook up the ai
+                $scope.$watch(function(scope) { return scope.game.currentPlayer }, function(newPlayer) {
+                    if ($scope.game.ai_enabled && (newPlayer == 2)) {
+                        $timeout(function() {
+                            // make it seem like it is thinking.
+                            simpleAI.move($scope.game);
+                        }, 1000);
+                    }
+                })
             }
         }
     }])

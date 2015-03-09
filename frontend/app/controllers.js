@@ -6,6 +6,7 @@ angular.module('TicTacToe.controllers', [])
         $scope.game = {
             currentPlayer: 1,
             winner: null,
+            ai_enabled: true,
             players: {
                 one: {
                     name: 'Player 1',
