@@ -148,14 +148,12 @@ a.btn-pink:hover {
 
 /*temporary stuff starts here*/
 
-.slot.x:after {
-    content: 'X';
-    color: #00843e;
+.slot.x {
+    background-image:url(../images/x.svg);
 }
 
-.slot.o:after {
-    content: 'O';
-    color: #f66007;
+.slot.o {
+    background-image:url(../images/o.svg);
 }
 
 .slot:after {
