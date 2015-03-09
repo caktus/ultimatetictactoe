@@ -54,7 +54,6 @@ a.btn-pink:hover {
 }
 .stats {
     background-color: #8d268b;
-    height: 750px;
 }
 
 .ultimate-board {
@@ -204,8 +203,8 @@ a.btn-pink:hover {
 
 /* WON STUFF */
 .small-board.playerOne {
-    background-color:#bd8164;
+    background-color:#81ec63;
 }
 .small-board.playerTwo {
-    background-color:#81ec63;
+    background-color:#bd8164;
 }
