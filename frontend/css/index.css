@@ -203,8 +203,16 @@ a.btn-pink:hover {
 
 /* WON STUFF */
 .small-board.playerOne {
-    background-color:#81ec63;
+    background: white url('../images/big-x.png') no-repeat;
+    background-size: contain;
+}
+.small-board.playerOne div {
+    opacity: 0;
 }
 .small-board.playerTwo {
-    background-color:#bd8164;
+    background: white url('../images/big-o.png') no-repeat;
+    background-size: contain;
+}
+.small-board.playerTwo div {
+    opacity: 0;
 }
