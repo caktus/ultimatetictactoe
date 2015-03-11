@@ -53,7 +53,7 @@ a.btn-pink:hover {
 
 }
 .stats {
-    background-color: #8d268b;
+    background-color: #FFFFFF;
 }
 
 .ultimate-board {
@@ -71,7 +71,7 @@ a.btn-pink:hover {
     width: 313.333px;
     height: 313.333px;
     float: left;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
     padding: 7px;
     -webkit-transition: all 0.5s linear;
 }
@@ -177,7 +177,7 @@ a.btn-pink:hover {
 .players .player {
     margin: 40px auto;
     font-size: 20px;
-    color: white;
+    color: #000;
     font-weight: bold;
 }
 .player.inactive {
@@ -203,14 +203,14 @@ a.btn-pink:hover {
 
 /* WON STUFF */
 .small-board.playerOne {
-    background: white url('../images/big-x.png') no-repeat;
+    background: white url('../images/x.svg') no-repeat;
     background-size: contain;
 }
 .small-board.playerOne div {
     opacity: 0;
 }
 .small-board.playerTwo {
-    background: white url('../images/big-o.png') no-repeat;
+    background: white url('../images/o.svg') no-repeat;
     background-size: contain;
 }
 .small-board.playerTwo div {

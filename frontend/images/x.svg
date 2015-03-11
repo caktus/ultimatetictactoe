@@ -26,16 +26,28 @@
      id="style4">
 		path {
 			fill:none;
-			stroke:red;
-			stroke-width:28px;
+			stroke:#0e7f86;
+			stroke-width:10px;
+      stroke-linecap:round;
 		}
+    .shadow path{
+      stroke:rgba(0,0,0,0.2);
+    }
 	</style>
+  <g class="shadow" transform="translate(2,2)">
+    <path
+       id="path4197"
+       d="M 15,15 85,85"
+        />
+    <path
+       d="M 85,15 15,85"
+       id="path4199" />
+  </g>
   <path
      id="path4197"
-     d="M 8.898305,8.8983052 91.101695,91.101695"
-     style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+     d="M 15,15 85,85"
+      />
   <path
-     style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     d="M 91.101695,8.8983052 8.898305,91.101695"
+     d="M 85,15 15,85"
      id="path4199" />
 </svg>
