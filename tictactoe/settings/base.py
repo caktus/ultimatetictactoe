@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'django.contrib.sitemaps',
+    'rest_framework',
     'tictactoe.t3',
     # External apps
     'compressor',
