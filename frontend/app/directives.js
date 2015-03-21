@@ -18,6 +18,10 @@ angular.module('TicTacToe.directives', [])
                         [2, 4, 6]  // player took over diagonal
                     ];
 
+                this.reload = function () {
+                    console.log("reload");
+                    $route.reload();
+                };
 
                 this.getCurrentPlayer = function() {
                     return $scope.game.currentPlayer;
@@ -154,6 +158,21 @@ angular.module('TicTacToe.directives', [])
             link: linker,
             replace: true,
             templateUrl: 'app/templates/singleBoard.html'
+        }
+    }])
+    .directive('winnerModal', ['$route', function($route) {
+        var linker = function(scope, element, attrs) {
+            element.bind('click', function() {
+                scope.$apply(function(){
+                    $route.reload();
+                });
+            });
+        };
+        return {
+            restrict: 'AE',
+            link: linker,
+            replace: true,
+            templateUrl: 'app/templates/winnerModal.html'
         }
     }])
     .directive('gameStats', [function() {
