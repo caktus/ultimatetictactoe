@@ -6,19 +6,25 @@ from t3.board import Board
 
 
 class GameSerializer(serializers.ModelSerializer):
+    winner = serializers.SerializerMethodField()
+
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'last_play')
-        read_only_fields = ('pk', 'state', 'last_play')
+        fields = ('pk', 'state', 'last_play', 'winner')
+        read_only_fields = ('pk', 'state', 'last_play', 'winner')
+
+    def get_winner(self, obj):
+        board = Board()
+        return board.winner([json.loads(obj.state)])
 
 
-class PlaySerializer(serializers.ModelSerializer):
+class PlaySerializer(GameSerializer):
     play = serializers.CharField()
 
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'last_play', 'play')
-        read_only_fields = ('pk', 'state', 'last_play')
+        fields = ('pk', 'state', 'last_play', 'winner', 'play')
+        read_only_fields = ('pk', 'state', 'last_play', 'winner')
 
     def validate_play(self, value):
         board = Board()
