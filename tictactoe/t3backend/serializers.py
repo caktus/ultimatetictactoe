@@ -19,7 +19,7 @@ class GameSerializer(serializers.ModelSerializer):
 
 
 class PlaySerializer(GameSerializer):
-    play = serializers.CharField()
+    play = serializers.CharField(write_only=True)
 
     class Meta:
         model = models.T3Game
