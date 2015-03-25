@@ -5,16 +5,6 @@ from . import models, serializers
 from t3 import board
 
 
-class UserListAPIView(generics.ListCreateAPIView):
-    queryset = models.T3User.objects.all()
-    serializer_class = serializers.UserSerializer
-
-
-class UserDetailAPIView(generics.RetrieveUpdateAPIView):
-    queryset = models.T3User.objects.all()
-    serializer_class = serializers.UserSerializer
-
-
 class GameListAPIView(generics.ListCreateAPIView):
     queryset = models.T3Game.objects.all()
     serializer_class = serializers.GameSerializer
@@ -24,7 +14,7 @@ class GameListAPIView(generics.ListCreateAPIView):
         serializer.save(state=json.dumps(b.start()))
 
 
-class GameDetailAPIView(generics.RetrieveUpdateAPIView):
+class GameDetailAPIView(generics.RetrieveAPIView):
     queryset = models.T3Game.objects.all()
     serializer_class = serializers.GameSerializer
 

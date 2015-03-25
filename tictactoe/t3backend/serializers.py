@@ -5,32 +5,11 @@ from . import models
 from t3.board import Board
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.T3User
-        fields = ('pk', 'username', 'score')
-        read_only_fields = ('pk', 'score')
-
-
-class PlayerSerializer(serializers.ModelSerializer):
-    game = serializers.HyperlinkedRelatedField(view_name='game-detail',
-                                               read_only=True)
-    user = serializers.SlugRelatedField(slug_field='username',
-                                        read_only=True)
-
-    class Meta:
-        model = models.T3Player
-        fields = ('game', 'user', 'player', 'score')
-        read_only_fields = ('game', 'score',)
-
-
 class GameSerializer(serializers.ModelSerializer):
-    players = PlayerSerializer(many=True, read_only=True)
-
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'players')
-        read_only_fields = ('pk', 'state', 'players')
+        fields = ('pk', 'state')
+        read_only_fields = ('pk', 'state')
 
 
 class PlaySerializer(serializers.ModelSerializer):
