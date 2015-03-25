@@ -13,8 +13,8 @@ ADMINS = (
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tictactoe',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'tictactoe.db3',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.sitemaps',
     'rest_framework',
-    'tictactoe.t3',
+    'tictactoe.t3backend',
     # External apps
     'compressor',
 )

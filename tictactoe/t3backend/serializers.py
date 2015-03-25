@@ -2,7 +2,7 @@ from rest_framework import serializers, validators
 import json
 
 from . import models
-from .board import Board
+from t3.board import Board
 
 
 class UserSerializer(serializers.ModelSerializer):

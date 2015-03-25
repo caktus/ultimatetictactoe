@@ -1,7 +1,8 @@
 from rest_framework import generics, viewsets, mixins
 import json
 
-from . import models, serializers, board
+from . import models, serializers
+from t3 import board
 
 
 class UserListAPIView(generics.ListCreateAPIView):
