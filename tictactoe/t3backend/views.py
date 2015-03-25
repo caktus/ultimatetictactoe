@@ -25,6 +25,7 @@ class GamePlayAPIView(generics.UpdateAPIView):
 
     def perform_update(self, serializer):
         b = board.Board()
-        new_state = b.play(json.loads(serializer.instance.state),
-                           b.parse(serializer.validated_data['play']))
-        serializer.save(state=json.dumps(new_state))
+        play = b.parse(serializer.validated_data['play'])
+        new_state = b.play(json.loads(serializer.instance.state), play)
+        serializer.save(state=json.dumps(new_state),
+                        last_play=json.dumps(play))

@@ -8,8 +8,8 @@ from t3.board import Board
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state')
-        read_only_fields = ('pk', 'state')
+        fields = ('pk', 'state', 'last_play')
+        read_only_fields = ('pk', 'state', 'last_play')
 
 
 class PlaySerializer(serializers.ModelSerializer):
@@ -17,8 +17,8 @@ class PlaySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'play')
-        read_only_fields = ('pk', 'state')
+        fields = ('pk', 'state', 'last_play', 'play')
+        read_only_fields = ('pk', 'state', 'last_play')
 
     def validate_play(self, value):
         board = Board()
