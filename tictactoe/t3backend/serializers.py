@@ -7,11 +7,15 @@ from t3.board import Board
 
 class GameSerializer(serializers.ModelSerializer):
     winner = serializers.SerializerMethodField()
+    gametype = serializers.ChoiceField(
+        choices=['local', 'remote', 'ai', 'ai-vs-ai'],
+        write_only=True
+    )
 
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'last_play', 'winner')
-        read_only_fields = ('pk', 'state', 'last_play', 'winner')
+        fields = ('pk', 'state', 'last_play', 'winner', 'gametype', 'p1', 'p2')
+        read_only_fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2')
 
     def get_winner(self, obj):
         board = Board()

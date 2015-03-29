@@ -1,4 +1,5 @@
 from rest_framework import generics, viewsets, mixins
+import random
 import json
 
 from . import models, serializers
@@ -11,7 +12,21 @@ class GameListAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         b = board.Board()
-        serializer.save(state=json.dumps(b.start()))
+        gametype = serializer.validated_data.pop('gametype')
+        if gametype == 'local':
+            p1 = p2 = 'local'
+        elif gametype == 'remote':
+            players = ['astro', 'caktus']
+            random.shuffle(players)
+            p1, p2 = players
+        elif gametype == 'ai':
+            players = ['local', 'ai']
+            random.shuffle(players)
+            p1, p2 = players
+        elif gametype == 'ai-vs-ai':
+            p1 = p2 = 'ai'
+        serializer.save(state=json.dumps(b.start()),
+                        p1=p1, p2=p2)
 
 
 class GameDetailAPIView(generics.RetrieveAPIView):
