@@ -2,7 +2,8 @@ var app = angular.module("TicTacToe", [
     'ngRoute',
     'TicTacToe.controllers',
     'TicTacToe.directives',
-    'TicTacToe.factories'
+    'TicTacToe.factories',
+    'TicTacToe.constants'
 ]);
 
 app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
@@ -16,8 +17,16 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
             controller: 'AttractModeCtrl',
             templateUrl: 'app/templates/attractMode.html'
             })
-        .when('/OneVSOne', {
-            controller: 'VersusModeCtrl',
+        .when('/computerMode', {
+            controller: 'ComputerModeCtrl',
+            templateUrl: 'app/templates/versusMode.html'
+            })
+        .when('/localMode', {
+            controller: 'LocalModeCtrl',
+            templateUrl: 'app/templates/versusMode.html'
+            })
+        .when('/remoteMode', {
+            controller: 'RemoteModeCtrl',
             templateUrl: 'app/templates/versusMode.html'
             })
 }]);

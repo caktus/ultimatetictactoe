@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 
 
-class MoveAPIView(View):
+class EchoAPIView(View):
     def get(self, request, *args, **kwargs):
         """Method use to retrive other player's moves."""
         move = cache.get('move')

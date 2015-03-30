@@ -11,6 +11,9 @@ angular.module('TicTacToe.directives', [])
                 this.getCurrentPlayer = function() {
                     return $scope.game.currentPlayer;
                 };
+                this.getEndPoint = function() {
+                    return $scope.endpoint;
+                };
                 this.move = function(boardIndex, rowIndex, columnIndex) {
                     tictactoe.move($scope.game, boardIndex, rowIndex, columnIndex);
                 }
@@ -20,21 +23,23 @@ angular.module('TicTacToe.directives', [])
     .directive('singleBoard', ['$http', function($http) {
         var linker = function(scope, element, attrs, ultimateBoard) {
             scope.move = function(boardIndex, rowIndex, columnIndex) {
-                var player = ultimateBoard.player(),
+                var endpoint = ultimateBoard.getEndPoint(),
+                    player = scope.ai? 1 : ultimateBoard.player(),
                     data,
                     currentPlayer = ultimateBoard.getCurrentPlayer();
-                if (player == currentPlayer) {
+                if (scope.remote && (player == currentPlayer)) {
                     data = $.param({
                         type: 'move',
                         boardIndex: boardIndex - 1,
                         rowIndex: rowIndex,
                         columnIndex: columnIndex
                     });
-                    console.log(data);
-                    var url = 'http://172.20.0.117:9000/api/move/?player=' + player;
-                    $http.post(url, data).success(function(data) {
+                    $http.post(endpoint, data).success(function(data) {
                         ultimateBoard.move(boardIndex - 1, rowIndex, columnIndex);
                     })
+                } else {
+                    // both players are playing locally.
+                    ultimateBoard.move(boardIndex - 1, rowIndex, columnIndex);
                 }
             };
         };
@@ -46,13 +51,13 @@ angular.module('TicTacToe.directives', [])
             templateUrl: 'app/templates/singleBoard.html'
         }
     }])
-    .directive('winnerModal', ['$route', function($route) {
+    .directive('winnerModal', ['$route', 'api', function($route, api) {
         var linker = function(scope, element, attrs) {
             element.bind('click', function() {
-                var data = $.param({type: 'forfeit'});
-                var player = ultimateBoard.player();
-                var url = 'http://localhost:9000/api/move/?player=' + player;
+                var data = $.param({type: 'forfeit'}),
+                    url = scope.endpoint;
                 $http.post(url, data).success(function(data) {
+                    console.log(data);
                     scope.$apply(function(){
                         $route.reload();
                     });

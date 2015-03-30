@@ -1,4 +1,13 @@
 angular.module('TicTacToe.factories', [])
+    .factory('player', ['$window', function($window) {
+        return $window.location.search.match(/\d+/g);
+    }])
+    .factory('api', ['$window', 'player', function($window, player) {
+        return {
+            echoService: 'http://0.0.0.0:9006/api/echo/?player=' + player,
+            aiService: 'http://0.0.0.0:9006/api/echo/?player=' + player
+        }
+    }])
     .factory('tictactoe', [function() {
         var tictactoe = {},
             available = 'available',
@@ -7,8 +16,6 @@ angular.module('TicTacToe.factories', [])
         tictactoe.move = function(game, boardIndex, rowIndex, columnIndex) {
             var board = game.boards[boardIndex],
                 slot = board.slots[rowIndex][columnIndex];
-            console.log(board);
-            console.log(slot);
             if ((board.status == available) && (slot.state == null)) {
                 // only squares that have not been played can be played.
                 slot.state = game.currentPlayer;
