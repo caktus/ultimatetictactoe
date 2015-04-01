@@ -16,7 +16,9 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                 }
 	    });
     }])
-    .controller('GameController', ['$scope', '$routeParams', function($scope, $routeParams) {
+    .controller('GameController',
+		['$scope', '$routeParams', 'gameService',
+		 function($scope, $routeParams, gameService) {
 	console.log($routeParams);
     }])
     .controller('LocalModeCtrl', ['$scope', '$http', 'tictactoe', 'initialState', 'api', 'player',
