@@ -1,4 +1,5 @@
 from rest_framework import generics, viewsets, mixins
+import subprocess
 import random
 import json
 
@@ -25,11 +26,13 @@ class GameListAPIView(generics.ListCreateAPIView):
             p1, p2 = players
         elif gametype == 'ai-vs-ai':
             p1 = p2 = 'ai'
-        game = serializer.save(state=json.dumps(b.start()),
-                               p1=p1, p2=p2)
+
+        state = json.dumps(b.start())
+        game = serializer.save(state=state, p1=p1, p2=p2)
 
         if p1 == 'ai':
-            tasks.ai_play(game.pk, b.start())
+            subprocess.Popen(["python", "tictactoe/t3backend/tasks.py",
+                             str(game.pk), state])
 
 
 class GameDetailAPIView(generics.RetrieveUpdateAPIView):
@@ -39,10 +42,13 @@ class GameDetailAPIView(generics.RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         b = board.Board()
         play = b.parse(serializer.validated_data['play'])
-        new_state = b.play(json.loads(serializer.instance.state), play)
-        game = serializer.save(state=json.dumps(new_state),
-                               last_play=json.dumps(play))
+
+        state = b.play(json.loads(serializer.instance.state), play)
+        jsonstate = json.dumps(state)
+
+        game = serializer.save(state=jsonstate, last_play=json.dumps(play))
 
         players = {1: game.p1, 2: game.p2}
-        if players[new_state[-1]] == 'ai' and serializer.get_winner(game) == 0:
-            tasks.ai_play(game.pk, new_state)
+        if players[state[-1]] == 'ai' and serializer.get_winner(game) == 0:
+            subprocess.Popen(["python", "tictactoe/t3backend/tasks.py",
+                             str(game.pk), jsonstate])

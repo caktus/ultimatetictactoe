@@ -1,6 +1,8 @@
 from t3 import board, mcts
 
 import requests
+import json
+import sys
 
 
 def ai_play(pk, state):
@@ -13,3 +15,10 @@ def ai_play(pk, state):
     r = requests.put(url, data={'play': play})
 
     r.raise_for_status()
+
+
+if __name__ == '__main__':
+    pk = int(sys.argv[1])
+    state = json.loads(sys.argv[2])
+
+    ai_play(pk, state)
