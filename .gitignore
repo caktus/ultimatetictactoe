@@ -3,7 +3,8 @@
 .project
 .pydevproject
 *~
-*.db
+*.db3
+*.log
 *.orig
 *.DS_Store
 .coverage
