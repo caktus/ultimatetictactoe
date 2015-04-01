@@ -27,8 +27,8 @@ class PlaySerializer(GameSerializer):
 
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'last_play', 'winner', 'play')
-        read_only_fields = ('pk', 'state', 'last_play', 'winner')
+        fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2', 'play')
+        read_only_fields = ('pk', 'state', 'last_play', 'p1', 'p2', 'winner')
 
     def validate_play(self, value):
         board = Board()

@@ -2,7 +2,7 @@ from rest_framework import generics, viewsets, mixins
 import random
 import json
 
-from . import models, serializers
+from . import models, serializers, tasks
 from t3 import board
 
 
@@ -25,16 +25,14 @@ class GameListAPIView(generics.ListCreateAPIView):
             p1, p2 = players
         elif gametype == 'ai-vs-ai':
             p1 = p2 = 'ai'
-        serializer.save(state=json.dumps(b.start()),
-                        p1=p1, p2=p2)
+        game = serializer.save(state=json.dumps(b.start()),
+                               p1=p1, p2=p2)
+
+        if p1 == 'ai':
+            tasks.ai_play(game.pk, b.start())
 
 
-class GameDetailAPIView(generics.RetrieveAPIView):
-    queryset = models.T3Game.objects.all()
-    serializer_class = serializers.GameSerializer
-
-
-class GamePlayAPIView(generics.UpdateAPIView):
+class GameDetailAPIView(generics.RetrieveUpdateAPIView):
     queryset = models.T3Game.objects.all()
     serializer_class = serializers.PlaySerializer
 
@@ -42,5 +40,9 @@ class GamePlayAPIView(generics.UpdateAPIView):
         b = board.Board()
         play = b.parse(serializer.validated_data['play'])
         new_state = b.play(json.loads(serializer.instance.state), play)
-        serializer.save(state=json.dumps(new_state),
-                        last_play=json.dumps(play))
+        game = serializer.save(state=json.dumps(new_state),
+                               last_play=json.dumps(play))
+
+        players = {1: game.p1, 2: game.p2}
+        if players[new_state[-1]] == 'ai' and serializer.get_winner(game) == 0:
+            tasks.ai_play(game.pk, new_state)
