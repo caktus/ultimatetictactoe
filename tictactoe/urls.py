@@ -5,6 +5,6 @@ from django.contrib import admin
 
 
 urlpatterns = [
-    url(r'^api/', include('tictactoe.api.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include('tictactoe.t3backend.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

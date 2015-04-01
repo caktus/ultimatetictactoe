@@ -13,8 +13,8 @@ ADMINS = (
 
 DATABASES = {
     'default': {
-        'ENGINE': '',
-        'NAME': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'tictactoe.db3',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -125,11 +125,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'django.contrib.sitemaps',
+    'rest_framework',
+    'tictactoe.t3backend',
     # External apps
     'compressor',
     'corsheaders',
-    # Internal apps
-    'tictactoe.api'
 )
 
 # A sample logging configuration. The only tangible logging

@@ -4,8 +4,8 @@ angular.module('TicTacToe.factories', [])
     }])
     .factory('api', ['$window', 'player', function($window, player) {
         return {
-            echoService: 'http://0.0.0.0:9006/api/echo/?player=' + player,
-            aiService: 'http://0.0.0.0:9006/api/echo/?player=' + player
+            echoService: 'http://0.0.0.0:9006/echo/?player=' + player,
+            aiService: 'http://0.0.0.0:9006/echo/?player=' + player
         }
     }])
     .factory('tictactoe', [function() {
