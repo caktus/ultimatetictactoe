@@ -8,23 +8,30 @@ var app = angular.module("TicTacToe", [
 
 app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
     $routeProvider
         .when('/', {
-            controller: 'AttractModeCtrl',
+            controller: 'AttractModeController',
             templateUrl: 'app/templates/attractMode.html'
-            })
+        })
+        .when('/new/:mode', {
+	    controller: 'CreateGameController',
+	    templateUrl: 'app/templates/versusMode.html'
+	})
+        .when('/game/:id', {
+	    controller: 'GameController',
+	    templateUrl: 'app/templates/versusMode.html'
+	})
         .when('/computerMode', {
             controller: 'ComputerModeCtrl',
             templateUrl: 'app/templates/versusMode.html'
-            })
+        })
         .when('/localMode', {
             controller: 'LocalModeCtrl',
             templateUrl: 'app/templates/versusMode.html'
-            })
+        })
         .when('/remoteMode', {
             controller: 'RemoteModeCtrl',
             templateUrl: 'app/templates/versusMode.html'
-            });
+        });
 }]);
