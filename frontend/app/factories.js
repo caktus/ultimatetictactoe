@@ -8,6 +8,36 @@ angular.module('TicTacToe.factories', [])
             aiService: 'http://0.0.0.0:9006/echo/?player=' + player
         }
     }])
+    .factory('gameService', ['$http', function($http) {
+	var service = {},
+	    url = "http://localhost:8000/api/games/",
+	    pk = null;
+
+	service.newGame = function(mode) {
+	    return $http.post(url, {"gametype": mode})
+		.then(function(result) {
+		    console.log(result);
+		    return {pk: result.data.pk};
+		}, function(result) {
+		    console.log(result);
+		    return {pk: null};
+		});
+	};
+
+	service.fetchState = function(id) {
+	};
+
+	service.applyMove = function(row, col, innerrow, innercol) {
+	};
+
+	service.submitMove = function(id, row, col, innerrow, innercol) {
+	};
+
+	service.unboxData = function(data) {
+	};
+
+	return service;
+    }])
     .factory('tictactoe', [function() {
         var tictactoe = {},
             available = 'available',

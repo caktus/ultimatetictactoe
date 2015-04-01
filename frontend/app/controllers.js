@@ -1,19 +1,19 @@
-angular.module('TicTacToe.controllers', [])
+angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
     .controller('AttractModeController', ['$scope', function($scope) {
 
     }])
     .controller('CreateGameController',
-		['$scope', '$http', '$location', '$routeParams',
-		 function($scope, $http, $location, $routeParams) {
+		['$scope', '$location', '$routeParams', 'gameService',
+		 function($scope, $location, $routeParams, gameService) {
 	console.log($routeParams);
-        $http.post("http://localhost:8000/api/games/", {"gametype": $routeParams.mode}).
-            success(function(data, status, headers, config) {
-		console.log(data);
-		$location.path('/game/'+data.pk).replace()
-	    }).
-            error(function(data, status, headers, config) {
-		console.log(data);
-		$location.path('/').replace()
+
+        gameService.newGame($routeParams.mode)
+            .then(function(game) {
+                if (game.pk !== null) {
+                    $location.path('/game/'+game.pk).replace();
+                } else {
+                    $location.path('/').replace();
+                }
 	    });
     }])
     .controller('GameController', ['$scope', '$routeParams', function($scope, $routeParams) {
