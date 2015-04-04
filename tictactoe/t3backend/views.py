@@ -1,4 +1,5 @@
 from rest_framework import generics, viewsets, mixins
+from django.db.models import Q
 import subprocess
 import random
 import json
@@ -33,6 +34,14 @@ class GameListAPIView(generics.ListCreateAPIView):
         if p1 == 'ai':
             subprocess.Popen(["python", "tictactoe/t3backend/tasks.py",
                              str(game.pk), state])
+
+
+class ChallengeAPIView(generics.ListAPIView):
+    queryset = models.T3Game.objects.all()
+    serializer_class = serializers.GameSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(Q(p1='astro') | Q(p1='caktus'), winner=0)
 
 
 class GameDetailAPIView(generics.RetrieveUpdateAPIView):

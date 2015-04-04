@@ -8,4 +8,6 @@ urlpatterns = patterns('',
         name='game_list'),
     url(r'^games/(?P<pk>\d+)/$', views.GameDetailAPIView.as_view(),
         name='game_detail'),
+    url(r'^challenges/$', views.ChallengeAPIView.as_view(),
+        name='challenge_list'),
 )
