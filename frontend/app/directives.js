@@ -14,15 +14,15 @@ angular.module('TicTacToe.directives', [])
                 this.getEndPoint = function() {
                     return $scope.endpoint;
                 };
-                this.move = function(boardIndex, rowIndex, columnIndex) {
-                    tictactoe.move($scope.game, boardIndex, rowIndex, columnIndex);
+                this.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
+                    tictactoe.move($scope.game, boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                 }
             }
         }
     }])
     .directive('singleBoard', ['$http', function($http) {
         var linker = function(scope, element, attrs, ultimateBoard) {
-            scope.move = function(boardIndex, rowIndex, columnIndex) {
+            scope.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
                 var endpoint = ultimateBoard.getEndPoint(),
                     player = scope.ai? 1 : ultimateBoard.player(),
                     data,
@@ -30,16 +30,17 @@ angular.module('TicTacToe.directives', [])
                 if (scope.remote && (player == currentPlayer)) {
                     data = $.param({
                         type: 'move',
-                        boardIndex: boardIndex - 1,
-                        rowIndex: rowIndex,
-                        columnIndex: columnIndex
+                        boardRowIndex: boardRowIndex,
+                        boardColumnIndex: boardColumnIndex,
+                        slotRowIndex: slotRowIndex,
+                        slotColumnIndex: slotColumnIndex
                     });
                     $http.post(endpoint, data).success(function(data) {
-                        ultimateBoard.move(boardIndex - 1, rowIndex, columnIndex);
+                        ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                     })
                 } else {
                     // both players are playing locally.
-                    ultimateBoard.move(boardIndex - 1, rowIndex, columnIndex);
+                    ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                 }
             };
         };

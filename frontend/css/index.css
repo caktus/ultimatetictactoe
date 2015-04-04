@@ -79,32 +79,32 @@ a.btn-pink:hover {
     background-color: white;
 }
 
-.small-board-1 {
+.small-board.row-1.column-1 {
     border-right: 3px solid;
     border-bottom: 3px solid;
 }
-.small-board-2 {
+.small-board.row-1.column-2 {
     border-right: 3px solid;
     border-bottom: 3px solid;
 }
-.small-board-3 {
+.small-board.row-1.column-3 {
     border-bottom: 3px solid;
 }
-.small-board-4 {
+.small-board.row-2.column-1 {
     border-right: 3px solid;
     border-bottom: 3px solid;
 }
-.small-board-5 {
+.small-board.row-2.column-2 {
     border-right: 3px solid;
     border-bottom: 3px solid;
 }
-.small-board-6 {
+.small-board.row-2.column-3 {
     border-bottom: 3px solid;
 }
-.small-board-7 {
+.small-board.row-3.column-1 {
     border-right: 3px solid;
 }
-.small-board-8 {
+.small-board.row-3.column-2 {
     border-right: 3px solid;
 }
 
