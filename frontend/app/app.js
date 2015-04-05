@@ -18,7 +18,7 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 	    controller: 'CreateGameController',
 	    templateUrl: 'app/templates/versusMode.html'
 	})
-        .when('/game/:id', {
+        .when('/:playerID/game/:id', {
 	    controller: 'GameController',
 	    templateUrl: 'app/templates/versusMode.html'
 	})

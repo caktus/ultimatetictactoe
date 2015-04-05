@@ -4,26 +4,19 @@ angular.module('TicTacToe.factories', [])
     }])
     .factory('api', ['$window', 'player', function($window, player) {
         return {
-            echoService: 'http://0.0.0.0:9006/echo/?player=' + player,
+            echoService: 'http://0.0.0.0:8000/echo/?player=' + player,
             aiService: 'http://0.0.0.0:9006/echo/?player=' + player
         }
     }])
     .factory('gameService', ['$http', function($http) {
-	var url = "http://localhost:8000/api/games/",
-	    service = {'id': null,
-		       'state': null,
-		       'player': null};
+        var url = "http://localhost:8000/api/games/",
+            service = {'id': null,
+                   'state': null,
+                   'player': null};
 
-	service.newGame = function(mode) {
-	    return $http.post(url, {"gametype": mode})
-		.then(function(result) {
-		    console.log(result);
-		    return {pk: result.data.pk};
-		}, function(result) {
-		    console.log(result);
-		    return {pk: null};
-		});
-	};
+        service.newGame = function(mode) {
+            return $http.post(url, {"gametype": mode})
+        };
 
 	service.fetchState = function() {
 	    var data = null;

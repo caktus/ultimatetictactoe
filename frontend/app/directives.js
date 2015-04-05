@@ -28,14 +28,10 @@ angular.module('TicTacToe.directives', [])
                     data,
                     currentPlayer = ultimateBoard.getCurrentPlayer();
                 if (scope.remote && (player == currentPlayer)) {
-                    data = $.param({
-                        type: 'move',
-                        boardRowIndex: boardRowIndex,
-                        boardColumnIndex: boardColumnIndex,
-                        slotRowIndex: slotRowIndex,
-                        slotColumnIndex: slotColumnIndex
-                    });
-                    $http.post(endpoint, data).success(function(data) {
+                    data = {
+                        play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
+                    };
+                    $http.put(endpoint, data).success(function(data) {
                         ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                     })
                 } else {

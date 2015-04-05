@@ -3,79 +3,117 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
 
     }])
     .controller('CreateGameController',
-		['$scope', '$location', '$routeParams', 'gameService',
-		 function($scope, $location, $routeParams, gameService) {
-	console.log($routeParams);
+    ['$scope', '$location', '$routeParams', 'gameService', 'player',
+        function($scope, $location, $routeParams, gameService, player) {
+            var gameMode = $routeParams.mode;
 
-        gameService.newGame($routeParams.mode)
-            .then(function(game) {
-                if (game.pk !== null) {
-                    $location.path('/game/'+game.pk).replace();
-                } else {
-                    $location.path('/').replace();
+            gameService.newGame(gameMode)
+                .success(function(game) {
+                    var playerID;
+                    if (gameMode == 'local') {
+                        // on local mode we want to always set playerID to 1 so that
+                        // one of the players can make a move.
+                        playerID = 1
+                    } else if (game == 'ai') {
+                        playerID = (game.data.p1 == 'local') ? 1: 2;
+                    } else if (game == 'remote') {
+                        playerID = (game.data.p1 == player) ? 1: 2;
+                    } else {
+                        // TODO: handle ai vs ai correctly
+                        playerID = 1;
+                    }
+                    console.log(game);
+                    if (game.pk !== null) {
+                        $location.path('/' + playerID + '/game/'+game.pk).replace();
+                    } else {
+                        $location.path('/').replace();
+                    }
+                });
+        }])
+    .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
+        function($scope, $routeParams, $interval, $http, tictactoe, initialState, api, player) {
+            console.log($routeParams);
+            console.log('new game');
+            $scope.player = parseInt($routeParams.playerID);
+            $scope.gameID = parseInt($routeParams.id);
+            $scope.endpoint = 'http://localhost:8000/api/games/' + $scope.gameID + '/';
+            $scope.game = initialState;
+            $scope.remote = true;
+            $interval(function() {
+                // get move from server
+                if ($scope.game.currentPlayer != $scope.player) {
+                    $http.get($scope.endpoint).success(function(data, status, headers, config) {
+                        var move = eval(data.last_play),
+                            state = eval(data.state),
+                            next_player = state[state.length - 1];
+                        if ((next_player == $scope.player) && move) {
+                            tictactoe.move(
+                                    $scope.game,
+                                    move[0],
+                                    move[1],
+                                    move[2],
+                                    move[3]
+                                );
+                        }
+                    });
                 }
-	    });
-    }])
-    .controller('GameController',
-		['$scope', '$routeParams', 'gameService',
-		 function($scope, $routeParams, gameService) {
-	console.log($routeParams);
-    }])
+            }, 1000);
+        }])
     .controller('LocalModeCtrl', ['$scope', '$http', 'tictactoe', 'initialState', 'api', 'player',
-            function($scope, $http, tictactoe, initialState, api, player) {
-        $scope.endpoint = api.echoService;
-        $scope.player = player;
-        $scope.game = initialState;
-        $scope.remote = false;
-    }])
+        function($scope, $http, tictactoe, initialState, api, player) {
+            $scope.endpoint = api.echoService;
+            $scope.player = player;
+            $scope.game = initialState;
+            $scope.remote = false;
+        }])
     .controller('ComputerModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
-            function($scope, $interval, $http, tictactoe, initialState, api, player) {
-        $scope.endpoint = api.aiService;
-        $scope.player = player;
-        $scope.game = initialState;
-        $scope.remote = true;
-        $scope.ai = true;
-        $interval(function() {
-            // get move from server
-            if ($scope.game.currentPlayer != 1) {
-                $http.get($scope.endpoint).success(function(data, status, headers, config) {
-                    if (data.type == 'move') {
-                        console.log(data);
-                        tictactoe.move(
-                            $scope.game,
-                            parseInt(data.boardIndex),
-                            parseInt(data.rowIndex),
-                            parseInt(data.columnIndex)
-                        );
-                    } else {
-                        console.log(data);
-                    }
-                });
-            }
-        }, 1000);
-    }])
+        function($scope, $interval, $http, tictactoe, initialState, api, player) {
+            $scope.endpoint = api.aiService;
+            $scope.player = player;
+            $scope.game = initialState;
+            $scope.remote = true;
+            $scope.ai = true;
+            $interval(function() {
+                // get move from server
+                if ($scope.game.currentPlayer != 1) {
+                    $http.get($scope.endpoint).success(function(data, status, headers, config) {
+                        if (data.type == 'move') {
+                            console.log(data);
+                            tictactoe.move(
+                                $scope.game,
+                                parseInt(data.boardIndex),
+                                parseInt(data.rowIndex),
+                                parseInt(data.columnIndex)
+                            );
+                        } else {
+                            console.log(data);
+                        }
+                    });
+                }
+            }, 1000);
+        }])
     .controller('RemoteModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
-            function($scope, $interval, $http, tictactoe, initialState, api, player) {
-        $scope.endpoint = api.echoService;
-        $scope.player = player;
-        $scope.game = initialState;
-        $scope.remote = true;
-        $interval(function() {
-            // get move from server
-            if ($scope.game.currentPlayer != $scope.player) {
-                $http.get($scope.endpoint).success(function(data, status, headers, config) {
-                    if (data.type == 'move') {
-                        console.log(data);
-                        tictactoe.move(
-                            $scope.game,
-                            parseInt(data.boardIndex),
-                            parseInt(data.rowIndex),
-                            parseInt(data.columnIndex)
-                        );
-                    } else {
-                        console.log(data);
-                    }
-                });
-            }
-        }, 1000);
-    }]);
+        function($scope, $interval, $http, tictactoe, initialState, api, player) {
+            $scope.endpoint = api.echoService;
+            $scope.player = player;
+            $scope.game = initialState;
+            $scope.remote = true;
+            $interval(function() {
+                // get move from server
+                if ($scope.game.currentPlayer != $scope.player) {
+                    $http.get($scope.endpoint).success(function(data, status, headers, config) {
+                        if (data.type == 'move') {
+                            console.log(data);
+                            tictactoe.move(
+                                $scope.game,
+                                parseInt(data.boardIndex),
+                                parseInt(data.rowIndex),
+                                parseInt(data.columnIndex)
+                            );
+                        } else {
+                            console.log(data);
+                        }
+                    });
+                }
+            }, 1000);
+        }]);
