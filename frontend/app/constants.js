@@ -13,10 +13,11 @@ angular.module('TicTacToe.constants', [])
             }
         },
         boards: [
-            {
+            [{
                 status: 'available',
                 winner: null,
-                index: 1,
+                rowIndex: 0,
+                columnIndex: 0,
                 slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
@@ -26,7 +27,8 @@ angular.module('TicTacToe.constants', [])
             {
                 status: 'available',
                 winner: null,
-                index: 2,
+                rowIndex: 0,
+                columnIndex: 1,
                 slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
@@ -36,7 +38,19 @@ angular.module('TicTacToe.constants', [])
             {
                 status: 'available',
                 winner: null,
-                index: 3,
+                rowIndex: 0,
+                columnIndex: 2,
+                slots: [
+                    [{state: null}, {state: null}, {state: null}],
+                    [{state: null}, {state: null}, {state: null}],
+                    [{state: null}, {state: null}, {state: null}]
+                ]
+            }],
+            [{
+                status: 'available',
+                winner: null,
+                rowIndex: 1,
+                columnIndex: 0,
                 slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
@@ -46,7 +60,8 @@ angular.module('TicTacToe.constants', [])
             {
                 status: 'available',
                 winner: null,
-                index: 4,
+                rowIndex: 1,
+                columnIndex: 1,
                 slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
@@ -56,7 +71,19 @@ angular.module('TicTacToe.constants', [])
             {
                 status: 'available',
                 winner: null,
-                index: 5,
+                rowIndex: 1,
+                columnIndex: 2,
+                slots: [
+                    [{state: null}, {state: null}, {state: null}],
+                    [{state: null}, {state: null}, {state: null}],
+                    [{state: null}, {state: null}, {state: null}]
+                ]
+            }],
+            [{
+                status: 'available',
+                winner: null,
+                rowIndex: 2,
+                columnIndex: 0,
                 slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
@@ -66,7 +93,8 @@ angular.module('TicTacToe.constants', [])
             {
                 status: 'available',
                 winner: null,
-                index: 6,
+                rowIndex: 2,
+                columnIndex: 1,
                 slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
@@ -76,32 +104,13 @@ angular.module('TicTacToe.constants', [])
             {
                 status: 'available',
                 winner: null,
-                index: 7,
+                rowIndex: 2,
+                columnIndex: 2,
                 slots: [
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}],
                     [{state: null}, {state: null}, {state: null}]
                 ]
-            },
-            {
-                status: 'available',
-                winner: null,
-                index: 8,
-                slots: [
-                    [{state: null}, {state: null}, {state: null}],
-                    [{state: null}, {state: null}, {state: null}],
-                    [{state: null}, {state: null}, {state: null}]
-                ]
-            },
-            {
-                status: 'available',
-                winner: null,
-                index: 9,
-                slots: [
-                    [{state: null}, {state: null}, {state: null}],
-                    [{state: null}, {state: null}, {state: null}],
-                    [{state: null}, {state: null}, {state: null}]
-                ]
-            }
+            }]
         ]
     });

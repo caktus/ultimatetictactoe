@@ -1,7 +1,7 @@
-<div data-ng-class="{available: board.status == 'available', playerOne: board.winner == 1, playerTwo: board.winner == 2, tie: board.winner == 3, 'small-board': true, 'small-board-{{ $index + 1 }}': true}">
+<div data-ng-class="{available: board.status == 'available', playerOne: board.winner == 1, playerTwo: board.winner == 2, tie: board.winner == 3, 'small-board': true, 'row-{{ $parent.$index + 1 }}': true, 'column-{{ $index + 1 }}': true}">
     <div data-ng-repeat="row in board.slots track by $index">
         <div data-ng-repeat="slot in row track by $index">
-            <div data-ng-click="move(board.index, $parent.$index, $index);"
+            <div data-ng-click="move(board.rowIndex, board.columnIndex, $parent.$index, $index);"
                  data-ng-class="{'x': (slot.state == 1), 'o': (slot.state == 2), slot: true, 'row-{{ $parent.$index + 1 }}': true, 'column-{{ $index + 1 }}': true}">
             </div>
         </div>
