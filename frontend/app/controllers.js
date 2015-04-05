@@ -1,6 +1,25 @@
-angular.module('TicTacToe.controllers', [])
-    .controller('AttractModeCtrl', ['$scope', function($scope, $routeParams) {
+angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
+    .controller('AttractModeController', ['$scope', function($scope) {
 
+    }])
+    .controller('CreateGameController',
+		['$scope', '$location', '$routeParams', 'gameService',
+		 function($scope, $location, $routeParams, gameService) {
+	console.log($routeParams);
+
+        gameService.newGame($routeParams.mode)
+            .then(function(game) {
+                if (game.pk !== null) {
+                    $location.path('/game/'+game.pk).replace();
+                } else {
+                    $location.path('/').replace();
+                }
+	    });
+    }])
+    .controller('GameController',
+		['$scope', '$routeParams', 'gameService',
+		 function($scope, $routeParams, gameService) {
+	console.log($routeParams);
     }])
     .controller('LocalModeCtrl', ['$scope', '$http', 'tictactoe', 'initialState', 'api', 'player',
             function($scope, $http, tictactoe, initialState, api, player) {

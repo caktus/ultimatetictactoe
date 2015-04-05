@@ -1,8 +1,10 @@
 from rest_framework import generics, viewsets, mixins
+from django.db.models import Q
+import subprocess
 import random
 import json
 
-from . import models, serializers
+from . import models, serializers, tasks
 from t3 import board
 
 
@@ -25,22 +27,47 @@ class GameListAPIView(generics.ListCreateAPIView):
             p1, p2 = players
         elif gametype == 'ai-vs-ai':
             p1 = p2 = 'ai'
-        serializer.save(state=json.dumps(b.start()),
-                        p1=p1, p2=p2)
+
+        state = json.dumps(b.start())
+        game = serializer.save(state=state, p1=p1, p2=p2)
+
+        if p1 == 'ai':
+            subprocess.Popen(["python", "tictactoe/t3backend/tasks.py",
+                             str(game.pk), state])
 
 
-class GameDetailAPIView(generics.RetrieveAPIView):
+class ChallengeAPIView(generics.ListAPIView):
     queryset = models.T3Game.objects.all()
     serializer_class = serializers.GameSerializer
 
+    def get_queryset(self):
+        return self.queryset.filter(Q(p1='astro') | Q(p1='caktus'), winner=0)
 
-class GamePlayAPIView(generics.UpdateAPIView):
+
+class GameDetailAPIView(generics.RetrieveUpdateAPIView):
     queryset = models.T3Game.objects.all()
     serializer_class = serializers.PlaySerializer
 
     def perform_update(self, serializer):
+        if serializer.validated_data['play'] == 'q':
+            # On forfeit, set the winner to -1 if player 1 quit, or -2
+            # if player 2 quit.
+            state = json.loads(serializer.instance.state)
+            game = serializer.save(last_play='q', winner=-state[-1])
+            return
+
         b = board.Board()
         play = b.parse(serializer.validated_data['play'])
-        new_state = b.play(json.loads(serializer.instance.state), play)
-        serializer.save(state=json.dumps(new_state),
-                        last_play=json.dumps(play))
+
+        state = b.play(json.loads(serializer.instance.state), play)
+        jsonstate = json.dumps(state)
+
+        game = serializer.save(
+            state=jsonstate, last_play=json.dumps(play),
+            winner=b.winner([state])
+        )
+
+        players = {1: game.p1, 2: game.p2}
+        if players[state[-1]] == 'ai' and game.winner == 0:
+            subprocess.Popen(["python", "tictactoe/t3backend/tasks.py",
+                             str(game.pk), jsonstate])

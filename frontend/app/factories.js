@@ -8,6 +8,80 @@ angular.module('TicTacToe.factories', [])
             aiService: 'http://0.0.0.0:9006/echo/?player=' + player
         }
     }])
+    .factory('gameService', ['$http', function($http) {
+	var url = "http://localhost:8000/api/games/",
+	    service = {'id': null,
+		       'state': null,
+		       'player': null};
+
+	service.newGame = function(mode) {
+	    return $http.post(url, {"gametype": mode})
+		.then(function(result) {
+		    console.log(result);
+		    return {pk: result.data.pk};
+		}, function(result) {
+		    console.log(result);
+		    return {pk: null};
+		});
+	};
+
+	service.fetchState = function() {
+	    var data = null;
+	    service.unboxData(data);
+	};
+
+	service.applyMove = function(row, col, innerrow, innercol) {
+	};
+
+	service.submitMove = function(row, col, innerrow, innercol) {
+	};
+
+	service.unboxData = function(data) {
+	    var bitfield = null;
+
+	    service.player = data[22];
+	    service.state = [];
+	    for (var row = 0; row < 3; row++) {
+		service.state.push([]);
+		for (var col = 0; col < 3; col++) {
+		    bitfield = 1 << (3*row+col);
+
+		    service.state[row].push({player: null,
+					     available: false,
+					     boards: []});
+		    if (data[18] & ~data[19] & bitfield) {
+			service.data[row][col].player = 'x';
+		    } else if (data[19] & ~data[18] & bitfield) {
+			service.data[row][col].player = 'o';
+		    } else if (data[18] & data[19] & bitfield) {
+			service.data[row][col].player = 'tie';
+		    }
+
+		    if (data[20] === null || (data[20] == row && data[21] == col)) {
+			service.data[row][col].available = true;
+		    }
+
+		    for (var irow = 0; irow < 3; irow++) {
+			service.state[row][col].boards[irow].push([]);
+			for (var icol = 0; icol < 3; icol++) {
+			    bitfield = 1 << (3*irow+icol);
+			    service.state[row][col].boards[irow][icol].push({
+				player: null
+			    });
+
+			    if (data[2*(3*row+col)] & bitfield) {
+				service.state[row][col].boards[irow][icol].player = 'x';
+			    } else if (data[2*(3*row+col)+1] & bitfield) {
+				service.state[row][col].boards[irow][icol].player = 'o';
+			    }
+			}
+		    }
+		}
+	    }
+	};
+
+	return service;
+    }])
     .factory('tictactoe', [function() {
         var tictactoe = {},
             available = 'available',
