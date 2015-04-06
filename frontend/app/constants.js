@@ -4,11 +4,11 @@ angular.module('TicTacToe.constants', [])
         winner: null,
         players: {
             one: {
-                name: 'Caktus',
+                name: 'Caktus Group',
                 score: 0
             },
             two: {
-                name: 'Astro',
+                name: 'Astro Code School',
                 score: 0
             }
         },
