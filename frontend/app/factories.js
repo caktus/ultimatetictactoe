@@ -10,12 +10,17 @@ angular.module('TicTacToe.factories', [])
     }])
     .factory('gameService', ['$http', function($http) {
         var url = "http://localhost:8000/api/games/",
+            challenge_url = 'http://localhost:8000/api/challenges/',
             service = {'id': null,
                    'state': null,
                    'player': null};
 
         service.newGame = function(mode) {
             return $http.post(url, {"gametype": mode})
+        };
+
+        service.getChallenges = function() {
+            return $http.get(challenge_url)
         };
 
 	service.fetchState = function() {
