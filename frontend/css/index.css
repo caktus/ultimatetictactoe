@@ -247,3 +247,9 @@ a.btn-pink:hover {
     text-transform: uppercase;
     font-weight: bolder;
 }
+.forfeit {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    font-size: 30px;
+}

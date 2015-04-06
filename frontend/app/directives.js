@@ -52,23 +52,17 @@ angular.module('TicTacToe.directives', [])
             templateUrl: 'app/templates/singleBoard.html'
         }
     }])
-    .directive('winnerModal', ['$route', 'api', function($route, api) {
+    .directive('winnerModal', ['$location', 'api', function($location, api) {
         var linker = function(scope, element, attrs) {
             element.bind('click', function() {
-                var data = $.param({type: 'forfeit'}),
-                    url = scope.endpoint;
-                $http.post(url, data).success(function(data) {
-                    console.log(data);
-                    scope.$apply(function(){
-                        $route.reload();
-                    });
+                scope.$apply(function(){
+                    $location.path('/');
                 });
             });
         };
         return {
             restrict: 'AE',
             link: linker,
-            replace: true,
             templateUrl: 'app/templates/winnerModal.html'
         }
     }])
