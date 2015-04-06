@@ -159,7 +159,8 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
     .controller('LocalModeCtrl', ['$scope', '$location', '$http', 'tictactoe', 'initialState', 'api', 'player',
             function($scope, $location, $http, tictactoe, initialState, api, player) {
         $scope.endpoint = api.echoService;
-        $scope.player = player;
+        console.log(player);
+        $scope.player = (player == 'caktus')? 1:2;
         $scope.homepage = function() {
             $location.path('/');
         };

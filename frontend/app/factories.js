@@ -1,6 +1,6 @@
 angular.module('TicTacToe.factories', [])
     .factory('player', ['$window', function($window) {
-        return $window.location.search.match(/name=([^&]\w+)/);
+        return $window.location.search.match(/player=([^&]\w+)/)[1];
     }])
     .factory('api', ['$window', 'player', function($window, player) {
         return {
