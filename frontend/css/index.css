@@ -275,3 +275,14 @@ a.btn-pink:hover {
     text-transform: uppercase;
     font-weight: bolder;
 }
+.forfeit-ctn {
+    position: absolute;
+    bottom: 80px;
+    right: 0px;
+    width: 100%;
+    text-align: center;
+}
+.forfeit {
+    padding: 0.5em 2em;
+    font-size: 30px;
+}
