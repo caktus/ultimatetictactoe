@@ -5,39 +5,136 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
     .controller('CreateGameController',
     ['$scope', '$location', '$routeParams', 'gameService', 'player',
         function($scope, $location, $routeParams, gameService, player) {
-            var gameMode = $routeParams.mode;
-
-            gameService.newGame(gameMode)
-                .success(function(game) {
-                    var playerID;
-                    if (gameMode == 'local') {
-                        // on local mode we want to always set playerID to 1 so that
-                        // one of the players can make a move.
-                        playerID = 1
-                    } else if (game == 'ai') {
-                        playerID = (game.data.p1 == 'local') ? 1: 2;
-                    } else if (game == 'remote') {
-                        playerID = (game.data.p1 == player) ? 1: 2;
-                    } else {
-                        // TODO: handle ai vs ai correctly
-                        playerID = 1;
-                    }
-                    console.log(game);
+            gameService.newGame($routeParams.mode)
+                .then(function(game) {
                     if (game.pk !== null) {
-                        $location.path('/' + playerID + '/game/'+game.pk).replace();
+                        $location.path('/game/'+game.pk).replace();
                     } else {
                         $location.path('/').replace();
                     }
-                });
-        }])
+            });
+    }])
     .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
         function($scope, $routeParams, $interval, $http, tictactoe, initialState, api, player) {
-            console.log($routeParams);
-            console.log('new game');
+            console.log('new ai game');
             $scope.player = parseInt($routeParams.playerID);
             $scope.gameID = parseInt($routeParams.id);
             $scope.endpoint = 'http://localhost:8000/api/games/' + $scope.gameID + '/';
-            $scope.game = initialState;
+            $scope.game = {
+                currentPlayer: 1,
+                winner: null,
+                players: {
+                    one: {
+                        name: 'Caktus',
+                        score: 0
+                    },
+                    two: {
+                        name: 'Astro',
+                        score: 0
+                    }
+                },
+                boards: [
+                    [{
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 0,
+                        columnIndex: 0,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 0,
+                        columnIndex: 1,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 0,
+                        columnIndex: 2,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    }],
+                    [{
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 1,
+                        columnIndex: 0,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 1,
+                        columnIndex: 1,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 1,
+                        columnIndex: 2,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    }],
+                    [{
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 2,
+                        columnIndex: 0,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 2,
+                        columnIndex: 1,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 2,
+                        columnIndex: 2,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    }]
+                ]
+            };
             $scope.remote = true;
             $interval(function() {
                 // get move from server
@@ -59,13 +156,131 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                 }
             }, 1000);
         }])
-    .controller('LocalModeCtrl', ['$scope', '$http', 'tictactoe', 'initialState', 'api', 'player',
-        function($scope, $http, tictactoe, initialState, api, player) {
-            $scope.endpoint = api.echoService;
-            $scope.player = player;
-            $scope.game = initialState;
-            $scope.remote = false;
-        }])
+    .controller('LocalModeCtrl', ['$scope', '$location', '$http', 'tictactoe', 'initialState', 'api', 'player',
+            function($scope, $location, $http, tictactoe, initialState, api, player) {
+        $scope.endpoint = api.echoService;
+        $scope.player = player;
+        $scope.homepage = function() {
+            $location.path('/');
+        };
+
+        $scope.game = {
+            currentPlayer: 1,
+            winner: null,
+            players: {
+                one: {
+                    name: 'Caktus',
+                    score: 0
+                },
+                two: {
+                    name: 'Astro',
+                    score: 0
+                }
+            },
+            boards: [
+                [{
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 0,
+                    columnIndex: 0,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                },
+                {
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 0,
+                    columnIndex: 1,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                },
+                {
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 0,
+                    columnIndex: 2,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                }],
+                [{
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 1,
+                    columnIndex: 0,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                },
+                {
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 1,
+                    columnIndex: 1,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                },
+                {
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 1,
+                    columnIndex: 2,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                }],
+                [{
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 2,
+                    columnIndex: 0,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                },
+                {
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 2,
+                    columnIndex: 1,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                },
+                {
+                    status: 'available',
+                    winner: null,
+                    rowIndex: 2,
+                    columnIndex: 2,
+                    slots: [
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}],
+                        [{state: null}, {state: null}, {state: null}]
+                    ]
+                }]
+            ]
+        };
+        $scope.remote = false;
+    }])
     .controller('ComputerModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
         function($scope, $interval, $http, tictactoe, initialState, api, player) {
             $scope.endpoint = api.aiService;

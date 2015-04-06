@@ -15,13 +15,13 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
             templateUrl: 'app/templates/attractMode.html'
         })
         .when('/new/:mode', {
-	    controller: 'CreateGameController',
-	    templateUrl: 'app/templates/versusMode.html'
-	})
-        .when('/:playerID/game/:id', {
-	    controller: 'GameController',
-	    templateUrl: 'app/templates/versusMode.html'
-	})
+            controller: 'CreateGameController',
+            templateUrl: 'app/templates/versusMode.html'
+        })
+        .when('/games/:id', {
+            controller: 'GameController',
+            templateUrl: 'app/templates/versusMode.html'
+        })
         .when('/computerMode', {
             controller: 'ComputerModeCtrl',
             templateUrl: 'app/templates/versusMode.html'
