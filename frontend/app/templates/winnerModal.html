@@ -1,4 +1,4 @@
-<div data-ng-class="{'modal-overlay': true, hide: game.winner}">
+<div data-ng-class="{'modal-overlay': true, hide: !game.winner}">
     <div class="modal-window">
         <h3>And the Winner is...</h3>
         <h2 data-ng-show="game.winner == 1">Caktus Group!</h2>

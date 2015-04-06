@@ -257,8 +257,7 @@ a.btn-pink:hover {
   background: white;
   position: absolute;
   text-align: center;
-  padding: 25px;
-  height: 300px;
+  padding: 25px 25px 50px;
   width: 700px;
   left: 50%;
   top: 50%;
