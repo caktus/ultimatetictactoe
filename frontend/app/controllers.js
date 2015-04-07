@@ -18,8 +18,8 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                     $location.path('/').replace();
                 });
     }])
-    .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'gameState', 'api', 'player',
-        function($scope, $routeParams, $interval, $http, tictactoe, gameState, api, player) {
+    .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'gameState', 'api',
+        function($scope, $routeParams, $interval, $http, tictactoe, gameState, api) {
             console.log('new ai game');
             $scope.gameID = parseInt($routeParams.id);
             $scope.endpoint = 'http://localhost:8000/api/games/' + $scope.gameID + '/';
@@ -34,12 +34,11 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
             });
             $scope.game = gameState.get();
             $scope.remote = true;
-
             // pull in new moves from the other player
             $interval(function() {
                 // get move from server
                 if ($scope.game.currentPlayer != $scope.player) {
-                    $http.get($scope.endpoint).success(function(data, status, headers, config) {
+                    $http.get($scope.endpoint).success(function(data) {
                         var move = eval(data.last_play),
                             state = eval(data.state),
                             next_player = state[state.length - 1];
@@ -58,12 +57,9 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
         }])
     .controller('LocalModeCtrl', ['$scope', '$location', '$http', 'tictactoe', 'gameState', 'api', 'player',
             function($scope, $location, $http, tictactoe, gameState, api, player) {
+        console.log("new local game");
         $scope.endpoint = api.echoService;
-        console.log(player);
         $scope.player = (player == 'caktus')? 1:2;
-        $scope.homepage = function() {
-            $location.path('/');
-        };
         $scope.game = gameState.get();
         $scope.remote = false;
     }])
@@ -76,7 +72,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
             $interval(function() {
                 // get move from server
                 if ($scope.game.currentPlayer != $scope.player) {
-                    $http.get($scope.endpoint).success(function(data, status, headers, config) {
+                    $http.get($scope.endpoint).success(function(data) {
                         if (data.type == 'move') {
                             console.log(data);
                             tictactoe.move(
