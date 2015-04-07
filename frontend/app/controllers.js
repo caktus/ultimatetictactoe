@@ -17,8 +17,8 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                     // TODO: Handle error
                 });
     }])
-    .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
-        function($scope, $routeParams, $interval, $http, tictactoe, initialState, api, player) {
+    .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'gameState', 'api', 'player',
+        function($scope, $routeParams, $interval, $http, tictactoe, gameState, api, player) {
             console.log('new ai game');
             $scope.gameID = parseInt($routeParams.id);
             $scope.endpoint = 'http://localhost:8000/api/games/' + $scope.gameID + '/';
@@ -31,121 +31,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                     $scope.player = 1;
                 }
             });
-            $scope.game = {
-                currentPlayer: 1,
-                winner: null,
-                players: {
-                    one: {
-                        name: 'Caktus',
-                        score: 0
-                    },
-                    two: {
-                        name: 'Astro',
-                        score: 0
-                    }
-                },
-                boards: [
-                    [{
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 0,
-                        columnIndex: 0,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    },
-                    {
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 0,
-                        columnIndex: 1,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    },
-                    {
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 0,
-                        columnIndex: 2,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    }],
-                    [{
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 1,
-                        columnIndex: 0,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    },
-                    {
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 1,
-                        columnIndex: 1,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    },
-                    {
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 1,
-                        columnIndex: 2,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    }],
-                    [{
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 2,
-                        columnIndex: 0,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    },
-                    {
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 2,
-                        columnIndex: 1,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    },
-                    {
-                        status: 'available',
-                        winner: null,
-                        rowIndex: 2,
-                        columnIndex: 2,
-                        slots: [
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}],
-                            [{state: null}, {state: null}, {state: null}]
-                        ]
-                    }]
-                ]
-            };
+            $scope.game = gameState.get();
             $scope.remote = true;
 
             // pull in new moves from the other player
@@ -169,130 +55,15 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                 }
             }, 2000);
         }])
-    .controller('LocalModeCtrl', ['$scope', '$location', '$http', 'tictactoe', 'initialState', 'api', 'player',
-            function($scope, $location, $http, tictactoe, initialState, api, player) {
+    .controller('LocalModeCtrl', ['$scope', '$location', '$http', 'tictactoe', 'gameState', 'api', 'player',
+            function($scope, $location, $http, tictactoe, gameState, api, player) {
         $scope.endpoint = api.echoService;
         console.log(player);
         $scope.player = (player == 'caktus')? 1:2;
         $scope.homepage = function() {
             $location.path('/');
         };
-
-        $scope.game = {
-            currentPlayer: 1,
-            winner: null,
-            players: {
-                one: {
-                    name: 'Caktus',
-                    score: 0
-                },
-                two: {
-                    name: 'Astro',
-                    score: 0
-                }
-            },
-            boards: [
-                [{
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 0,
-                    columnIndex: 0,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                },
-                {
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 0,
-                    columnIndex: 1,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                },
-                {
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 0,
-                    columnIndex: 2,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                }],
-                [{
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 1,
-                    columnIndex: 0,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                },
-                {
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 1,
-                    columnIndex: 1,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                },
-                {
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 1,
-                    columnIndex: 2,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                }],
-                [{
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 2,
-                    columnIndex: 0,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                },
-                {
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 2,
-                    columnIndex: 1,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                },
-                {
-                    status: 'available',
-                    winner: null,
-                    rowIndex: 2,
-                    columnIndex: 2,
-                    slots: [
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}],
-                        [{state: null}, {state: null}, {state: null}]
-                    ]
-                }]
-            ]
-        };
+        $scope.game = gameState.get();
         $scope.remote = false;
     }])
     .controller('ComputerModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
