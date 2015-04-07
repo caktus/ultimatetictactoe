@@ -1,13 +1,19 @@
+@import "../Fonts/FiraSans-Regular.css";
+@import "../Fonts/FiraSans-Bold.css";
 /*base*/
 
 body {
-    font-family: 'Fira Sans', sans-serif;
+    font-family: 'FiraSans-Regular', sans-serif;
     font-size: 16px;
     color: #414042;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
     padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'FiraSans-Bold', sans-serif;
 }
 
 .gameplay{
@@ -27,7 +33,6 @@ body {
     background: #8d268b url(../images/home-new.svg) top -80% center no-repeat;
     background-size: cover;
     position: absolute;
-    top: -10%;
     left: 0;
     width: 100%;
     height: 100%;
@@ -60,6 +65,7 @@ body {
 
 .btn {
     padding: 10px 16px;
+    font-family: 'FiraSans-Bold', sans-serif;
 }
 
 a.btn-pink:hover {
