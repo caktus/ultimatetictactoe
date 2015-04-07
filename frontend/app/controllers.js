@@ -15,6 +15,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                 })
                 .error(function() {
                     // TODO: Handle error
+                    $location.path('/').replace();
                 });
     }])
     .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'gameState', 'api', 'player',
@@ -66,32 +67,6 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
         $scope.game = gameState.get();
         $scope.remote = false;
     }])
-    .controller('ComputerModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
-        function($scope, $interval, $http, tictactoe, initialState, api, player) {
-            $scope.endpoint = api.aiService;
-            $scope.player = player;
-            $scope.game = initialState;
-            $scope.remote = true;
-            $scope.ai = true;
-            $interval(function() {
-                // get move from server
-                if ($scope.game.currentPlayer != 1) {
-                    $http.get($scope.endpoint).success(function(data, status, headers, config) {
-                        if (data.type == 'move') {
-                            console.log(data);
-                            tictactoe.move(
-                                $scope.game,
-                                parseInt(data.boardIndex),
-                                parseInt(data.rowIndex),
-                                parseInt(data.columnIndex)
-                            );
-                        } else {
-                            console.log(data);
-                        }
-                    });
-                }
-            }, 1000);
-        }])
     .controller('RemoteModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
         function($scope, $interval, $http, tictactoe, initialState, api, player) {
             $scope.endpoint = api.echoService;
