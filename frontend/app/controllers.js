@@ -63,8 +63,8 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
         $scope.game = gameState.get();
         $scope.remote = false;
     }])
-    .controller('RemoteModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'initialState', 'api', 'player',
-        function($scope, $interval, $http, tictactoe, initialState, api, player) {
+    .controller('RemoteModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'gameState', 'api', 'player',
+        function($scope, $interval, $http, tictactoe, gameState, api, player) {
             $scope.endpoint = api.echoService;
             $scope.player = player;
             $scope.game = initialState;

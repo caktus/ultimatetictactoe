@@ -3,7 +3,6 @@ var app = angular.module("TicTacToe", [
     'TicTacToe.controllers',
     'TicTacToe.directives',
     'TicTacToe.factories',
-    'TicTacToe.constants'
 ]);
 
 app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
