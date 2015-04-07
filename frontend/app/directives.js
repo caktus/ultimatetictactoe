@@ -24,16 +24,21 @@ angular.module('TicTacToe.directives', [])
         var linker = function(scope, element, attrs, ultimateBoard) {
             scope.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
                 var endpoint = ultimateBoard.getEndPoint(),
-                    player = scope.ai? 1 : ultimateBoard.player(),
+                    player = ultimateBoard.player(),
                     data,
                     currentPlayer = ultimateBoard.getCurrentPlayer();
-                if (scope.remote && (player == currentPlayer)) {
-                    data = {
-                        play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
-                    };
-                    $http.put(endpoint, data).success(function(data) {
-                        ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
-                    })
+                console.log("This is the current player: " + currentPlayer);
+                console.log("Player on board: " + player);
+                console.log("This is a remote game: " + scope.remote);
+                if (scope.remote ) {
+                    if (player == currentPlayer) {
+                        data = {
+                            play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
+                        };
+                        $http.put(endpoint, data).success(function(data) {
+                            ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
+                        })
+                    }
                 } else {
                     // both players are playing locally.
                     ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
