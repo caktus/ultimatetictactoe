@@ -11,74 +11,113 @@ angular.module('TicTacToe.factories', [])
     .factory('gameService', ['$http', function($http) {
         var url = "http://localhost:8000/api/games/",
             challenge_url = 'http://localhost:8000/api/challenges/',
-            service = {'id': null,
-                   'state': null,
-                   'player': null};
+            service = {};
 
-        service.newGame = function(mode) {
-            return $http.post(url, {"gametype": mode})
+        service.initGame = function() {
+            var game = {
+                currentPlayer: 1,
+                winner: null,
+                boards: []
+                p1: null,
+                p2: null
+            };
+
+            for (var row = 0; row < 3; row++) {
+                game.boards.push([]);
+
+                for (var col = 0; col < 3; col++) {
+                    game.boards[row].push({player: null,
+                                           available: true,
+                                           squares: []});
+
+                    for (var irow = 0; irow < 3; irow++) {
+                        game.boards[row][col].squares.push([]);
+
+                        for (var icol = 0; icol < 3; icol++) {
+                            game.boards[row][col].squares[irow].push({player: null});
+                        }
+                    }
+                }
+            }
+
+            return game;
+        };
+
+        service.newGame = function(game) {
+            return $http.post(url, game);
+        };
+
+        service.getGames = function() {
+            return $http.get(url);
+        };
+
+        service.getGame = function(id) {
+            return $http.get(url + id + '/');
         };
 
         service.getChallenges = function() {
-            return $http.get(challenge_url)
+            return $http.get(challenge_url);
         };
 
-	service.fetchState = function() {
-	    var data = null;
-	    service.unboxData(data);
-	};
+        service.submitMove = function(id, move) {
+            return $http.post(url + id + '/', move);
+        };
 
-	service.applyMove = function(row, col, innerrow, innercol) {
-	};
+        service.updateGame = function(game, data) {
+            // Refresh the game $scope object with a data structure as returned from the api
+            var state = data.state,
+                bitfield = null;
 
-	service.submitMove = function(row, col, innerrow, innercol) {
-	};
+            game.currentPlayer = parseInt(state[22]);
+            game.winner = parseInt(data.winner);
+            game.p1 = data.p1;
+            game.p2 = data.p2;
 
-	service.unboxData = function(data) {
-	    var bitfield = null;
+            for (var row = 0; row < 3; row++) {
+                for (var col = 0; col < 3; col++) {
+                    bitfield = 1 << (3*row+col);
 
-	    service.player = data[22];
-	    service.state = [];
-	    for (var row = 0; row < 3; row++) {
-		service.state.push([]);
-		for (var col = 0; col < 3; col++) {
-		    bitfield = 1 << (3*row+col);
+                    // list item 18 and 19 hold the win/loss/tie state of the outer boards
+                    if (state[18] & ~state[19] & bitfield) {
+                        game.boards[row][col].player = 'x';
+                    } else if (state[19] & ~state[18] & bitfield) {
+                        game.boards[row][col].player = 'o';
+                    } else if (state[18] & state[19] & bitfield) {
+                        game.boards[row][col].player = 'tie';
+                    } else {
+                        game.boards[row][col].player = null;
+                    }
 
-		    service.state[row].push({player: null,
-					     available: false,
-					     boards: []});
-		    if (data[18] & ~data[19] & bitfield) {
-			service.data[row][col].player = 'x';
-		    } else if (data[19] & ~data[18] & bitfield) {
-			service.data[row][col].player = 'o';
-		    } else if (data[18] & data[19] & bitfield) {
-			service.data[row][col].player = 'tie';
-		    }
+                    // items 20 and 21 hold the row and column of the
+                    // board the current player must move into
+                    if (state[20] === null && game.boards[row][col].player === null) {
+                        game.boards[row][col].available = true;
+                    } else if (state[20] == row && state[21] == col) {
+                        game.boards[row][col].available = true;
+                    } else {
+                        game.boards[row][col].available = false;
+                    }
 
-		    if (data[20] === null || (data[20] == row && data[21] == col)) {
-			service.data[row][col].available = true;
-		    }
+                    // each pair of items 0 through 17 hold the x and
+                    // o positions of the squares in each subboard
+                    for (var irow = 0; irow < 3; irow++) {
+                        for (var icol = 0; icol < 3; icol++) {
+                            bitfield = 1 << (3*irow+icol);
 
-		    for (var irow = 0; irow < 3; irow++) {
-			service.state[row][col].boards[irow].push([]);
-			for (var icol = 0; icol < 3; icol++) {
-			    bitfield = 1 << (3*irow+icol);
-			    service.state[row][col].boards[irow][icol].push({
-				player: null
-			    });
+                            if (state[2*(3*row+col)] & bitfield) {
+                                game.boards[row][col].squares[irow][icol].player = 'x';
+                            } else if (state[2*(3*row+col)+1] & bitfield) {
+                                game.boards[row][col].squares[irow][icol].player = 'o';
+                            } else {
+                                game.boards[row][col].squares[irow][icol].player = null;
+                            }
+                        }
+                    }
+                }
+            }
+        };
 
-			    if (data[2*(3*row+col)] & bitfield) {
-				service.state[row][col].boards[irow][icol].player = 'x';
-			    } else if (data[2*(3*row+col)+1] & bitfield) {
-				service.state[row][col].boards[irow][icol].player = 'o';
-			    }
-			}
-		    }
-		}
-	    }
-	};
-
-	return service;
+        return service;
     }])
     .factory('tictactoe', [function() {
         var tictactoe = {},
