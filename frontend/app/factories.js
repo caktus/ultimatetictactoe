@@ -1,29 +1,27 @@
 angular.module('TicTacToe.factories', [])
     .factory('player', ['$window', function($window) {
-        return $window.location.search.match(/\d+/g);
+        return $window.location.search.match(/player=([^&]\w+)/)[1];
     }])
     .factory('api', ['$window', 'player', function($window, player) {
         return {
-            echoService: 'http://0.0.0.0:9006/echo/?player=' + player,
+            echoService: 'http://0.0.0.0:8000/echo/?player=' + player,
             aiService: 'http://0.0.0.0:9006/echo/?player=' + player
         }
     }])
     .factory('gameService', ['$http', function($http) {
-	var url = "http://localhost:8000/api/games/",
-	    service = {'id': null,
-		       'state': null,
-		       'player': null};
+        var url = "http://localhost:8000/api/games/",
+            challenge_url = 'http://localhost:8000/api/challenges/',
+            service = {'id': null,
+                   'state': null,
+                   'player': null};
 
-	service.newGame = function(mode) {
-	    return $http.post(url, {"gametype": mode})
-		.then(function(result) {
-		    console.log(result);
-		    return {pk: result.data.pk};
-		}, function(result) {
-		    console.log(result);
-		    return {pk: null};
-		});
-	};
+        service.newGame = function(mode) {
+            return $http.post(url, {"gametype": mode})
+        };
+
+        service.getChallenges = function() {
+            return $http.get(challenge_url)
+        };
 
 	service.fetchState = function() {
 	    var data = null;
@@ -200,4 +198,125 @@ angular.module('TicTacToe.factories', [])
         };
 
         return tictactoe
+    }])
+    .factory('gameState', [function() {
+        var state = {};
+        state.get = function() {
+            return {
+                currentPlayer: 1,
+                winner: null,
+                players: {
+                    one: {
+                        name: 'Caktus',
+                        score: 0
+                    },
+                    two: {
+                        name: 'Astro',
+                        score: 0
+                    }
+                },
+                boards: [
+                    [{
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 0,
+                        columnIndex: 0,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 0,
+                        columnIndex: 1,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 0,
+                        columnIndex: 2,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    }],
+                    [{
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 1,
+                        columnIndex: 0,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 1,
+                        columnIndex: 1,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 1,
+                        columnIndex: 2,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    }],
+                    [{
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 2,
+                        columnIndex: 0,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 2,
+                        columnIndex: 1,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    },
+                    {
+                        status: 'available',
+                        winner: null,
+                        rowIndex: 2,
+                        columnIndex: 2,
+                        slots: [
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}],
+                            [{state: null}, {state: null}, {state: null}]
+                        ]
+                    }]
+                ]
+            };
+        }
+        return state
     }]);

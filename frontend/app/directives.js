@@ -24,20 +24,21 @@ angular.module('TicTacToe.directives', [])
         var linker = function(scope, element, attrs, ultimateBoard) {
             scope.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
                 var endpoint = ultimateBoard.getEndPoint(),
-                    player = scope.ai? 1 : ultimateBoard.player(),
+                    player = ultimateBoard.player(),
                     data,
                     currentPlayer = ultimateBoard.getCurrentPlayer();
-                if (scope.remote && (player == currentPlayer)) {
-                    data = $.param({
-                        type: 'move',
-                        boardRowIndex: boardRowIndex,
-                        boardColumnIndex: boardColumnIndex,
-                        slotRowIndex: slotRowIndex,
-                        slotColumnIndex: slotColumnIndex
-                    });
-                    $http.post(endpoint, data).success(function(data) {
-                        ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
-                    })
+                console.log("This is the current player: " + currentPlayer);
+                console.log("Player on board: " + player);
+                console.log("This is a remote game: " + scope.remote);
+                if (scope.remote ) {
+                    if (player == currentPlayer) {
+                        data = {
+                            play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
+                        };
+                        $http.put(endpoint, data).success(function(data) {
+                            ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
+                        })
+                    }
                 } else {
                     // both players are playing locally.
                     ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
@@ -64,6 +65,26 @@ angular.module('TicTacToe.directives', [])
             restrict: 'AE',
             link: linker,
             templateUrl: 'app/templates/winnerModal.html'
+        }
+    }])
+    .directive('challengeMessage', ['$http', '$interval', 'gameService', function($http, $interval, gameService) {
+        var linker = function(scope, element, attrs) {
+            $interval(function() {
+                console.log('get challenges');
+                gameService.getChallenges().success(function(data) {
+                    // if we have challenges
+                    if (data.length) {
+                        scope.challenge = data[0];
+                        $(element).toggleClass('hide');
+                    }
+                })
+            }, 5000);
+        };
+        return {
+            restrict: 'AE',
+            link: linker,
+            replace: true,
+            templateUrl: 'app/templates/challenges.html'
         }
     }])
     .directive('gameStats', [function() {
