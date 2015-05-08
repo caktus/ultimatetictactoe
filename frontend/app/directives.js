@@ -67,26 +67,6 @@ angular.module('TicTacToe.directives', [])
             templateUrl: 'app/templates/winnerModal.html'
         }
     }])
-    .directive('challengeMessage', ['$http', '$interval', 'gameService', function($http, $interval, gameService) {
-        var linker = function(scope, element, attrs) {
-            $interval(function() {
-                console.log('get challenges');
-                gameService.getChallenges().success(function(data) {
-                    // if we have challenges
-                    if (data.length) {
-                        scope.challenge = data[0];
-                        $(element).toggleClass('hide');
-                    }
-                })
-            }, 5000);
-        };
-        return {
-            restrict: 'AE',
-            link: linker,
-            replace: true,
-            templateUrl: 'app/templates/challenges.html'
-        }
-    }])
     .directive('gameStats', [function() {
         return {
             restrict: 'AE',
