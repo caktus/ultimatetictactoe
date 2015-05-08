@@ -2,12 +2,6 @@ angular.module('TicTacToe.factories', [])
     .factory('player', ['$window', function($window) {
         return $window.location.search.match(/player=([^&]\w+)/)[1];
     }])
-    .factory('api', ['$window', 'player', function($window, player) {
-        return {
-            echoService: 'http://0.0.0.0:8000/echo/?player=' + player,
-            aiService: 'http://0.0.0.0:9006/echo/?player=' + player
-        }
-    }])
     .factory('gameService', ['$http', function($http) {
         var url = "http://localhost:8000/api/games/",
             challenge_url = 'http://localhost:8000/api/challenges/',

@@ -18,8 +18,8 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                     $location.path('/').replace();
                 });
     }])
-    .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'gameState', 'api',
-        function($scope, $routeParams, $interval, $http, tictactoe, gameState, api) {
+    .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'gameState',
+        function($scope, $routeParams, $interval, $http, tictactoe, gameState) {
             $scope.gameID = parseInt($routeParams.id);
             $scope.endpoint = 'http://localhost:8000/api/games/' + $scope.gameID + '/';
             // get initial game state
@@ -54,11 +54,10 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                 }
             }, 2000);
         }])
-    .controller('LocalModeCtrl', ['$scope', '$location', '$http', 'tictactoe', 'gameState', 'api', 'player',
-            function($scope, $location, $http, tictactoe, gameState, api, player) {
-        console.log("new local game");
+    .controller('LocalModeCtrl', ['$scope', '$location', '$http', 'tictactoe', 'gameState', 'player',
+            function($scope, $location, $http, tictactoe, gameState, player) {
         $scope.endpoint = api.echoService;
         $scope.player = (player == 'caktus')? 1:2;
         $scope.game = gameState.get();
         $scope.remote = false;
-    }])
+    }]);

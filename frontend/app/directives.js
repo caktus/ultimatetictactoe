@@ -50,7 +50,7 @@ angular.module('TicTacToe.directives', [])
             templateUrl: 'app/templates/singleBoard.html'
         }
     }])
-    .directive('winnerModal', ['$location', 'api', function($location, api) {
+    .directive('winnerModal', ['$location', function($location) {
         var linker = function(scope, element, attrs) {
             element.bind('click', function() {
                 scope.$apply(function(){
