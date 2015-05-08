@@ -25,8 +25,4 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
             controller: 'LocalModeCtrl',
             templateUrl: 'app/templates/versusMode.html'
         })
-        .when('/remoteMode', {
-            controller: 'RemoteModeCtrl',
-            templateUrl: 'app/templates/versusMode.html'
-        });
 }]);

@@ -63,28 +63,3 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
         $scope.game = gameState.get();
         $scope.remote = false;
     }])
-    .controller('RemoteModeCtrl', ['$scope', '$interval', '$http', 'tictactoe', 'gameState', 'api', 'player',
-        function($scope, $interval, $http, tictactoe, gameState, api, player) {
-            $scope.endpoint = api.echoService;
-            $scope.player = player;
-            $scope.game = initialState;
-            $scope.remote = true;
-            $interval(function() {
-                // get move from server
-                if ($scope.game.currentPlayer != $scope.player) {
-                    $http.get($scope.endpoint).success(function(data) {
-                        if (data.type == 'move') {
-                            console.log(data);
-                            tictactoe.move(
-                                $scope.game,
-                                parseInt(data.boardIndex),
-                                parseInt(data.rowIndex),
-                                parseInt(data.columnIndex)
-                            );
-                        } else {
-                            console.log(data);
-                        }
-                    });
-                }
-            }, 1000);
-        }]);
