@@ -13,3 +13,4 @@
 public/static/
 public/media/
 secrets.sls*
+node_modules
