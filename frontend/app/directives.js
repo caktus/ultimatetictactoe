@@ -27,9 +27,6 @@ angular.module('TicTacToe.directives', [])
                     player = ultimateBoard.player(),
                     data,
                     currentPlayer = ultimateBoard.getCurrentPlayer();
-                console.log("This is the current player: " + currentPlayer);
-                console.log("Player on board: " + player);
-                console.log("This is a remote game: " + scope.remote);
                 if (scope.remote ) {
                     if (player == currentPlayer) {
                         data = {

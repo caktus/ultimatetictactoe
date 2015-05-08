@@ -20,7 +20,6 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
     }])
     .controller('GameController', ['$scope', '$routeParams', '$interval', '$http', 'tictactoe', 'gameState', 'api',
         function($scope, $routeParams, $interval, $http, tictactoe, gameState, api) {
-            console.log('new ai game');
             $scope.gameID = parseInt($routeParams.id);
             $scope.endpoint = 'http://localhost:8000/api/games/' + $scope.gameID + '/';
             // get initial game state
