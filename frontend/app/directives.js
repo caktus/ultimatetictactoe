@@ -1,5 +1,6 @@
 angular.module('TicTacToe.directives', [])
     .directive('ultimateBoard', ['tictactoe', function(tictactoe) {
+        // this directory allows the state to be shared across all the individual boards.
         return {
             restrict: 'AE',
             replace: true,
@@ -11,8 +12,8 @@ angular.module('TicTacToe.directives', [])
                 this.getCurrentPlayer = function() {
                     return $scope.game.currentPlayer;
                 };
-                this.getEndPoint = function() {
-                    return $scope.endpoint;
+                this.gameID = function() {
+                    return $scope.gameID;
                 };
                 this.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
                     tictactoe.move($scope.game, boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
@@ -23,21 +24,23 @@ angular.module('TicTacToe.directives', [])
     .directive('singleBoard', ['$http', 'gameService', function($http, gameServvice) {
         var linker = function(scope, element, attrs, ultimateBoard) {
             scope.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
-                var endpoint = ultimateBoard.getEndPoint(),
-                    player = ultimateBoard.player(),
+                var player = ultimateBoard.player(),
+                    gameID = ultimateBoard.gameID(),
                     data,
                     currentPlayer = ultimateBoard.getCurrentPlayer();
                 if (scope.remote ) {
+                    // if we are playing a remote game (vs ai or vs remote player)
+                    // we need to submit the move to the server.
                     if (player == currentPlayer) {
                         data = {
                             play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
                         };
-                        gameServvice.submitMove(endpoint, data).success(function() {
+                        gameServvice.submitMove(gameID, data).success(function() {
                             ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                         })
                     }
                 } else {
-                    // both players are playing locally.
+                    // both players are playing locally so we don't need to check whose turn is it.
                     ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                 }
             };

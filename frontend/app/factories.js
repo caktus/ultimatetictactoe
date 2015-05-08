@@ -1,5 +1,6 @@
 angular.module('TicTacToe.factories', [])
     .factory('player', ['$window', function($window) {
+        // reads players name from querystring.
         return $window.location.search.match(/player=([^&]\w+)/)[1];
     }])
     .factory('gameService', ['$http', 'tictactoe', function($http, tictactoe) {
@@ -13,6 +14,7 @@ angular.module('TicTacToe.factories', [])
         };
 
         service.newGame = function(mode) {
+            // creates a new game instance in the server.
             return $http.post(url, {"gametype": mode})
         };
 
@@ -23,14 +25,18 @@ angular.module('TicTacToe.factories', [])
         };
 
         service.fetchState = function(gameID) {
+            // fetches the current game state from the server
             return $http.get(service.gameEndpoint(gameID));
         };
 
         service.localPlayer = function(data) {
+            // The server assigns at random player id when a new game is created,
+            // and we need the player id through out the game.
             return ((data.p1 == 'local') || (data.p1 == 'undefined')) ? 1: 2;
         };
 
         service.applyMove = function(localPlayer, currentState, newState) {
+            // Updates local state with the latest move from the server
             var move = eval(newState.last_play),
                 state = eval(newState.state),
                 next_player = state[state.length - 1];
@@ -46,7 +52,8 @@ angular.module('TicTacToe.factories', [])
         };
 
         service.submitMove = function(gameID, move) {
-            return $http.post(service.gameEndpoint(gameID), move);
+            // submits a move to server
+            return $http.put(service.gameEndpoint(gameID), move);
         };
 
         service.unboxData = function(data) {
@@ -96,6 +103,7 @@ angular.module('TicTacToe.factories', [])
         return service;
     }])
     .factory('tictactoe', [function() {
+        // All the game logic is kept here.
         var tictactoe = {},
             available = 'available',
             unavailable = 'unavailable',
@@ -113,6 +121,7 @@ angular.module('TicTacToe.factories', [])
             ];
 
         tictactoe.move = function(game, boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
+            // updates the game state if the move was a legal move.
             var board = game.boards[boardRowIndex][boardColumnIndex],
                 slot = board.slots[slotRowIndex][slotColumnIndex];
             if ((board.status == available) && (slot.state == null)) {
@@ -215,6 +224,7 @@ angular.module('TicTacToe.factories', [])
         return tictactoe
     }])
     .factory('gameState', [function() {
+        // This is the initial game state.
         var state = {};
         state.get = function() {
             return {
