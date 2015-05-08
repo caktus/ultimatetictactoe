@@ -8,7 +8,7 @@ module.exports = function (grunt) {
             main: {
                 files: [
                     {expand: true, cwd: 'src/', src: ['**', '!js/**', '!libs/**', '!**/*.css', '!**/**/*.css'], dest: 'dist/'},
-                    {expand: true, flatten: true, cwd: 'src/css/font-awesome-4.2.0/fonts/', src: ['*'], dest: 'dist/fonts/'}
+                    {expand: true, flatten: true, cwd: 'src/Fonts/', src: ['*'], dest: 'dist/fonts/'}
                 ]
             }
         },
@@ -38,6 +38,6 @@ module.exports = function (grunt) {
 
     // Tell Grunt what to do when we type "grunt" into the terminal
     grunt.registerTask('default', [
-        'copy', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin'
+        'copy', 'useminPrepare', 'uglify', 'concat', 'cssmin', 'usemin'
     ]);
 };
