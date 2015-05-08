@@ -2,31 +2,52 @@ angular.module('TicTacToe.factories', [])
     .factory('player', ['$window', function($window) {
         return $window.location.search.match(/player=([^&]\w+)/)[1];
     }])
-    .factory('gameService', ['$http', function($http) {
+    .factory('gameService', ['$http', 'tictactoe', function($http, tictactoe) {
         var url = "http://localhost:8000/api/games/",
-            challenge_url = 'http://localhost:8000/api/challenges/',
             service = {'id': null,
                    'state': null,
                    'player': null};
+
+        service.gameEndpoint = function(gameID) {
+            return url + gameID + '/';
+        };
 
         service.newGame = function(mode) {
             return $http.post(url, {"gametype": mode})
         };
 
-        service.getChallenges = function() {
-            return $http.get(challenge_url)
+        service.newGameURL = function (game) {
+            // Returns the URL to redirect once a new game is created.
+            // This can either be the game url or / if an error happened.
+            return (game.pk) ? '/games/' + game.pk : '/';
         };
 
-	service.fetchState = function() {
-	    var data = null;
-	    service.unboxData(data);
-	};
+        service.fetchState = function(gameID) {
+            return $http.get(service.gameEndpoint(gameID));
+        };
 
-	service.applyMove = function(row, col, innerrow, innercol) {
-	};
+        service.localPlayer = function(data) {
+            return ((data.p1 == 'local') || (data.p1 == 'undefined')) ? 1: 2;
+        };
 
-	service.submitMove = function(row, col, innerrow, innercol) {
-	};
+        service.applyMove = function(localPlayer, currentState, newState) {
+            var move = eval(newState.last_play),
+                state = eval(newState.state),
+                next_player = state[state.length - 1];
+            if ((next_player == localPlayer) && move) {
+                tictactoe.move(
+                        currentState,
+                        move[0],
+                        move[1],
+                        move[2],
+                        move[3]
+                    );
+            }
+        };
+
+        service.submitMove = function(gameID, move) {
+            return $http.post(service.gameEndpoint(gameID), move);
+        };
 
 	service.unboxData = function(data) {
 	    var bitfield = null;

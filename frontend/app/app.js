@@ -18,7 +18,7 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
             templateUrl: 'app/templates/versusMode.html'
         })
         .when('/games/:id', {
-            controller: 'GameController',
+            controller: 'AIController',
             templateUrl: 'app/templates/versusMode.html'
         })
         .when('/localMode', {
