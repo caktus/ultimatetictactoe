@@ -21,7 +21,7 @@ angular.module('TicTacToe.directives', [])
             }
         }
     }])
-    .directive('singleBoard', ['$http', 'gameService', function($http, gameServvice) {
+    .directive('singleBoard', ['$http', 'gameService', function($http, gameService) {
         var linker = function(scope, element, attrs, ultimateBoard) {
             scope.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
                 var player = ultimateBoard.player(),
@@ -35,7 +35,7 @@ angular.module('TicTacToe.directives', [])
                         data = {
                             play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
                         };
-                        gameServvice.submitMove(gameID, data).success(function() {
+                        gameService.submitMove(gameID, data).success(function() {
                             ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                         })
                     }
