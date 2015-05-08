@@ -18,15 +18,11 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
             templateUrl: 'app/templates/versusMode.html'
         })
         .when('/games/:id', {
-            controller: 'GameController',
+            controller: 'AIController',
             templateUrl: 'app/templates/versusMode.html'
         })
         .when('/localMode', {
             controller: 'LocalModeCtrl',
             templateUrl: 'app/templates/versusMode.html'
         })
-        .when('/remoteMode', {
-            controller: 'RemoteModeCtrl',
-            templateUrl: 'app/templates/versusMode.html'
-        });
 }]);

@@ -1,5 +1,6 @@
 angular.module('TicTacToe.directives', [])
     .directive('ultimateBoard', ['tictactoe', function(tictactoe) {
+        // this directory allows the state to be shared across all the individual boards.
         return {
             restrict: 'AE',
             replace: true,
@@ -11,8 +12,8 @@ angular.module('TicTacToe.directives', [])
                 this.getCurrentPlayer = function() {
                     return $scope.game.currentPlayer;
                 };
-                this.getEndPoint = function() {
-                    return $scope.endpoint;
+                this.gameID = function() {
+                    return $scope.gameID;
                 };
                 this.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
                     tictactoe.move($scope.game, boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
@@ -20,27 +21,26 @@ angular.module('TicTacToe.directives', [])
             }
         }
     }])
-    .directive('singleBoard', ['$http', function($http) {
+    .directive('singleBoard', ['$http', 'gameService', function($http, gameService) {
         var linker = function(scope, element, attrs, ultimateBoard) {
             scope.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
-                var endpoint = ultimateBoard.getEndPoint(),
-                    player = ultimateBoard.player(),
+                var player = ultimateBoard.player(),
+                    gameID = ultimateBoard.gameID(),
                     data,
                     currentPlayer = ultimateBoard.getCurrentPlayer();
-                console.log("This is the current player: " + currentPlayer);
-                console.log("Player on board: " + player);
-                console.log("This is a remote game: " + scope.remote);
                 if (scope.remote ) {
+                    // if we are playing a remote game (vs ai or vs remote player)
+                    // we need to submit the move to the server.
                     if (player == currentPlayer) {
                         data = {
                             play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
                         };
-                        $http.put(endpoint, data).success(function(data) {
+                        gameService.submitMove(gameID, data).success(function() {
                             ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                         })
                     }
                 } else {
-                    // both players are playing locally.
+                    // both players are playing locally so we don't need to check whose turn is it.
                     ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
                 }
             };
@@ -53,8 +53,8 @@ angular.module('TicTacToe.directives', [])
             templateUrl: 'app/templates/singleBoard.html'
         }
     }])
-    .directive('winnerModal', ['$location', 'api', function($location, api) {
-        var linker = function(scope, element, attrs) {
+    .directive('winnerModal', ['$location', function($location) {
+        var linker = function(scope, element) {
             element.bind('click', function() {
                 scope.$apply(function(){
                     $location.path('/');
@@ -65,26 +65,6 @@ angular.module('TicTacToe.directives', [])
             restrict: 'AE',
             link: linker,
             templateUrl: 'app/templates/winnerModal.html'
-        }
-    }])
-    .directive('challengeMessage', ['$http', '$interval', 'gameService', function($http, $interval, gameService) {
-        var linker = function(scope, element, attrs) {
-            $interval(function() {
-                console.log('get challenges');
-                gameService.getChallenges().success(function(data) {
-                    // if we have challenges
-                    if (data.length) {
-                        scope.challenge = data[0];
-                        $(element).toggleClass('hide');
-                    }
-                })
-            }, 5000);
-        };
-        return {
-            restrict: 'AE',
-            link: linker,
-            replace: true,
-            templateUrl: 'app/templates/challenges.html'
         }
     }])
     .directive('gameStats', [function() {
