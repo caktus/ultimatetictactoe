@@ -29,8 +29,11 @@ class PlaySerializer(GameSerializer):
         if self.instance.winner != 0:
             raise serializers.ValidationError("Game is over.")
 
-        if value == 'q':  # Player forfeits
-            return value
+        if value == 'q':
+            return value  # Player forfeits
+        if value == 'timeout':
+            return value  # AI takes over
+
         board = Board()
         play = board.parse(value)
         if play is None or not board.is_legal(json.loads(self.instance.state), play):
