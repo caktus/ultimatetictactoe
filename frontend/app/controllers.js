@@ -30,10 +30,12 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
             // pull in new moves from the other player
             $interval(function() {
                 // get move from server
-                if ($scope.player != 'local') {
-                    gameService.fetchState($scope.gameID).success(function(newState) {
+                gameService.fetchState($scope.gameID).success(function(newState) {
+                    console.log(newState);
+                    if (!!newState) {
                         gameService.applyMove($scope.game, newState);
-                    });
-                }
+                        $scope.player = gameService.currentPlayerType(data);
+                    }
+                });
             }, 2000);
         }]);

@@ -37,7 +37,7 @@ angular.module('TicTacToe.factories', [])
 
         service.applyMove = function(currentState, newState) {
             // Updates local state with the latest move from the server
-            var move = JSON.parse(newState.last_play),
+            var move = newState.last_play ? JSON.parse(newState.last_play) : null,
                 state = JSON.parse(newState.state),
                 next_player = state[state.length - 1];
             if (move) {
