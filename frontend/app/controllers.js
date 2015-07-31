@@ -34,7 +34,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                     console.log(newState);
                     if (!!newState) {
                         gameService.applyMove($scope.game, newState);
-                        $scope.player = gameService.currentPlayerType(data);
+                        $scope.player = gameService.currentPlayerType(newState);
                     }
                 });
             }, 2000);
