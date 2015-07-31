@@ -15,33 +15,25 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                     // In case of an error, redirect player to the homepage.
                     $location.path('/').replace();
                 });
-    }])
-    .controller('AIController', ['$scope', '$routeParams', '$interval', 'tictactoe', 'gameState', 'gameService',
+	}])
+    .controller('GameController',
+	['$scope', '$routeParams', '$interval', 'tictactoe', 'gameState', 'gameService',
         function($scope, $routeParams, $interval, tictactoe, gameState, gameService) {
-            // AIController: User vs AI mode. fetches and submits moves to a remote
+            // GameController: Fetches and submits moves to a remote
             // django service.
             $scope.gameID = parseInt($routeParams.id);
             // get initial game state
             gameService.fetchState($scope.gameID).success(function(data) {
-                $scope.player = gameService.localPlayer(data);
+                $scope.player = gameService.currentPlayerType(data);
             });
             $scope.game = gameState.get();
-            $scope.remote = true;
             // pull in new moves from the other player
             $interval(function() {
                 // get move from server
-                if ($scope.game.currentPlayer != $scope.player) {
+                if ($scope.player != 'local') {
                     gameService.fetchState($scope.gameID).success(function(newState) {
-                        gameService.applyMove($scope.player, $scope.game, newState);
+                        gameService.applyMove($scope.game, newState);
                     });
                 }
             }, 2000);
-        }])
-    .controller('LocalModeCtrl', ['$scope', '$location', '$http', 'tictactoe', 'gameState', 'player',
-            function($scope, $location, $http, tictactoe, gameState, player) {
-        // LocalModeCtrl: This controller is implemented purely in the client, no need to talk to the server.
-        $scope.endpoint = api.echoService;
-        $scope.player = (player == 'caktus')? 1:2;
-        $scope.game = gameState.get();
-        $scope.remote = false;
-    }]);
+        }]);
