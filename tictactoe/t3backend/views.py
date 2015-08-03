@@ -49,25 +49,32 @@ class GameDetailAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.PlaySerializer
 
     def perform_update(self, serializer):
+        state = json.loads(serializer.instance.state)
+
         if serializer.validated_data['play'] == 'q':
             # On forfeit, set the winner to -1 if player 1 quit, or -2
             # if player 2 quit.
-            state = json.loads(serializer.instance.state)
             game = serializer.save(last_play='q', winner=-state[-1])
             return
 
-        b = board.Board()
-        play = b.parse(serializer.validated_data['play'])
-
-        state = b.play(json.loads(serializer.instance.state), play)
-        jsonstate = json.dumps(state)
-
-        game = serializer.save(
-            state=jsonstate, last_play=json.dumps(play),
-            winner=b.winner([state])
-        )
-
+        game = serializer.instance
         players = {1: game.p1, 2: game.p2}
+        if serializer.validated_data['play'] == 'timeout':
+            # The AI temporarily takes over when a player takes too long.
+            players[state[-1]] = 'ai'
+            jsonstate = game.state
+        else:
+            b = board.Board()
+            play = b.parse(serializer.validated_data['play'])
+
+            state = b.play(state, play)
+            jsonstate = json.dumps(state)
+
+            game = serializer.save(
+                state=jsonstate, last_play=json.dumps(play),
+                winner=b.winner([state])
+            )
+
         if players[state[-1]] == 'ai' and game.winner == 0:
             subprocess.Popen(["python", "tictactoe/t3backend/tasks.py",
                              str(game.pk), jsonstate])

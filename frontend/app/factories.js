@@ -29,18 +29,18 @@ angular.module('TicTacToe.factories', [])
             return $http.get(service.gameEndpoint(gameID));
         };
 
-        service.localPlayer = function(data) {
-            // The server assigns at random player id when a new game is created,
-            // and we need the player id through out the game.
-            return ((data.p1 == 'local') || (data.p1 == 'undefined')) ? 1: 2;
+        service.currentPlayerType = function(data) {
+	    // We need to know if the current player is local or not.
+            var state = JSON.parse(data.state);
+	    return (state[state.length - 1] == 1) ? data.p1 : data.p2
         };
 
-        service.applyMove = function(localPlayer, currentState, newState) {
+        service.applyMove = function(currentState, newState) {
             // Updates local state with the latest move from the server
-            var move = eval(newState.last_play),
-                state = eval(newState.state),
+            var move = newState.last_play ? JSON.parse(newState.last_play) : null,
+                state = JSON.parse(newState.state),
                 next_player = state[state.length - 1];
-            if ((next_player == localPlayer) && move) {
+            if (move) {
                 tictactoe.move(
                         currentState,
                         move[0],
