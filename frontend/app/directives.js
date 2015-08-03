@@ -12,6 +12,9 @@ angular.module('TicTacToe.directives', [])
                 this.getCurrentPlayer = function() {
                     return $scope.game.currentPlayer;
                 };
+                this.playerIsLocal = function() {
+                    return $scope.player == 'local';
+                };
                 this.gameID = function() {
                     return $scope.gameID;
                 };
@@ -50,24 +53,16 @@ angular.module('TicTacToe.directives', [])
     .directive('singleBoard', ['$http', 'gameService', function($http, gameService) {
         var linker = function(scope, element, attrs, ultimateBoard) {
             scope.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
-                var player = ultimateBoard.player(),
-                    gameID = ultimateBoard.gameID(),
-                    data,
-                    currentPlayer = ultimateBoard.getCurrentPlayer();
-                if (scope.remote ) {
-                    // if we are playing a remote game (vs ai or vs remote player)
-                    // we need to submit the move to the server.
-                    if (player == currentPlayer) {
-                        data = {
-                            play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
-                        };
-                        gameService.submitMove(gameID, data).success(function() {
-                            ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
-                        })
-                    }
-                } else {
-                    // both players are playing locally so we don't need to check whose turn is it.
-                    ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
+                var gameID = ultimateBoard.gameID(),
+                    data;
+
+                if (ultimateBoard.playerIsLocal()) {
+                    data = {
+                        play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
+                    };
+                    gameService.submitMove(gameID, data).success(function() {
+                        ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
+                    })
                 }
             };
         };
