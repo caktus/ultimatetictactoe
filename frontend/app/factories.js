@@ -129,6 +129,7 @@ angular.module('TicTacToe.factories', [])
                 slot.state = game.currentPlayer;
                 tictactoe.singleBoard.update(board, game.currentPlayer);
                 tictactoe.ultimateBoard.update(game, slotRowIndex, slotColumnIndex);
+                tictactoe.setHighlight(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
             }
         };
 

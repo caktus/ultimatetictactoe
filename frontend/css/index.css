@@ -96,6 +96,8 @@ a.btn-pink:hover {
     height: 1000px;
     border: solid 30px white;
     margin: 40px auto;
+    position: relative;
+    background-color: lightgrey;
 }
 
 .ultimate-board div {
@@ -106,12 +108,12 @@ a.btn-pink:hover {
     width: 313.333px;
     height: 313.333px;
     float: left;
-    background-color: rgba(0, 0, 0, 0.2);
+    /*background-color: rgba(0, 0, 0, 0.2);*/
     padding: 7px;
     -webkit-transition: all 0.5s linear;
 }
 .small-board.available {
-    background-color: white;
+    /*background-color: white;*/
 }
 
 .small-board.row-1.column-1 {
@@ -291,4 +293,12 @@ a.btn-pink:hover {
 .forfeit {
     padding: 0.5em 2em;
     font-size: 30px;
+}
+
+.ultimate-board .board-highlight {
+    position: absolute;
+    top: 0px;
+    width: 300px;
+    height: 300px;
+    background-color: white;
 }

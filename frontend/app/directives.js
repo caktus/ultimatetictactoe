@@ -21,6 +21,32 @@ angular.module('TicTacToe.directives', [])
             }
         }
     }])
+    .directive('boardHighlight', ['tictactoe', function(tictactoe) {
+        function linker(scope, element, attrs) {
+            var highlight = function(board) {
+                console.log(arguments);
+                var $el = $(element);
+                $el.animate({
+                    top: 300,
+                    left: 300,
+                });
+            }
+            scope.highlight = highlight;
+            if (typeof tictactoe.setHighlight === "undefined") {
+                tictactoe.setHighlight = function(board) {
+                    highlight(board);
+                }
+            } else {
+                throw "Only a single <board-highlight> is supposed at a single time."
+            }
+        }
+        return {
+            link: linker,
+            restrict: 'AE',
+            replace: true,
+            templateUrl: 'app/templates/boardHighlight.html'
+        }
+    }])
     .directive('singleBoard', ['$http', 'gameService', function($http, gameService) {
         var linker = function(scope, element, attrs, ultimateBoard) {
             scope.move = function(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex) {
