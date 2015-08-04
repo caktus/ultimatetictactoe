@@ -42,12 +42,14 @@ angular.module('TicTacToe.factories', [])
                 next_player = state[state.length - 1];
             if (move) {
                 tictactoe.move(
-                        currentState,
-                        move[0],
-                        move[1],
-                        move[2],
-                        move[3]
-                    );
+                    currentState,
+                    move[0],
+                    move[1],
+                    move[2],
+                    move[3]
+                );
+                var targetRow = move[2];
+                var targetCol = move[3];
             }
         };
 
@@ -70,31 +72,31 @@ angular.module('TicTacToe.factories', [])
                              available: false,
                              boards: []});
                 if (data[18] & ~data[19] & bitfield) {
-                service.data[row][col].player = 'x';
+                    service.data[row][col].player = 'x';
                 } else if (data[19] & ~data[18] & bitfield) {
-                service.data[row][col].player = 'o';
+                    service.data[row][col].player = 'o';
                 } else if (data[18] & data[19] & bitfield) {
-                service.data[row][col].player = 'tie';
+                    service.data[row][col].player = 'tie';
                 }
 
                 if (data[20] === null || (data[20] == row && data[21] == col)) {
-                service.data[row][col].available = true;
+                    service.data[row][col].available = true;
                 }
 
                 for (var irow = 0; irow < 3; irow++) {
-                service.state[row][col].boards[irow].push([]);
-                for (var icol = 0; icol < 3; icol++) {
-                    bitfield = 1 << (3*irow+icol);
-                    service.state[row][col].boards[irow][icol].push({
-                    player: null
-                    });
+                    service.state[row][col].boards[irow].push([]);
+                    for (var icol = 0; icol < 3; icol++) {
+                        bitfield = 1 << (3*irow+icol);
+                        service.state[row][col].boards[irow][icol].push({
+                            player: null
+                        });
 
-                    if (data[2*(3*row+col)] & bitfield) {
-                    service.state[row][col].boards[irow][icol].player = 'x';
-                    } else if (data[2*(3*row+col)+1] & bitfield) {
-                    service.state[row][col].boards[irow][icol].player = 'o';
+                        if (data[2*(3*row+col)] & bitfield) {
+                            service.state[row][col].boards[irow][icol].player = 'x';
+                        } else if (data[2*(3*row+col)+1] & bitfield) {
+                            service.state[row][col].boards[irow][icol].player = 'o';
+                        }
                     }
-                }
                 }
             }
             }
@@ -129,7 +131,6 @@ angular.module('TicTacToe.factories', [])
                 slot.state = game.currentPlayer;
                 tictactoe.singleBoard.update(board, game.currentPlayer);
                 tictactoe.ultimateBoard.update(game, slotRowIndex, slotColumnIndex);
-                tictactoe.setHighlight(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
             }
         };
 
