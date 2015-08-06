@@ -4,7 +4,7 @@ angular.module('TicTacToe.directives', [])
         return {
             restrict: 'AE',
             replace: true,
-            templateUrl: 'static/app/templates/ultimateBoard.html',
+            templateUrl: '/static/app/templates/ultimateBoard.html',
             controller: function($scope) {
                 this.player = function() {
                     return $scope.player;
@@ -45,7 +45,7 @@ angular.module('TicTacToe.directives', [])
             require: '^ultimateBoard',
             link: linker,
             replace: true,
-            templateUrl: 'static/app/templates/singleBoard.html'
+            templateUrl: '/static/app/templates/singleBoard.html'
         }
     }])
     .directive('winnerModal', ['$location', function($location) {
@@ -59,13 +59,13 @@ angular.module('TicTacToe.directives', [])
         return {
             restrict: 'AE',
             link: linker,
-            templateUrl: 'static/app/templates/winnerModal.html'
+            templateUrl: '/static/app/templates/winnerModal.html'
         }
     }])
     .directive('gameStats', [function() {
         return {
             restrict: 'AE',
             replace: true,
-            templateUrl: 'static/app/templates/gameStats.html'
+            templateUrl: '/static/app/templates/gameStats.html'
         }
     }]);

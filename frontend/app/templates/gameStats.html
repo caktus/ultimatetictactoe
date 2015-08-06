@@ -1,8 +1,8 @@
 <div class="players text-center">
     <div data-ng-class="{player: true, inactive: ((game.currentPlayer == 2 && player == 1) || (game.currentPlayer == 1 && player == 2))}">
         <div class="avatar">
-            <img src="static/images/caktus.svg" data-ng-show="player==1"/>
-            <img src="static/images/astro.svg" data-ng-show="player==2"/>
+            <img src="/static/images/caktus.svg" data-ng-show="player==1"/>
+            <img src="/static/images/astro.svg" data-ng-show="player==2"/>
         </div>
         {{ player == 1 ? game.players.one.name: game.players.two.name }} <br>
     </div>
@@ -11,8 +11,8 @@
     </div>
     <div data-ng-class="{player: true, inactive: ((game.currentPlayer == 2 && player == 2) || (game.currentPlayer == 1 && player == 1))}">
         <div class="avatar">
-            <img src="static/images/caktus.svg" data-ng-show="player==2"/>
-            <img src="static/images/astro.svg" data-ng-show="player==1"/>
+            <img src="/static/images/caktus.svg" data-ng-show="player==2"/>
+            <img src="/static/images/astro.svg" data-ng-show="player==1"/>
         </div>
         {{ player == 2 ? game.players.one.name: game.players.two.name }}<br>
     </div>
