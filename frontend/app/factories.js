@@ -41,8 +41,8 @@ angular.module('TicTacToe.factories', [])
                 state = JSON.parse(newState.state),
                 next_player = state[state.length - 1];
             if (move) {
-                if (typeof this.lastMove == 'undefined' || (move[0] != this.lastMove[0] || move[1] != this.lastMove[1] || move[2] != this.lastMove[2] || move[3] != this.lastMove[3])) {
-                    if (this.playerType != 'local') {
+                if (typeof this.lastMove === 'undefined' || (move[0] !== this.lastMove[0] || move[1] !== this.lastMove[1] || move[2] !== this.lastMove[2] || move[3] !== this.lastMove[3])) {
+                    if (this.playerType !== 'local') {
 
                         tictactoe.highlightCell(move[0], move[1], move[2], move[3]).then(function(){
                             tictactoe.move(
@@ -113,7 +113,7 @@ angular.module('TicTacToe.factories', [])
 
         return service;
     }])
-    .factory('tictactoe', [function() {
+    .factory('tictactoe', ['$q', function($q) {
         // All the game logic is kept here.
         var tictactoe = {},
             available = 'available',
@@ -135,7 +135,7 @@ angular.module('TicTacToe.factories', [])
             // updates the game state if the move was a legal move.
             var board = game.boards[boardRowIndex][boardColumnIndex],
                 slot = board.slots[slotRowIndex][slotColumnIndex];
-            return new Promise(function(resolve, reject) {
+            return $q(function(resolve, reject) {
                 if ((board.status == available) && (slot.state == null)) {
                     // only squares that have not been played can be played.
                     slot.preparing = true;

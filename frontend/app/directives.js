@@ -24,7 +24,7 @@ angular.module('TicTacToe.directives', [])
             }
         }
     }])
-    .directive('boardHighlight', ['tictactoe', function(tictactoe) {
+    .directive('boardHighlight', ['tictactoe', '$q', function(tictactoe, $q) {
         function linker(scope, element, attrs) {
             var $el = $(element);
             scope.curHighlightRow = undefined;
@@ -37,7 +37,7 @@ angular.module('TicTacToe.directives', [])
                 scope.curHighlightCol = boardCol;
                 console.log(boardRow, boardCol, cellRow, cellCol);
 
-                return new Promise(function(resolve, reject) {
+                return $q(function(resolve, reject) {
                     var $board = $(".small-board.row-$ROW.column-$COL".replace("$ROW", boardRow+1).replace("$COL", boardCol+1));
                     if (typeof cellRow === "undefined" || typeof cellCol === "undefined") {
                         console.log("Highlight Board:", boardRow, boardCol);
