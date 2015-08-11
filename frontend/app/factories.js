@@ -29,10 +29,10 @@ angular.module('TicTacToe.factories', [])
             return $http.get(service.gameEndpoint(gameID));
         };
 
-        service.currentPlayerType = function(data) {
-	    // We need to know if the current player is local or not.
+        service.updatePlayerType = function(data) {
+            // We need to know if the current player is local or not.
             var state = JSON.parse(data.state);
-	    return (state[state.length - 1] == 1) ? data.p1 : data.p2
+            service.playerType = (state[state.length - 1] == 1) ? data.p1 : data.p2
         };
 
         service.applyMove = function(currentState, newState) {
@@ -41,15 +41,24 @@ angular.module('TicTacToe.factories', [])
                 state = JSON.parse(newState.state),
                 next_player = state[state.length - 1];
             if (move) {
-                tictactoe.move(
-                    currentState,
-                    move[0],
-                    move[1],
-                    move[2],
-                    move[3]
-                );
+                if (typeof this.lastMove == 'undefined' || (move[0] != this.lastMove[0] || move[1] != this.lastMove[1] || move[2] != this.lastMove[2] || move[3] != this.lastMove[3])) {
+                    if (this.playerType != 'local') {
+
+                        tictactoe.highlightCell(move[0], move[1], move[2], move[3]).then(function(){
+                            tictactoe.move(
+                                currentState,
+                                move[0],
+                                move[1],
+                                move[2],
+                                move[3]
+                            )
+                        });
+                    }
+                }
+
                 var targetRow = move[2];
                 var targetCol = move[3];
+                this.lastMove = move;
             }
         };
 
@@ -126,12 +135,24 @@ angular.module('TicTacToe.factories', [])
             // updates the game state if the move was a legal move.
             var board = game.boards[boardRowIndex][boardColumnIndex],
                 slot = board.slots[slotRowIndex][slotColumnIndex];
-            if ((board.status == available) && (slot.state == null)) {
-                // only squares that have not been played can be played.
-                slot.state = game.currentPlayer;
-                tictactoe.singleBoard.update(board, game.currentPlayer);
-                tictactoe.ultimateBoard.update(game, slotRowIndex, slotColumnIndex);
-            }
+            return new Promise(function(resolve, reject) {
+                if ((board.status == available) && (slot.state == null)) {
+                    // only squares that have not been played can be played.
+                    slot.preparing = true;
+                    setTimeout(function(){
+                        slot.state = game.currentPlayer;
+                        slot.preparing = false;
+                        tictactoe.singleBoard.update(board, game.currentPlayer);
+                        tictactoe.ultimateBoard.update(game, slotRowIndex, slotColumnIndex);
+                        resolve();
+                        setTimeout(function() {
+                            tictactoe.highlightBoard(slotRowIndex, slotColumnIndex);
+                        }, 1000)
+                    }, 100);
+                } else {
+                    resolve();
+                }
+            });
         };
 
         tictactoe.singleBoard = {

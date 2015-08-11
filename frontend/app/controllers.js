@@ -24,7 +24,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
             $scope.gameID = parseInt($routeParams.id);
             // get initial game state
             gameService.fetchState($scope.gameID).success(function(data) {
-                $scope.player = gameService.currentPlayerType(data);
+                gameService.updatePlayerType(data);
             });
             $scope.game = gameState.get();
             // pull in new moves from the other player
@@ -33,7 +33,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                 gameService.fetchState($scope.gameID).success(function(newState) {
                     if (!!newState) {
                         gameService.applyMove($scope.game, newState);
-                        $scope.player = gameService.currentPlayerType(newState);
+                        gameService.updatePlayerType(newState);
                     }
                 });
             }, 2000);

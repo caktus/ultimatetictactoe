@@ -186,10 +186,13 @@ a.btn-pink:hover {
 
 .slot .symbol {
     transition: all 0.25s;
-    transform: scale(1.5);
+    transform: scale(1);
     opacity: 0;
     width: 100%;
     height: 100%;
+}
+.slot.prepare .symbol {
+    transform: scale(1.5);
 }
 
 .slot.x .symbol {
@@ -249,18 +252,22 @@ a.btn-pink:hover {
 }
 
 /* WON STUFF */
+.small-board .slot {
+    transition: all 0.5s;
+    opacity: 1;
+}
 .small-board.playerOne {
-    background: white url('../images/x.svg') no-repeat;
+    background: url('../images/x.svg') no-repeat;
     background-size: contain;
 }
-.small-board.playerOne div {
+.small-board.playerOne .slot {
     opacity: 0;
 }
 .small-board.playerTwo {
-    background: white url('../images/o.svg') no-repeat;
+    background: url('../images/o.svg') no-repeat;
     background-size: contain;
 }
-.small-board.playerTwo div {
+.small-board.playerTwo .slot {
     opacity: 0;
 }
 
@@ -310,8 +317,8 @@ a.btn-pink:hover {
 .ultimate-board .board-highlight {
     position: absolute;
     top: 0px;
-    width: 312px;
-    height: 312px;
+    width: 933px;
+    height: 933px;
     background-color: white;
 
     box-shadow: white 0px 0px 46px;
