@@ -1,4 +1,5 @@
 <div data-ng-class="{playerOne: game.winner == 1, playerTwo: game.winner == 2, tie: game.winner == 3, 'ultimate-board': true}">
+    <board-highlight></board-highlight>
     <div data-ng-repeat="row in game.boards">
         <div data-ng-repeat="board in row">
             <single-board></single-board>
