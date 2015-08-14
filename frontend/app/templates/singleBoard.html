@@ -2,7 +2,8 @@
     <div data-ng-repeat="row in board.slots track by $index">
         <div data-ng-repeat="slot in row track by $index">
             <div data-ng-click="move(board.rowIndex, board.columnIndex, $parent.$index, $index);"
-                 data-ng-class="{'x': (slot.state == 1), 'o': (slot.state == 2), slot: true, 'row-{{ $parent.$index + 1 }}': true, 'column-{{ $index + 1 }}': true}">
+                 data-ng-class="{'x': (slot.state == 1), 'o': (slot.state == 2), 'prepare': slot.preparing, 'free': (!slot.state), slot: true, 'row-{{ $parent.$index + 1 }}': true, 'column-{{ $index + 1 }}': true}">
+                 <div class=symbol></div>
             </div>
         </div>
     </div>

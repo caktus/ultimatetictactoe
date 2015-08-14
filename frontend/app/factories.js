@@ -29,10 +29,10 @@ angular.module('TicTacToe.factories', [])
             return $http.get(service.gameEndpoint(gameID));
         };
 
-        service.currentPlayerType = function(data) {
-	    // We need to know if the current player is local or not.
+        service.updatePlayerType = function(data) {
+            // We need to know if the current player is local or not.
             var state = JSON.parse(data.state);
-	    return (state[state.length - 1] == 1) ? data.p1 : data.p2
+            service.playerType = (state[state.length - 1] == 1) ? data.p1 : data.p2
         };
 
         service.applyMove = function(currentState, newState) {
@@ -41,13 +41,24 @@ angular.module('TicTacToe.factories', [])
                 state = JSON.parse(newState.state),
                 next_player = state[state.length - 1];
             if (move) {
-                tictactoe.move(
-                        currentState,
-                        move[0],
-                        move[1],
-                        move[2],
-                        move[3]
-                    );
+                if (typeof this.lastMove === 'undefined' || (move[0] !== this.lastMove[0] || move[1] !== this.lastMove[1] || move[2] !== this.lastMove[2] || move[3] !== this.lastMove[3])) {
+                    if (this.playerType !== 'local') {
+
+                        tictactoe.highlightCell(move[0], move[1], move[2], move[3]).then(function(){
+                            tictactoe.move(
+                                currentState,
+                                move[0],
+                                move[1],
+                                move[2],
+                                move[3]
+                            )
+                        });
+                    }
+                }
+
+                var targetRow = move[2];
+                var targetCol = move[3];
+                this.lastMove = move;
             }
         };
 
@@ -70,31 +81,31 @@ angular.module('TicTacToe.factories', [])
                              available: false,
                              boards: []});
                 if (data[18] & ~data[19] & bitfield) {
-                service.data[row][col].player = 'x';
+                    service.data[row][col].player = 'x';
                 } else if (data[19] & ~data[18] & bitfield) {
-                service.data[row][col].player = 'o';
+                    service.data[row][col].player = 'o';
                 } else if (data[18] & data[19] & bitfield) {
-                service.data[row][col].player = 'tie';
+                    service.data[row][col].player = 'tie';
                 }
 
                 if (data[20] === null || (data[20] == row && data[21] == col)) {
-                service.data[row][col].available = true;
+                    service.data[row][col].available = true;
                 }
 
                 for (var irow = 0; irow < 3; irow++) {
-                service.state[row][col].boards[irow].push([]);
-                for (var icol = 0; icol < 3; icol++) {
-                    bitfield = 1 << (3*irow+icol);
-                    service.state[row][col].boards[irow][icol].push({
-                    player: null
-                    });
+                    service.state[row][col].boards[irow].push([]);
+                    for (var icol = 0; icol < 3; icol++) {
+                        bitfield = 1 << (3*irow+icol);
+                        service.state[row][col].boards[irow][icol].push({
+                            player: null
+                        });
 
-                    if (data[2*(3*row+col)] & bitfield) {
-                    service.state[row][col].boards[irow][icol].player = 'x';
-                    } else if (data[2*(3*row+col)+1] & bitfield) {
-                    service.state[row][col].boards[irow][icol].player = 'o';
+                        if (data[2*(3*row+col)] & bitfield) {
+                            service.state[row][col].boards[irow][icol].player = 'x';
+                        } else if (data[2*(3*row+col)+1] & bitfield) {
+                            service.state[row][col].boards[irow][icol].player = 'o';
+                        }
                     }
-                }
                 }
             }
             }
@@ -102,7 +113,7 @@ angular.module('TicTacToe.factories', [])
 
         return service;
     }])
-    .factory('tictactoe', [function() {
+    .factory('tictactoe', ['$q', function($q) {
         // All the game logic is kept here.
         var tictactoe = {},
             available = 'available',
@@ -124,12 +135,24 @@ angular.module('TicTacToe.factories', [])
             // updates the game state if the move was a legal move.
             var board = game.boards[boardRowIndex][boardColumnIndex],
                 slot = board.slots[slotRowIndex][slotColumnIndex];
-            if ((board.status == available) && (slot.state == null)) {
-                // only squares that have not been played can be played.
-                slot.state = game.currentPlayer;
-                tictactoe.singleBoard.update(board, game.currentPlayer);
-                tictactoe.ultimateBoard.update(game, slotRowIndex, slotColumnIndex);
-            }
+            return $q(function(resolve, reject) {
+                if ((board.status == available) && (slot.state == null)) {
+                    // only squares that have not been played can be played.
+                    slot.preparing = true;
+                    setTimeout(function(){
+                        slot.state = game.currentPlayer;
+                        slot.preparing = false;
+                        tictactoe.singleBoard.update(board, game.currentPlayer);
+                        tictactoe.ultimateBoard.update(game, slotRowIndex, slotColumnIndex);
+                        resolve();
+                        setTimeout(function() {
+                            tictactoe.highlightBoard(slotRowIndex, slotColumnIndex);
+                        }, 1000)
+                    }, 100);
+                } else {
+                    resolve();
+                }
+            });
         };
 
         tictactoe.singleBoard = {
