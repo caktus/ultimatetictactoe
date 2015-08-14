@@ -1,9 +1,11 @@
-@import "../Fonts/FiraSans-Regular.css";
-@import "../Fonts/FiraSans-Bold.css";
+/*Caktus blue and green for pieces and showing whos move it is*/
+.caktusGreen { color: #99bd67; }
+.caktusBlue { color: #147f89; }
+
 /*base*/
 
 body {
-    font-family: 'FiraSans-Regular', sans-serif;
+    font-family: 'gt_walsheim_medium', "Helvetica Neue", Helvetica, sans-serif;
     font-size: 16px;
     color: #414042;
     -webkit-font-smoothing: antialiased;
@@ -13,7 +15,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'FiraSans-Bold', sans-serif;
+    font-family: 'gt_walsheim_bold', "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .gameplay{
@@ -65,7 +67,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn {
     padding: 10px 16px;
-    font-family: 'FiraSans-Bold', sans-serif;
+    font-family: 'gt_walsheim_bold', "Helvetica Neue", Helvetica, sans-serif;
 }
 
 a.btn-pink:hover {
