@@ -41,18 +41,33 @@ h1, h2, h3, h4, h5, h6 {
 
 #home-screen .menu {
     width: 100%;
-    background-color: white;
-    padding: 1.5em;
-    position: fixed;
-    bottom: 0;
+    background-color: transparent;
+    padding: 1em;
+    position: absolute;
+    bottom: 9em;
+}
+
+#home-screen .menu .menu-left,
+#home-screen .menu .menu-right {
+  width: 50%;
+  float: left;
+}
+
+#home-screen .menu .menu-left {
+  text-align: right;
+  padding-right: 2em;
+}
+
+#home-screen .menu .menu-right {
+  text-align: left;
+  padding-left: 2em;
 }
 
 #home-screen .menu a {
-    margin-right: 40px;
     font-size: 22px;
 }
 
-#home-screen .menu a.btn {
+a.btn {
     padding: 16px 20px;
 }
 
@@ -66,13 +81,42 @@ h1, h2, h3, h4, h5, h6 {
 .btn {
     padding: 10px 16px;
     font-family: 'gt_walsheim_bold', "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 600;
 }
 
-a.btn-pink:hover {
+.btn-drkGreen:hover {
     color: white;
-    opacity: 0.75;
+    opacity: 0.9;
 }
 
+.footer {
+  position: absolute;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  padding: 1.5em;
+}
+
+.footer p,
+.footer img {
+  display: inline-block;
+}
+
+.footer img {
+  margin: 0 1em;
+}
+
+.footer p {
+  margin: 0;
+  top: 0.6em;
+  position: relative;
+  font-size: 1.35em;
+}
+
+.footer p.we-grow {
+  font-family: 'gt_walsheim_bold', "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 600;
+}
 /*TIC TAC TOE GAMEPLAY*/
 .gameplay {
     background-color: rgba(238, 238, 238, 1);
