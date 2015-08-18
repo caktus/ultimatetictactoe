@@ -51,8 +51,8 @@ http://flickity.metafizzy.co
 .flickity-prev-next-button {
   position: absolute;
   top: 50%;
-  width: 4em;
-  height: 4em;
+  width: 8em;
+  height: 8em;
   border: none;
   border-radius: 50%;
   background: transparent;
@@ -103,7 +103,7 @@ http://flickity.metafizzy.co
 }
 
 .flickity-prev-next-button .arrow {
-  fill: #333;
+  fill: white;
 }
 
 /* color & size if no SVG - IE8 and Android 2.3 */
