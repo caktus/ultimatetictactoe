@@ -1,6 +1,12 @@
 angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
     .controller('AttractModeController', ['$scope', function($scope) {
-
+        setTimeout(function(){
+            $('.main-gallery').flickity({
+                // options
+                wrapAround: true,
+                contain: true
+            });
+        }, 1000);
     }])
     .controller('CreateGameController',
         ['$scope', '$location', '$routeParams', 'gameService',
