@@ -114,7 +114,7 @@ angular.module('TicTacToe.directives', [])
             link: linker,
             restrict: 'AE',
             replace: true,
-            templateUrl: 'app/templates/boardHighlight.html'
+            templateUrl: '/static/app/templates/boardHighlight.html'
         }
     }])
     .directive('singleBoard', ['$http', 'gameService', 'tictactoe', function($http, gameService, tictactoe) {

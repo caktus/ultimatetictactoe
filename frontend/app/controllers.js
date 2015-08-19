@@ -3,8 +3,9 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
         setTimeout(function(){
             $('.main-gallery').flickity({
                 // options
+                autoPlay: 5000,
                 wrapAround: true,
-                contain: true
+                contain: true,
             });
         }, 1000);
     }])

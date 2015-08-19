@@ -12,6 +12,25 @@ body {
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
     padding: 0;
+    background-image: url(/static/images/v2-caktus-bg-image.svg);
+    background-color: transparent;
+}
+
+.turnOne {
+    transition: background-color 1s;
+    background-color: rgba(20, 127, 137, 1);
+}
+.turnOne .ultimate-board {
+    transition: background-color 1s;
+    background-color: rgb(138, 191, 196);
+}
+.turnTwo {
+    transition: background-color 1s;
+    background-color: rgba(153, 189, 103, 1);
+}
+.turnTwo .ultimate-board {
+    transition: background-color 1s;
+    background-color: rgb(204, 222, 179);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -117,7 +136,7 @@ a.btn {
 }
 /*TIC TAC TOE GAMEPLAY*/
 .gameplay {
-    background-color: rgba(238, 238, 238, 1);
+    /*background-color: rgba(238, 238, 238, 1);*/
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -136,10 +155,9 @@ a.btn {
 .ultimate-board {
     width: 1000px;
     height: 1000px;
-    border: solid 30px white;
     margin: 40px auto;
     position: relative;
-    background-color: lightgrey;
+    border: 30px solid transparent;
 }
 
 .ultimate-board div {
@@ -150,7 +168,6 @@ a.btn {
     width: 313.333px;
     height: 313.333px;
     float: left;
-    /*background-color: rgba(0, 0, 0, 0.2);*/
     padding: 7px;
     -webkit-transition: all 0.5s linear;
 }
@@ -238,13 +255,13 @@ a.btn {
 }
 
 .slot.x .symbol {
-    background-image:url(../images/x.svg);
+    background-image:url(../images/v2-playboard-x.svg);
     transform: scale(1);
     opacity: 1;
 }
 
 .slot.o .symbol {
-    background-image:url(../images/o.svg);
+    background-image:url(../images/v2-playboard-o.svg);
     transform: scale(1);
     opacity: 1;
 }
@@ -267,6 +284,10 @@ a.btn {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    background-color: #faf9f7;
 }
 .players .player {
     margin: 80px auto;
@@ -278,10 +299,11 @@ a.btn {
 }
 .players .divider {
     font-size: 20px;
+    height: 50px;
 }
 .avatar {
-    width: 150px;
-    height: 150px;
+    width: 250px;
+    height: 250px;
     background: white;
     -moz-border-radius: 75px;
     -webkit-border-radius: 75px;
@@ -290,7 +312,7 @@ a.btn {
     overflow: hidden;
 }
 .avatar img {
-    width: 150px;
+    width: 100%;
 }
 
 /* WON STUFF */
@@ -299,14 +321,14 @@ a.btn {
     opacity: 1;
 }
 .small-board.playerOne {
-    background: url('../images/x.svg') no-repeat;
+    background: url('../images/v2-playboard-x.svg') no-repeat;
     background-size: contain;
 }
 .small-board.playerOne .slot {
     opacity: 0;
 }
 .small-board.playerTwo {
-    background: url('../images/o.svg') no-repeat;
+    background: url('../images/v2-playboard-o.svg') no-repeat;
     background-size: contain;
 }
 .small-board.playerTwo .slot {
