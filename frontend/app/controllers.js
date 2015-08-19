@@ -28,6 +28,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
         function($scope, $routeParams, $interval, tictactoe, gameState, gameService) {
             // GameController: Fetches and submits moves to a remote
             // django service.
+            document.body.classList.add('turnOne');
             $scope.gameID = parseInt($routeParams.id);
             // get initial game state
             gameService.fetchState($scope.gameID).success(function(data) {
