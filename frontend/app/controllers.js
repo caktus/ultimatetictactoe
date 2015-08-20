@@ -22,27 +22,44 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                     // In case of an error, redirect player to the homepage.
                     $location.path('/').replace();
                 });
-	}])
+        }])
     .controller('GameController',
-	['$scope', '$routeParams', '$interval', 'tictactoe', 'gameState', 'gameService',
+        ['$scope', '$routeParams', '$interval', 'tictactoe', 'gameState', 'gameService',
         function($scope, $routeParams, $interval, tictactoe, gameState, gameService) {
             // GameController: Fetches and submits moves to a remote
             // django service.
+
+            var timer;
+
+            $scope.startTimer = function() {
+                console.log("Starting timer.");
+                timer = $interval(function() {
+                    // get move from server
+                    gameService.fetchState($scope.gameID).success(function(newState) {
+                        console.log(newState);
+                        if (!!newState) {
+                            gameService.applyMove($scope.game, newState);
+                            gameService.updatePlayerType(newState);
+                        }
+                    });
+                }, 2000);
+            };
+
+            $scope.endTimer = function() {
+                console.log("Killing timer.");
+                $interval.cancel(timer);
+            };
+
             document.body.classList.add('turnOne');
             $scope.gameID = parseInt($routeParams.id);
             // get initial game state
             gameService.fetchState($scope.gameID).success(function(data) {
                 gameService.updatePlayerType(data);
+                $scope.startTimer();
             });
             $scope.game = gameState.get();
-            // pull in new moves from the other player
-            $interval(function() {
-                // get move from server
-                gameService.fetchState($scope.gameID).success(function(newState) {
-                    if (!!newState) {
-                        gameService.applyMove($scope.game, newState);
-                        gameService.updatePlayerType(newState);
-                    }
-                });
-            }, 2000);
+
+            $scope.$on('$destroy', function() {
+                $scope.endTimer();
+            });
         }]);

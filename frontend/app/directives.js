@@ -1,6 +1,6 @@
 angular.module('TicTacToe.directives', [])
     .directive('ultimateBoard', ['tictactoe', 'gameService', function(tictactoe, gameService) {
-        // this directory allows the state to be shared across all the individual boards.
+        // this directive allows the state to be shared across all the individual boards.
         return {
             restrict: 'AE',
             replace: true,
