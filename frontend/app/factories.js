@@ -254,16 +254,6 @@ angular.module('TicTacToe.factories', [])
             return {
                 currentPlayer: 1,
                 winner: null,
-                players: {
-                    one: {
-                        name: 'Caktus',
-                        score: 0
-                    },
-                    two: {
-                        name: 'Astro',
-                        score: 0
-                    }
-                },
                 boards: [
                     [{
                         status: 'available',

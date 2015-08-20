@@ -7,7 +7,7 @@ from t3.board import Board
 
 class GameSerializer(serializers.ModelSerializer):
     gametype = serializers.ChoiceField(
-        choices=['local', 'remote', 'ai', 'ai-vs-ai'],
+        choices=['local', 'ai', 'ai-vs-ai'],
         write_only=True
     )
 
