@@ -22,9 +22,7 @@ class GameListAPIView(generics.ListCreateAPIView):
             random.shuffle(players)
             p1, p2 = players
         elif gametype == 'ai':
-            players = ['local', 'ai']
-            random.shuffle(players)
-            p1, p2 = players
+            p1, p2 = 'local', 'ai'
         elif gametype == 'ai-vs-ai':
             p1 = p2 = 'ai'
 
