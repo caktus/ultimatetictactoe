@@ -327,6 +327,25 @@ a.btn {
     width: 100%;
 }
 
+.cyber-caktus {
+  margin: 0 auto;
+  position: relative;
+  top: -2em;
+  padding: 10px 0;
+  background-color: white;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+}
+
+.cyber-caktus img {
+  width: 70px;
+  height: auto;
+}
+
 /* WON STUFF */
 .small-board .slot {
     transition: all 0.5s;
