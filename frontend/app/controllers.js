@@ -32,7 +32,6 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
             var timer;
 
             $scope.startTimer = function() {
-                console.log("Starting timer.");
                 timer = $interval(function() {
                     // get move from server
                     gameService.fetchState($scope.gameID).success(function(newState) {
@@ -46,7 +45,6 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
             };
 
             $scope.endTimer = function() {
-                console.log("Killing timer.");
                 $interval.cancel(timer);
             };
 
