@@ -1,8 +1,9 @@
 <div data-ng-class="{'modal-overlay': true, hide: !game.winner}">
     <div class="modal-window">
-        <h3>And the Winner is...</h3>
-        <h2 data-ng-show="game.winner == 1">Caktus Group!</h2>
-        <h2 data-ng-show="game.winner == 2">Astro Code School!</h2>
-        <a data-ng-click="reset()" class="btn btn-pink">Start Over</a>
+        <p class="congrats">Congratulations</p>
+        <h2 data-ng-show="game.winner == 1"><img src="/static/images/v2-right-col-x.svg" /></h2>
+        <h2 data-ng-show="game.winner == 2"><img src="/static/images/v2-right-col-o.svg" /></h2>
+        <p>Talk to our team about more ways to win and the open source repo!</p>
+        <!-- <a data-ng-click="reset()" class="btn btn-pink">Start Over</a> -->
     </div>
 </div>

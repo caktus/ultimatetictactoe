@@ -385,17 +385,17 @@ a.btn {
   top: 50%;
   transform: translate(-50%,-50%);
 }
-.modal-window h3 {
-    font-size: 36px;
-    font-weight: 700;
-    color: #92278f;
+.modal-window p {
+    font-size: 1.75em;
+    font-weight: 400;
+    color: #2D2A2B;
 }
-.modal-window h2 {
-    color: #ec008c;
-    font-size: 70px;
+.modal-window p.congrats {
+    font-size: 3em;
+}
+.modal-window h2 img{
     margin-bottom: 40px;
-    text-transform: uppercase;
-    font-weight: bolder;
+    width: 200px;
 }
 .forfeit-ctn {
     position: absolute;
