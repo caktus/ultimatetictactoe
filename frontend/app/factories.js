@@ -208,7 +208,6 @@ angular.module('TicTacToe.factories', [])
                 } else {
                     // continue playing
                     game.currentPlayer = (currentPlayer == 1) ? 2 : 1;
-                    $("body").toggleClass("turnOne turnTwo");
                     if (!nextBoard.winner) {
                         // a winner for board has not been defined
                         angular.forEach(boards, function(row) {

@@ -82,6 +82,7 @@ angular.module('TicTacToe.directives', [])
                 return setHighlight(boardRow, boardCol, cellRow, cellCol);
             };
             tictactoe.highlightBoard = function(boardRow, boardCol) {
+                $("body").toggleClass("turnOne turnTwo");
                 return setHighlight(boardRow, boardCol);
             };
             var pulsingFrom = null;
