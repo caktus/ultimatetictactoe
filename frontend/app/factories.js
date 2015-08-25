@@ -32,7 +32,7 @@ angular.module('TicTacToe.factories', [])
         service.updatePlayerType = function(data) {
             // We need to know if the current player is local or not.
             var state = JSON.parse(data.state);
-            service.playerType = (state[state.length - 1] == 1) ? data.p1 : data.p2
+            service.playerType = (state[state.length - 1] == 1) ? data.p1 : data.p2;
         };
 
         service.applyMove = function(currentState, newState) {
