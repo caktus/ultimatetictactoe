@@ -1,7 +1,7 @@
 angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
     .controller('AttractModeController', ['$scope', function($scope) {
         setTimeout(function(){
-            $('.main-gallery').flickity({
+            $('.main-gallery').show().flickity({
                 // options
                 autoPlay: 5000,
                 wrapAround: true,

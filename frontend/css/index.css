@@ -425,3 +425,5 @@ a.btn {
     transform: scale(1.03);
     border-radius: 15px;
 }
+
+.main-gallery { display: none; }
