@@ -346,6 +346,10 @@ a.btn {
   height: auto;
 }
 
+.mode-local .cyber-caktus {
+    display: none;
+}
+
 /* WON STUFF */
 .small-board .slot {
     transition: all 0.5s;

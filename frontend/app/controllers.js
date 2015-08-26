@@ -14,6 +14,13 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
         function($scope, $location, $routeParams, gameService) {
             // This controller is used to create new games server side.
             // Once the game is created, we are redirected to game URL.
+
+            // TODO: Work this into the state better, this is not a good solution
+            $(document.body)
+                .removeClass('mode-local', 'mode-ai')
+                .addClass('mode-' + $routeParams.mode)
+            ;
+
             gameService.newGame($routeParams.mode)
                 .success(function(game) {
                     $location.path(gameService.newGameURL(game)).replace();
