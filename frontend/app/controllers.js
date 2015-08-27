@@ -56,6 +56,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                 $interval.cancel(timer);
             };
 
+            document.body.classList.remove('turnTwo');
             document.body.classList.add('turnOne');
             $scope.gameID = parseInt($routeParams.id);
             // get initial game state
