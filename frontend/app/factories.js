@@ -113,7 +113,7 @@ angular.module('TicTacToe.factories', [])
 
         return service;
     }])
-    .factory('tictactoe', ['$q', function($q) {
+    .factory('tictactoe', ['$q', '$timeout', function($q, $timeout) {
         // All the game logic is kept here.
         var tictactoe = {},
             available = 'available',
@@ -139,13 +139,13 @@ angular.module('TicTacToe.factories', [])
                 if ((board.status == available) && (slot.state == null)) {
                     // only squares that have not been played can be played.
                     slot.preparing = true;
-                    setTimeout(function(){
+                    $timeout(function(){
                         slot.state = game.currentPlayer;
                         slot.preparing = false;
                         tictactoe.singleBoard.update(board, game.currentPlayer);
                         tictactoe.ultimateBoard.update(game, slotRowIndex, slotColumnIndex);
                         resolve();
-                        setTimeout(function() {
+                        $timeout(function() {
                             tictactoe.highlightBoard(slotRowIndex, slotColumnIndex);
                         }, 1000)
                     }, 100);

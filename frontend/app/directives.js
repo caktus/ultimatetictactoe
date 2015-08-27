@@ -42,10 +42,11 @@ angular.module('TicTacToe.directives', [])
                     if (typeof cellRow === "undefined" || typeof cellCol === "undefined") {
                         console.log("Highlight Board:", boardRow, boardCol);
 
-                        var isClosed = $board.hasClass('playerOne') || $board.hasClass('playerTwo');
-                        var afterAnimation;
-                        if (isClosed) {
-                            afterAnimation = function() {
+
+                        var afterAnimation = function() {
+                            var isClosed = $board.hasClass('playerOne') || $board.hasClass('playerTwo');
+                            console.log("closed board?", isClosed);
+                            if (isClosed) {
                                 var ultimateBoard = $('.ultimate-board');
                                 tictactoe.highlightPulse().animate({
                                     top: 0,
@@ -53,10 +54,10 @@ angular.module('TicTacToe.directives', [])
                                     width: ultimateBoard.width(),
                                     height: ultimateBoard.height(),
                                 }, 700, resolve);
-                            };
-                        } else {
-                            afterAnimation = resolve;
-                        }
+                            } else {
+                                resolve();
+                            }
+                        };
                         $el.animate({
                             top: 312 * boardRow,
                             left: 312 * boardCol,
