@@ -270,12 +270,14 @@ a.btn {
     background-image:url(../images/v2-playboard-x.svg);
     transform: scale(0.8);
     opacity: 1;
+    background-repeat: no-repeat;
 }
 
 .slot.o .symbol {
     background-image:url(../images/v2-playboard-o.svg);
     transform: scale(0.9);
     opacity: 1;
+    background-repeat: no-repeat;
 }
 
 .slot:after {
