@@ -94,12 +94,10 @@ h1, h2, h3, h4, h5, h6 {
   padding-left: 2em;
 }
 
-#home-screen .menu a {
-    font-size: 22px;
-}
-
-a.btn {
+a.btn,
+.forfeit {
     padding: 16px 20px;
+    font-size: 1.5em;
 }
 
 .btn-drkGreen {
@@ -270,12 +268,14 @@ a.btn {
     background-image:url(../images/v2-playboard-x.svg);
     transform: scale(0.8);
     opacity: 1;
+    background-repeat: no-repeat;
 }
 
 .slot.o .symbol {
     background-image:url(../images/v2-playboard-o.svg);
     transform: scale(0.9);
     opacity: 1;
+    background-repeat: no-repeat;
 }
 
 .slot:after {
@@ -373,8 +373,8 @@ a.btn {
 /* MODAL WINDOW */
 .modal-overlay {
   background: rgba(0, 0, 0, 0.6);
-  height: 1080px;
-  width: 1420px;
+  height: 100vh;
+  width: 100vw;
   position: absolute;
   z-index: 10000;
   top: 0;
@@ -401,6 +401,9 @@ a.btn {
     margin-bottom: 40px;
     width: 200px;
 }
+.modal-window a.btn {
+  margin-top: 1.5em;
+}
 .forfeit-ctn {
     position: absolute;
     bottom: 9em;
@@ -409,8 +412,6 @@ a.btn {
     text-align: center;
 }
 .forfeit {
-    padding: 0.5em 2em;
-    font-size: 30px;
     margin-bottom: 2.5em;
 }
 
