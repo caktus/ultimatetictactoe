@@ -36,6 +36,7 @@ body.turnOne::after, body.turnTwo::after {
     transition: background-color 1s;
     background-color: rgb(92, 170, 177);
 }
+
 .turnTwo {
     transition: background-color 1s;
     background-color: rgba(153, 189, 103, 1);
@@ -309,9 +310,12 @@ a.btn,
     margin: 0 auto 5em;
     font-size: 20px;
     font-weight: bold;
+    opacity: 1;
+    transition: opacity 0.6s;
 }
 .player.inactive {
-    opacity: 0.2;
+    opacity: 0.4;
+    transition: opacity 0.6s;
 }
 .avatar {
     width: 200px;
