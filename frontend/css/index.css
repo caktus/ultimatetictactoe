@@ -82,11 +82,10 @@ h1, h2, h3, h4, h5, h6 {
 
 #home-screen .menu > div {
     flex: 1;
-    margin: 0px 50px;
 }
 
 #home-screen .menu > div > a{
-    width: 100%;
+    width: 250px;
 }
 
 a.btn,
