@@ -76,22 +76,17 @@ h1, h2, h3, h4, h5, h6 {
     padding: 1em;
     position: absolute;
     bottom: 9em;
+
+    display: flex;
 }
 
-#home-screen .menu .menu-left,
-#home-screen .menu .menu-right {
-  width: 50%;
-  float: left;
+#home-screen .menu > div {
+    flex: 1;
+    margin: 0px 50px;
 }
 
-#home-screen .menu .menu-left {
-  text-align: right;
-  padding-right: 2em;
-}
-
-#home-screen .menu .menu-right {
-  text-align: left;
-  padding-left: 2em;
+#home-screen .menu > div > a{
+    width: 100%;
 }
 
 a.btn,
@@ -340,6 +335,9 @@ a.btn,
   height: 80px;
   overflow: hidden;
 }
+.vs-cyber-caktus {
+    padding-top: 20px;
+}
 
 .cyber-caktus img {
   width: 70px;
@@ -347,6 +345,9 @@ a.btn,
 }
 
 .mode-local .cyber-caktus {
+    display: none;
+}
+.mode-local .vs-cyber-caktus, .mode-ai .vs-cyber-caktus {
     display: none;
 }
 
