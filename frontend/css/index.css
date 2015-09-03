@@ -79,10 +79,11 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 9em;
 
     display: flex;
+    justify-content: center;
 }
 
 #home-screen .menu > div {
-    flex: 1;
+    padding: 0px 30px;
 }
 
 #home-screen .menu > div > a{
@@ -388,10 +389,10 @@ a.btn,
   position: absolute;
   text-align: center;
   padding: 25px 25px 50px;
-  width: 700px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
+  width: 600px;
+  height: 100vh;
+  right: 0;
+  top: 0;
 }
 .modal-window p {
     font-size: 1.75em;
@@ -407,6 +408,11 @@ a.btn,
 }
 .modal-window a.btn {
   margin-top: 1.5em;
+}
+.modal-window .made-by {
+    position: absolute;
+    bottom: 25px;
+    width: 100%;
 }
 .forfeit-ctn {
     position: absolute;
