@@ -43,7 +43,6 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
                 timer = $interval(function() {
                     // get move from server
                     gameService.fetchState($scope.gameID).success(function(newState) {
-                        console.log(newState);
                         if (!!newState) {
                             gameService.applyMove($scope.game, newState);
                             gameService.updatePlayerType(newState);
