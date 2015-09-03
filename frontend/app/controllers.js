@@ -4,7 +4,6 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
         setTimeout(function(){
             $('.main-gallery').show().flickity({
                 // options
-                autoPlay: 5000,
                 wrapAround: true,
                 contain: true,
             });
@@ -18,7 +17,7 @@ angular.module('TicTacToe.controllers', ['TicTacToe.factories'])
 
             // TODO: Work this into the state better, this is not a good solution
             $(document.body)
-                .removeClass('mode-local', 'mode-ai')
+                .removeClass('mode-local mode-ai mode-ai-vs-ai')
                 .addClass('mode-' + $routeParams.mode)
             ;
 
