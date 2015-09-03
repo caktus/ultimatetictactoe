@@ -132,12 +132,15 @@ angular.module('TicTacToe.directives', [])
                 var gameID = ultimateBoard.gameID()
                 ,   data
                 ,   $board = $(".small-board.row-$ROW.column-$COL".replace("$ROW", boardRowIndex+1).replace("$COL", boardColumnIndex+1))
+                ,   $cell = $board.find('.slot.row-$ROW.column-$COL'.replace("$ROW", slotRowIndex+1).replace("$COL", slotColumnIndex+1))
                 ,   localTurn = ultimateBoard.playerIsLocal()
                 ;
 
                 if (!localTurn) {
                     // Do not move, because it is the AI turn
                 } else if (!$board.hasClass('available')) {
+                    tictactoe.highlightPulse();
+                } else if (!$cell.hasClass('free')) {
                     tictactoe.highlightPulse();
                 } else {
                     tictactoe.highlightCell(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex).then(function(){
