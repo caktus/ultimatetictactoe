@@ -27,25 +27,25 @@ angular.module('TicTacToe.directives', [])
     .directive('boardHighlight', ['tictactoe', '$q', function(tictactoe, $q) {
         function linker(scope, element, attrs) {
             var $el = $(element);
+            var highlightInProgress = false;
             scope.curHighlightRow = undefined;
             scope.curHighlightCol = undefined;
 
             var setHighlight = function(boardRow, boardCol, cellRow, cellCol) {
+                if (highlightInProgress) {
+                    return;
+                }
+                highlightInProgress = true;
                 var pos = $el.position();
 
                 scope.curHighlightRow = boardRow;
                 scope.curHighlightCol = boardCol;
-                console.log(boardRow, boardCol, cellRow, cellCol);
 
                 return $q(function(resolve, reject) {
                     var $board = $(".small-board.row-$ROW.column-$COL".replace("$ROW", boardRow+1).replace("$COL", boardCol+1));
                     if (typeof cellRow === "undefined" || typeof cellCol === "undefined") {
-                        console.log("Highlight Board:", boardRow, boardCol);
-
-
                         var afterAnimation = function() {
                             var isClosed = $board.hasClass('playerOne') || $board.hasClass('playerTwo');
-                            console.log("closed board?", isClosed);
                             if (isClosed) {
                                 var ultimateBoard = $('.ultimate-board');
                                 tictactoe.highlightPulse().animate({
@@ -53,8 +53,12 @@ angular.module('TicTacToe.directives', [])
                                     left: 0,
                                     width: ultimateBoard.width(),
                                     height: ultimateBoard.height(),
-                                }, 700, resolve);
+                                }, 700, function() {
+                                    highlightInProgress = false;
+                                    resolve();
+                                });
                             } else {
+                                highlightInProgress = false;
                                 resolve();
                             }
                         };
@@ -74,7 +78,10 @@ angular.module('TicTacToe.directives', [])
                             left: firstLeft,
                             width: 99, height: 99,
                             borderRadius: 50,
-                        }, 500, "swing", resolve);
+                        }, 500, "swing", function() {
+                            highlightInProgress = false;
+                            resolve();
+                        });
                     }
                 })
             }
