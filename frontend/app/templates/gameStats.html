@@ -1,5 +1,5 @@
 <div class="players text-center">
-    <div data-ng-class="{player: true, inactive: ((game.currentPlayer == 2 && player == 1) || (game.currentPlayer == 1 && player == 2))}">
+    <div data-ng-class="{player: true, inactive: (game.currentPlayer == 2)}">
         <div class="avatar">
             <!-- <img src="/static/images/v2-right-col-o.svg" data-ng-show="player==1"/> -->
             <img src="/static/images/v2-right-col-x.svg" />
@@ -8,7 +8,7 @@
           <img src="/static/images/ai-2.svg" />
         </div>
     </div>
-    <div data-ng-class="{player: true, inactive: ((game.currentPlayer == 2 && player == 2) || (game.currentPlayer == 1 && player == 1))}">
+    <div data-ng-class="{player: true, inactive: (game.currentPlayer == 1)}">
         <div class="avatar">
             <img src="/static/images/v2-right-col-o.svg" />
             <!-- <img src="/static/images/v2-right-col-x.svg" data-ng-show="player==1"/> -->
