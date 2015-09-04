@@ -298,11 +298,13 @@ a.btn,
     background-color: #faf9f7;
 }
 .players {
-  position: relative;
-  top: -8em;
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  width: 100%;
 }
 .players .player {
-    margin: 0 auto 5em;
+    margin: 0 auto;
     font-size: 20px;
     font-weight: bold;
     opacity: 1;
@@ -349,10 +351,10 @@ a.btn,
 }
 
 .mode-local .cyber-caktus {
-    display: none;
+    visibility: hidden;
 }
 .mode-local .vs-cyber-caktus, .mode-ai .vs-cyber-caktus {
-    display: none;
+    visibility: hidden;
 }
 
 /* WON STUFF */
@@ -416,7 +418,7 @@ a.btn,
 }
 .forfeit-ctn {
     position: absolute;
-    bottom: 9em;
+    bottom: 10px;
     right: 0px;
     width: 100%;
     text-align: center;
