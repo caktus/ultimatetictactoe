@@ -12,7 +12,7 @@ def ai_play(pk, state):
 
     play = b.pack(ai.get_play())
     url = 'http://localhost:8000/api/games/{pk}/'.format(pk=pk)
-    r = requests.put(url, data={'play': play})
+    r = requests.put(url, data={'play': play, 'extra': json.dumps(ai.stats)})
 
     r.raise_for_status()
 

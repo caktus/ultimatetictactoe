@@ -17,12 +17,14 @@ class GameSerializer(serializers.ModelSerializer):
         read_only_fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2')
 
 
-class PlaySerializer(GameSerializer):
+class GameDetailSerializer(GameSerializer):
     play = serializers.CharField(write_only=True)
+    extra = serializers.CharField(allow_blank=True, write_only=True)
 
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2', 'play')
+        fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2', 'play',
+                  'extra')
         read_only_fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2')
 
     def validate_play(self, value):
