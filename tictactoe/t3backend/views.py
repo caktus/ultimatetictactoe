@@ -58,6 +58,8 @@ class GameDetailAPIView(generics.RetrieveUpdateAPIView):
             # Create a record for the submitted move.
             game.moves.create(player=state[-1], play=play,
                               extra=serializer.validated_data['extra'])
+            # TODO: Change the move submission endpoint to a view that
+            # directly uses MoveSerializer.
 
             game = serializer.save(
                 state=jsonstate, last_play=json.dumps(play),
