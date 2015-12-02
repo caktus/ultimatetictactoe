@@ -17,13 +17,23 @@ class GameSerializer(serializers.ModelSerializer):
         read_only_fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2')
 
 
-class PlaySerializer(GameSerializer):
+class MoveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.T3Move
+        fields = ('player', 'play', 'extra', 'timestamp')
+
+
+class GameDetailSerializer(GameSerializer):
     play = serializers.CharField(write_only=True)
+    extra = serializers.CharField(allow_blank=True, write_only=True)
+
+    moves = MoveSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2', 'play')
-        read_only_fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2')
+        fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2', 'play',
+                  'extra', 'moves')
+        read_only_fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2', 'moves')
 
     def validate_play(self, value):
         if self.instance.winner != 0:

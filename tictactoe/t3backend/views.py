@@ -31,7 +31,7 @@ class GameListAPIView(generics.ListCreateAPIView):
 
 class GameDetailAPIView(generics.RetrieveUpdateAPIView):
     queryset = models.T3Game.objects.all()
-    serializer_class = serializers.PlaySerializer
+    serializer_class = serializers.GameDetailSerializer
 
     def perform_update(self, serializer):
         state = json.loads(serializer.instance.state)
@@ -54,6 +54,12 @@ class GameDetailAPIView(generics.RetrieveUpdateAPIView):
 
             state = b.play(state, play)
             jsonstate = json.dumps(state)
+
+            # Create a record for the submitted move.
+            game.moves.create(player=state[-1], play=play,
+                              extra=serializer.validated_data['extra'])
+            # TODO: Change the move submission endpoint to a view that
+            # directly uses MoveSerializer.
 
             game = serializer.save(
                 state=jsonstate, last_play=json.dumps(play),
