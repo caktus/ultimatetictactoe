@@ -1,4 +1,6 @@
-
+.. image:: https://requires.io/github/caktus/ultimatetictactoe/requirements.svg?branch=master
+     :target: https://requires.io/github/caktus/ultimatetictactoe/requirements/?branch=master
+     :alt: Requirements Status
 
 Tictactoe
 ========================
