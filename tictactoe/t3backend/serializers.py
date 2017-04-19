@@ -1,8 +1,9 @@
-from rest_framework import serializers, validators
 import json
 
-from . import models
+from rest_framework import serializers, validators
 from t3.board import Board
+
+from . import models
 
 
 class GameSerializer(serializers.ModelSerializer):
@@ -13,30 +14,31 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'last_play', 'winner', 'gametype', 'p1', 'p2')
-        read_only_fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2')
+        fields = ('pk', 'state', 'last_action', 'winner', 'gametype', 'p1', 'p2')
+        read_only_fields = ('pk', 'state', 'last_action', 'winner', 'p1', 'p2')
 
 
-class MoveSerializer(serializers.ModelSerializer):
+class ActionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.T3Move
-        fields = ('player', 'play', 'extra', 'timestamp')
+        model = models.T3Action
+        fields = ('player', 'action', 'extra', 'timestamp')
 
 
 class GameDetailSerializer(GameSerializer):
-    play = serializers.CharField(write_only=True)
+    action = serializers.CharField(write_only=True)
     extra = serializers.CharField(allow_blank=True, write_only=True)
 
-    moves = MoveSerializer(many=True, read_only=True)
+    actions = ActionSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.T3Game
-        fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2', 'play',
-                  'extra', 'moves')
-        read_only_fields = ('pk', 'state', 'last_play', 'winner', 'p1', 'p2', 'moves')
+        fields = ('pk', 'state', 'last_action', 'winner', 'p1', 'p2', 'action',
+                  'extra', 'actions')
+        read_only_fields = ('pk', 'state', 'last_action', 'winner', 'p1', 'p2',
+                            'actions')
 
-    def validate_play(self, value):
-        if self.instance.winner != 0:
+    def validate_action(self, value):
+        if self.instance.winner:
             raise serializers.ValidationError("Game is over.")
 
         if value == 'q':
@@ -44,8 +46,9 @@ class GameDetailSerializer(GameSerializer):
         if value == 'timeout':
             return value  # AI takes over
 
-        board = Board()
-        play = board.parse(value)
-        if play is None or not board.is_legal(json.loads(self.instance.state), play):
-            raise serializers.ValidationError("Illegal play.")
+        b = Board()
+        action = b.pack_action(value)
+        state = b.pack_state(json.loads(self.instance.state))
+        if action is None or not b.is_legal([state], action):
+            raise serializers.ValidationError("Illegal action.")
         return value

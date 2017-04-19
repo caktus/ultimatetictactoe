@@ -21,7 +21,7 @@ class GameListAPIView(generics.ListCreateAPIView):
         elif gametype == 'ai-vs-ai':
             p1 = p2 = 'ai'
 
-        state = json.dumps(b.start())
+        state = json.dumps(b.unpack_state(b.starting_state()))
         game = serializer.save(state=state, p1=p1, p2=p2)
 
         if p1 == 'ai':
@@ -35,37 +35,40 @@ class GameDetailAPIView(generics.RetrieveUpdateAPIView):
 
     def perform_update(self, serializer):
         state = json.loads(serializer.instance.state)
+        action = serializer.validated_data['action']
 
-        if serializer.validated_data['play'] == 'q':
-            # On forfeit, set the winner to -1 if player 1 quit, or -2
-            # if player 2 quit.
-            game = serializer.save(last_play='q', winner=-state[-1])
+        if action == 'q':
+            # On forfeit, the winner shall be the previous_player from the state.
+            game = serializer.save(
+                last_action='q',
+                winner=json.dumps({state['player']: 0, state['last_player']: 1})
+            )
             return
 
         game = serializer.instance
         players = {1: game.p1, 2: game.p2}
-        if serializer.validated_data['play'] == 'timeout':
+        if action == 'timeout':
             # The AI temporarily takes over when a player takes too long.
-            players[state[-1]] = 'ai'
+            players[state['player']] = 'ai'
             jsonstate = game.state
         else:
             b = board.Board()
-            play = b.parse(serializer.validated_data['play'])
 
-            state = b.play(state, play)
+            state = b.unpack_state(b.next_state(b.pack_state(state), b.pack_action(action)))
             jsonstate = json.dumps(state)
 
-            # Create a record for the submitted move.
-            game.moves.create(player=state[-1], play=play,
-                              extra=serializer.validated_data['extra'])
-            # TODO: Change the move submission endpoint to a view that
-            # directly uses MoveSerializer.
+            # Create a record for the submitted action.
+            game.actions.create(player=state['previous_player'], action=action,
+                                extra=serializer.validated_data['extra'])
+            # TODO: Change the action submission endpoint to a view that
+            # directly uses ActionSerializer.
 
+            win_values = b.win_values([b.pack_state(state)])
             game = serializer.save(
-                state=jsonstate, last_play=json.dumps(play),
-                winner=b.winner([state])
+                state=jsonstate, last_action=action,
+                winner=json.dumps(win_values) if win_values else ''
             )
 
-        if players[state[-1]] == 'ai' and game.winner == 0:
+        if players[state['player']] == 'ai' and game.winner:
             subprocess.Popen(["python", "tictactoe/t3backend/tasks.py",
                              str(game.pk), jsonstate])
