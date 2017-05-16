@@ -25,7 +25,7 @@ class MoveSerializer(serializers.ModelSerializer):
 
 class GameDetailSerializer(GameSerializer):
     play = serializers.CharField(write_only=True)
-    extra = serializers.CharField(allow_blank=True, write_only=True)
+    extra = serializers.CharField(allow_blank=True, default='', write_only=True)
 
     moves = MoveSerializer(many=True, read_only=True)
 
