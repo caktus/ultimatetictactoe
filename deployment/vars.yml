@@ -1,12 +1,13 @@
 ---
 project_name: "ultimatetictactoe"
 project_user: "{{ project_name }}"
-python_version: pypy
 
 root_dir: "/var/www/{{ project_name }}"
 source_dir: "{{ root_dir }}/src"
 venv_dir: "{{ root_dir }}/env"
 static_dir: "{{ root_dir }}/static"
+python_version: pypy
+python_lib_path: "{{ venv_dir }}/site-packages"
 
 repo_url: "https://github.com/caktus/ultimatetictactoe.git"
 repo_branch: "master"

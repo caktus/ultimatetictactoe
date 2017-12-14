@@ -68,7 +68,7 @@
     - name: set up the project python path
       copy:
         content: "{{ source_dir }}"
-        dest: "{{ venv_dir }}/lib/{{ python_version }}/site-packages/project.pth"
+        dest: "{{ python_lib_path }}/project.pth"
         owner: "{{ project_user }}"
         group: "{{ project_user }}"
 
