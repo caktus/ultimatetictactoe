@@ -63,6 +63,13 @@
       vars:
         ansible_ssh_pipelining: true
 
+    - name: set up the project python path
+      copy:
+        content: "{{ source_dir }}"
+        dest: "{{ venv_dir }}/lib/python2.7/site-packages/project.pth"
+        owner: "{{ project_user }}"
+        group: "{{ project_user }}"
+
     - name: install supervisord
       apt:
         name: supervisor
