@@ -1,6 +1,7 @@
 ---
 project_name: "ultimatetictactoe"
 project_user: "{{ project_name }}"
+python_version: pypy
 
 root_dir: "/var/www/{{ project_name }}"
 source_dir: "{{ root_dir }}/src"

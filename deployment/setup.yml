@@ -11,6 +11,7 @@
         update_cache: yes
         cache_valid_time: 3600
       with_items:
+        - pypy
         - python-virtualenv
         - supervisor
 
@@ -59,6 +60,7 @@
       pip:
         requirements: "{{ source_dir }}/requirements/base.txt"
         virtualenv: "{{ venv_dir }}"
+        virtualenv_python: "{{ python_version }}"
       become_user: "{{ project_user }}"
       vars:
         ansible_ssh_pipelining: true
@@ -66,7 +68,7 @@
     - name: set up the project python path
       copy:
         content: "{{ source_dir }}"
-        dest: "{{ venv_dir }}/lib/python2.7/site-packages/project.pth"
+        dest: "{{ venv_dir }}/lib/{{ python_version }}/site-packages/project.pth"
         owner: "{{ project_user }}"
         group: "{{ project_user }}"
 
@@ -78,6 +80,7 @@
       pip:
         name: gunicorn
         virtualenv: "{{ venv_dir }}"
+        virtualenv_python: "{{ python_version }}"
       become_user: "{{ project_user }}"
       vars:
         ansible_ssh_pipelining: true
@@ -95,6 +98,7 @@
         command: collectstatic
         app_path: "{{ source_dir }}"
         virtualenv: "{{ venv_dir }}"
+        virtualenv_python: "{{ python_version }}"
         settings: "tictactoe.settings.base"
       become_user: "{{ project_user }}"
       vars:
@@ -105,6 +109,7 @@
         command: migrate --noinput -v 0
         app_path: "{{ source_dir }}"
         virtualenv: "{{ venv_dir }}"
+        virtualenv_python: "{{ python_version }}"
         settings: "tictactoe.settings.base"
       become_user: "{{ project_user }}"
       vars:
