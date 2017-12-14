@@ -98,7 +98,6 @@
         command: collectstatic
         app_path: "{{ source_dir }}"
         virtualenv: "{{ venv_dir }}"
-        virtualenv_python: "{{ python_version }}"
         settings: "tictactoe.settings.base"
       become_user: "{{ project_user }}"
       vars:
@@ -109,7 +108,6 @@
         command: migrate --noinput -v 0
         app_path: "{{ source_dir }}"
         virtualenv: "{{ venv_dir }}"
-        virtualenv_python: "{{ python_version }}"
         settings: "tictactoe.settings.base"
       become_user: "{{ project_user }}"
       vars:
