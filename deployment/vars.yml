@@ -1,0 +1,10 @@
+---
+project_name: "ultimatetictactoe"
+project_user: "{{ project_name }}"
+
+root_dir: "/var/www/{{ project_name }}"
+source_dir: "{{ root_dir }}/src"
+venv_dir: "{{ root_dir }}/env"
+
+repo_url: "https://github.com/caktus/ultimatetictactoe.git"
+repo_branch: "master"

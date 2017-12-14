@@ -1,0 +1,72 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: create a project user
+      user:
+        name: "{{ project_user }}"
+        home: /home/{{ project_user }}
+        shell: /bin/bash
+        groups: www-data
+        append: yes
+
+    - name: checkout the project source
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ source_dir }}"
+        version: "{{ repo_branch|default(master) }}"
+        force: yes
+        ssh_opts: "-o StrictHostKeyChecking=no"
+      become_user: "{{ project_user }}"
+      vars:
+        ansible_ssh_pipelining: true
+
+    - name: delete pyc files
+      shell: "find {{ source_dir }} -name '*.pyc' -delete"
+      become_user: "{{ project_user }}"
+      vars:
+        ansible_ssh_pipelining: true
+
+    - name: pip install the requirements
+      pip:
+        requirements: "{{ source_dir }}/requirements/production.txt"
+        virtualenv: "{{ venv_dir }}"
+      become_user: "{{ project_user }}"
+      vars:
+        ansible_ssh_pipelining: true
+
+    - name: install supervisord
+      apt:
+        name: supervisor
+
+    - name: install gunicorn
+      pip:
+        name: gunicorn
+        virtualenv: "{{ venv_dir }}"
+      become_user: "{{ project_user }}"
+      vars:
+        ansible_ssh_pipelining: true
+
+    - name: set up supervisord with gunicorn
+      template:
+        src: gunicorn.conf
+        dest: /etc/supervisor/conf.d/{{ project_name }}-gunicorn.conf
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: migrate the db
+      django_manage:
+        command: migrate --noinput -v 0
+        app_path: "{{ source_dir }}"
+        virtualenv: "{{ venv_dir }}"
+      become_user: "{{ project_user }}"
+      vars:
+        ansible_ssh_pipelining: true
+
+    - name: restart gunicorn
+      supervisorctl:
+        name: "{{ project_name }}-server"
+        state: restarted
