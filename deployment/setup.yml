@@ -4,6 +4,16 @@
   vars_files:
     - vars.yml
   tasks:
+    - name: install necessary packages
+      apt:
+        pkg: "{{ item }}"
+        state: present
+        update_cache: yes
+        cache_valid_time: 3600
+      with_items:
+        - python-virtualenv
+        - supervisor
+
     - name: create a project user
       user:
         name: "{{ project_user }}"
@@ -39,7 +49,7 @@
 
     - name: pip install the requirements
       pip:
-        requirements: "{{ source_dir }}/requirements/production.txt"
+        requirements: "{{ source_dir }}/requirements/base.txt"
         virtualenv: "{{ venv_dir }}"
       become_user: "{{ project_user }}"
       vars:
