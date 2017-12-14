@@ -30,6 +30,14 @@
         group: "{{ project_user }}"
         mode: 0775
 
+    - name: create the static directory
+      file:
+        path: "{{ static_dir }}"
+        state: directory
+        owner: "{{ project_user }}"
+        group: "{{ project_user }}"
+        mode: 0775
+
     - name: checkout the project source
       git:
         repo: "{{ repo_url }}"
@@ -74,6 +82,16 @@
         owner: root
         group: root
         mode: 0600
+
+    - name: collectstatic
+      django_manage:
+        command: collectstatic
+        app_path: "{{ source_dir }}"
+        virtualenv: "{{ venv_dir }}"
+        settings: "tictactoe.settings.base"
+      become_user: "{{ project_user }}"
+      vars:
+        ansible_ssh_pipelining: true
 
     - name: migrate the db
       django_manage:
