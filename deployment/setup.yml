@@ -12,6 +12,14 @@
         groups: www-data
         append: yes
 
+    - name: create project directory
+      file:
+        path: "{{ root_dir }}"
+        state: directory
+        owner: "{{ project_user }}"
+        group: "{{ project_user }}"
+        mode: 0775
+
     - name: checkout the project source
       git:
         repo: "{{ repo_url }}"
