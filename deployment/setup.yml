@@ -80,6 +80,7 @@
         command: migrate --noinput -v 0
         app_path: "{{ source_dir }}"
         virtualenv: "{{ venv_dir }}"
+        settings: "tictactoe.settings.base"
       become_user: "{{ project_user }}"
       vars:
         ansible_ssh_pipelining: true
