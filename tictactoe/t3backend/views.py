@@ -1,7 +1,9 @@
-from rest_framework import generics, viewsets, mixins
-from django.db.models import Q
-import subprocess
 import json
+import subprocess
+import sys
+
+from django.db.models import Q
+from rest_framework import generics, viewsets, mixins
 
 from . import models, serializers, tasks
 from t3 import board
@@ -67,5 +69,5 @@ class GameDetailAPIView(generics.RetrieveUpdateAPIView):
             )
 
         if players[state[-1]] == 'ai' and game.winner == 0:
-            subprocess.Popen(["python", "tictactoe/t3backend/tasks.py",
+            subprocess.Popen([sys.executable or 'python', "tictactoe/t3backend/tasks.py",
                              str(game.pk), jsonstate])
