@@ -26,7 +26,7 @@ class ActionSerializer(serializers.ModelSerializer):
 
 class GameDetailSerializer(GameSerializer):
     action = serializers.CharField(write_only=True)
-    extra = serializers.CharField(allow_blank=True, write_only=True)
+    extra = serializers.CharField(allow_blank=True, default='', write_only=True)
 
     actions = ActionSerializer(many=True, read_only=True)
 

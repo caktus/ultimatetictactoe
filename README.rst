@@ -49,13 +49,19 @@ You should now be able to run the development server::
     python manage.py runserver
 
 
-Deployment
-------------------------
+Installation on the Caktus Booth Device
+---------------------------------------
 
-You can deploy changes to a particular environment with
-the ``deploy`` command::
+To set up on the Raspberry Pi in preparation for use at a conference,
+first install Ansible in your virtualenv ::
 
-    fab staging deploy
+    pip install ansible
 
-New requirements or South migrations are detected by parsing the VCS changes and
-will be installed/run automatically.
+Then, run the setup playbook using the provided inventory file ::
+
+    ansible-playbook -i deployment/inventory deployment/setup.yml
+
+Note that this assumes that the Raspberry Pi is at the assigned IP
+address 172.20.1.141, which will be the case at the Caktus office.  If
+this is not the case, the inventory file will have to be adjusted to
+match or a new one created and used.
