@@ -5,7 +5,7 @@ import sys
 from django.db.models import Q
 from rest_framework import generics, viewsets, mixins
 
-from . import models, serializers, tasks
+from . import models, serializers
 from t3 import board
 
 PY = sys.executable or 'python'
@@ -25,12 +25,15 @@ class GameListAPIView(generics.ListCreateAPIView):
         elif gametype == 'ai-vs-ai':
             p1 = p2 = 'ai'
 
-        state = json.dumps(b.unpack_state(b.starting_state()))
-        game = serializer.save(state=state, p1=p1, p2=p2)
+        state = b.unpack_state(b.starting_state())
+        jsonstate = json.dumps(state)
+        game = serializer.save(state=jsonstate, p1=p1, p2=p2)
 
         if p1 == 'ai':
-            subprocess.Popen([PY, "tictactoe/t3backend/tasks.py",
-                             str(game.pk), state])
+            proc = subprocess.Popen([PY, "tictactoe/t3backend/tasks.py", str(game.pk)],
+                                    stdin=subprocess.PIPE)
+            proc.stdin.write(jsonstate)
+            proc.stdin.close()
 
 
 class GameDetailAPIView(generics.RetrieveUpdateAPIView):
@@ -45,7 +48,7 @@ class GameDetailAPIView(generics.RetrieveUpdateAPIView):
             # On forfeit, the winner shall be the previous_player from the state.
             game = serializer.save(
                 last_action='q',
-                winner=json.dumps({state['player']: 0, state['last_player']: 1})
+                winner=json.dumps({state['player']: 0, state['previous_player']: 1})
             )
             return
 
@@ -73,6 +76,8 @@ class GameDetailAPIView(generics.RetrieveUpdateAPIView):
                 winner=json.dumps(win_values) if win_values else ''
             )
 
-        if players[state['player']] == 'ai' and game.winner:
-            subprocess.Popen([PY, "tictactoe/t3backend/tasks.py",
-                             str(game.pk), jsonstate])
+        if players[state['player']] == 'ai' and not game.winner:
+            proc = subprocess.Popen([PY, "tictactoe/t3backend/tasks.py", str(game.pk)],
+                                    stdin=subprocess.PIPE)
+            proc.stdin.write(jsonstate)
+            proc.stdin.close()

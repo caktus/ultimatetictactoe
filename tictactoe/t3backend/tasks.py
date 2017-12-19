@@ -8,7 +8,7 @@ import sys
 
 def ai_action(pk, state):
     b = board.Board()
-    ai = uct.UCTWins(board=b)
+    ai = uct.UCTWins(board=b, time=5)
     ai.update(state)
 
     action = ai.get_action()
@@ -20,6 +20,6 @@ def ai_action(pk, state):
 
 if __name__ == '__main__':
     pk = int(sys.argv[1])
-    state = json.loads(sys.argv[2])
+    state = json.loads(sys.stdin.read())
 
     ai_action(pk, state)
