@@ -4,8 +4,8 @@ django_compressor==1.4
 # Required by django-compressor
 django-appconf==0.6
 six==1.6.1
-git+https://github.com/jbradberry/ultimate_tictactoe#egg=t3
-git+https://github.com/jbradberry/mcts
+git+https://github.com/jbradberry/ultimate_tictactoe@pypy-improvements#egg=t3
+git+https://github.com/jbradberry/mcts@pypy-improvements
 requests==2.6.0
 pytz==2017.3
 

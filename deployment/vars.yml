@@ -10,4 +10,4 @@ python_version: pypy
 python_lib_path: "{{ venv_dir }}/site-packages"
 
 repo_url: "https://github.com/caktus/ultimatetictactoe.git"
-repo_branch: "master"
+repo_branch: "mcts-upgrade"
