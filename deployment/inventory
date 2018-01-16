@@ -1,1 +1,2 @@
-pi ansible_host=172.20.1.141
+# pi ansible_host=172.20.1.141
+zotac ansible_host=172.20.1.142
