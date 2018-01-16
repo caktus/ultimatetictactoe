@@ -14,6 +14,8 @@
         - pypy
         - python-virtualenv
         - supervisor
+        - git
+        - chromium
 
     - name: create a project user
       user:

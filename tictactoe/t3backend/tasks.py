@@ -1,24 +1,25 @@
-from t3 import board, mcts
+from t3 import board
+from mcts import uct
 
 import requests
 import json
 import sys
 
 
-def ai_play(pk, state):
+def ai_action(pk, state):
     b = board.Board()
-    ai = mcts.MonteCarlo(board=b)
+    ai = uct.UCTWins(board=b, time=5)
     ai.update(state)
 
-    play = b.pack(ai.get_play())
+    action = ai.get_action()
     url = 'http://localhost:8000/api/games/{pk}/'.format(pk=pk)
-    r = requests.put(url, data={'play': play, 'extra': json.dumps(ai.stats)})
+    r = requests.put(url, data={'action': action, 'extra': json.dumps(ai.data)})
 
     r.raise_for_status()
 
 
 if __name__ == '__main__':
     pk = int(sys.argv[1])
-    state = json.loads(sys.argv[2])
+    state = json.loads(sys.stdin.read())
 
-    ai_play(pk, state)
+    ai_action(pk, state)

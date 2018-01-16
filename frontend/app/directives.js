@@ -146,7 +146,7 @@ angular.module('TicTacToe.directives', [])
                     tictactoe.highlightCell(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex).then(function(){
                         if (ultimateBoard.playerIsLocal()) {
                             data = {
-                                play: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
+                                action: boardRowIndex + ' ' + boardColumnIndex + ' ' + slotRowIndex + ' ' + slotColumnIndex
                             };
                             gameService.submitMove(gameID, data).success(function() {
                                 ultimateBoard.move(boardRowIndex, boardColumnIndex, slotRowIndex, slotColumnIndex);
